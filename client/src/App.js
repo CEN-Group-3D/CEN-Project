@@ -4,8 +4,9 @@ import Home from "./views/Home/Home"
 import Login from "./views/Login/Login"
 import NotFound from "./views/NotFound"
 import Header from "./components/Header/Header"
-import './App.css'
 import 'bootstrap/dist/css/bootstrap.min.css';
+
+require('./App.css')
 
 
 const App = () => {
