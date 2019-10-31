@@ -13,14 +13,16 @@ const App = () => {
   return (
     <div>
       <Header />
-      <Switch>
-        <Route exact path="/login" component={Login} />
-        <Route exact path="/Home" component={Home} />
-        <Route exact path="/">
-          <Redirect to="/Home" />
-        </Route>
-        <Route component={NotFound}/>
-      </Switch>
+      <div id="main-content-panel">
+        <Switch>
+          <Route exact path="/login" component={Login} />
+          <Route exact path="/Home" component={Home} />
+          <Route exact path="/">
+            <Redirect to="/Home" />
+          </Route>
+          <Route component={NotFound}/>
+        </Switch>
+      </div>
     </div>
   );
 }
