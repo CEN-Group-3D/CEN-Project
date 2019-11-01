@@ -1,13 +1,14 @@
 import React from 'react';
+import Redirect from 'react';
 import './Welcome.css';
 
 function Welcome() {
     return (
         <div className='panel container col-xs-12 col-md-3'>
             <h1>Welcome to EstatePlanR!</h1>
-            <form>
+            <form action="/plans">
                 <div id="question-field">
-                    <label for="estate-plans">Do you have any estate plans?</label>
+                    <label for="estate-plans">Do you already have any estate plans?</label>
                     <select name="estate-plans">
                         <option value="none">No</option>
                         <option value="poa">Power of Attorney</option>
