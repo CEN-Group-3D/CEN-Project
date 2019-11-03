@@ -72,7 +72,7 @@ exports.list = (req, res) => {
 
 
 /* 
-  Middleware: TODO find a user by its ID, then pass it to the next request handler. 
+  Middleware: find a user by its ID, then pass it to the next request handler. 
 
  */
 exports.userByID = function(req, res, next, id) {

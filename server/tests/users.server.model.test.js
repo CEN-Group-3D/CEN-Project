@@ -1,31 +1,16 @@
-
-/*Note about model test
-  This is not actually testing how content gets saved in your database or not. 
-  It is testing that you model works. If you deleted your database this would still work. 
-  If you ran this with the code provided in the assignment it would still pass most tests because 
-  you have empty constructors.
-
-  Note: It may actually run initially but save garbage in your database that will then cause
-  other issues later. So delete your database so 
-  you can start clean once you complete the  listings.server.model.js file 
-
-
-  */
-
 var should = require('should'), 
     mongoose = require('mongoose'), 
-    Listing = require('../models/listings.server.model'), 
+    User = require('../models/users.server.model'), 
     config = require('../config/config');
 
-var listing, id, latitude, longitude;
+var user, id;
 
-listing =  {
-  code: "LBWEST", 
-  name: "Library West", 
-  address: "1545 W University Ave, Gainesville, FL 32603, United States"
+user =  {
+  first_name: "Tim", 
+  last_name: "Henry" 
 }
 
-describe('Listing Schema Unit Tests', function() {
+describe('User Schema Unit Tests', function() {
 
   before(function(done) {
     mongoose.connect(config.db.uri, { useNewUrlParser: true });
@@ -41,48 +26,38 @@ describe('Listing Schema Unit Tests', function() {
      */
     this.timeout(10000);
 
-    it('saves properly when code and name provided', function(done){
-      new Listing({
-        name: listing.name, 
-        code: listing.code
-      }).save(function(err, listing){
+    it('saves properly when both names provided', function(done){
+      new User({
+        first_name: user.first_name, 
+        last_name: user.last_name
+      }).save(function(err, user){
         should.not.exist(err);
-        id = listing._id;
+        id = user._id;
         done();
       });
     });
 
-    it('saves properly when all three properties provided', function(done){
-      new Listing(listing).save(function(err, listing){
+    it('saves properly when all properties provided', function(done){
+      new User(user).save(function(err, user){
         should.not.exist(err);
-        id = listing._id;
+        id = user._id;
         done();
       });
     });
 
-    it('throws an error when name not provided', function(done){
-      new Listing({
-        code: listing.code
+    it('throws an error when first name not provided', function(done){
+      new User({
+        last_name: user.last_name
       }).save(function(err){
         should.exist(err);
         done();
       })
     });
-
-    it('throws an error when code not provided', function(done){
-      new Listing({
-        name: listing.name
-      }).save(function(err){
-        should.exist(err);
-        done();
-      })
-    });
-
   });
 
   afterEach(function(done) {
     if(id) {
-      Listing.deleteOne({ _id: id }).exec(function() {
+      User.deleteOne({ _id: id }).exec(function() {
         id = null;
         done();
       });

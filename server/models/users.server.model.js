@@ -4,13 +4,8 @@ var mongoose = require('mongoose'),
 
 var userSchema = new Schema({
     first_name: {type: String, required: true, default: null},
-    last_name: {type: String, required: true, default: null},
-    address: {type: String, default: null},
-    files: {
-        will: {type: Boolean, default: false},
-        trust: {type: Boolean, default: false}
-    }
-});
+    last_name: {type: String, required: true, default: null}
+    });
 
 userSchema.pre('save', function(next) {
 
