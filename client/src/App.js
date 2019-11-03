@@ -3,6 +3,7 @@ import { Route, Switch, Redirect  } from 'react-router-dom';
 import Home from "./views/Home/Home"
 import Login from "./views/Login/Login"
 import Welcome from "./views/Welcome/Welcome"
+import PaymentPlans from "./views/PaymentPlans/PaymentPlans"
 import NotFound from "./views/NotFound"
 import Header from "./components/Header/Header"
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -18,6 +19,7 @@ const App = () => {
         <Switch>
           <Route exact path="/login" component={Login} />
           <Route exact path="/welcome" component={Welcome} />
+          <Route exact path="/payments" component={PaymentPlans} />
           <Route exact path="/Home" component={Home} />
           <Route exact path="/">
             <Redirect to="/Home" />
