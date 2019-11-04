@@ -10,12 +10,12 @@
     "server": "nodemon server/server.js",
     "dev": "concurrently \"nodemon server/server.js\" \"cd client && npm run start\"",
     "build": "cd client && npm build",
-    "start": "node /client/src/index.js",
+    "start": "node server/server.js",
     "heroku-postbuild": "cd client && npm install && npm install --only=dev --no-shrinkwrap && npm run build"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/UFWebApps/React_Template_Repo.git"
+    "url": "https://github.com/CEN-Group-3D/CEN-Project.git"
   },
   "keywords": [],
   "author": "Dakota Rennemann",
@@ -31,6 +31,5 @@
     "should": "^13.2.3",
     "supertest": "^4.0.2"
   },
-  "homepage": "https://github.com/UFWebApps/React_Template_Repo#readme"
+  "homepage": "https://fierce-cove-89297.herokuapp.com"
 }
-

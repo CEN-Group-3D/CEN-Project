@@ -22,7 +22,7 @@ module.exports.init = function() {
   app.use(bodyParser.json());
 
   /* serve static files - see http://expressjs.com/en/starter/static-files.html */
-  app.use('/', express.static(__dirname + '/../../client'));
+  app.use('/', express.static(__dirname + '/../../client/public'));
 
   app.use('/api/users', usersRouter);
 
@@ -30,7 +30,7 @@ module.exports.init = function() {
      Sends a response (res) to go to the homepage for all routes not specified */ 
   app.all('/*', (req, res) => {
    
-    res.sendFile(path.join(__dirname + '/../../client/index.html'));
+    res.sendFile(path.join(__dirname + '/../../client/public/index.html'));
         
   });
   

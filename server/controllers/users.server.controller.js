@@ -15,7 +15,7 @@ exports.create = (req, res) => {
 
 
 /* TODO Verify that it works Show the current user info */
-exports.read = (req, res) => {
+exports.user = (req, res) => {
 
   /* send back the user as json from the request */
   res.send(req.user);
@@ -58,7 +58,7 @@ exports.delete = (req, res) => {
 
 
 /* TODO Retreive all the users, sorted alphabetically by user code */
-exports.list = (req, res) => {
+exports.user_all = (req, res) => {
 
   User.find({}).sort('code').exec((err, user) => {
   if (err) {
