@@ -6,14 +6,14 @@ var users = require('../controllers/users.server.controller.js'),
 /* the route here is "server_host/api/users" */
 
 router.route('/')
-  .get(users.get_all) /* return a list of all users in database*/
+  .get(users.list_all) /* return a list of all users in database*/
   .post(users.create); /*creates a user*/
 
 /*
   The ':' specifies a URL parameter. 
  */
 router.route('/:userId')
-  .get(users.get_one)
+  .get(users.list_one)
   .put(users.update)
   .delete(users.delete);
 
