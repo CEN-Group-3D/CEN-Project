@@ -5,6 +5,7 @@ import Login from "./views/Login/Login"
 import Welcome from "./views/Welcome/Welcome"
 import PaymentPlans from "./views/PaymentPlans/PaymentPlans"
 import NotFound from "./views/NotFound"
+import AdminDashboardView from "./views/AdminDashboardView/AdminDashboardView"
 import Header from "./components/Header/Header"
 import 'bootstrap/dist/css/bootstrap.min.css';
 

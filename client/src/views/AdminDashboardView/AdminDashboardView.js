@@ -10,7 +10,11 @@ class AdminDashboardView extends React.Component {
 
     render() {
         return (
-            <div className="panel container"></div>
+            <div className="panel container">
+                
+            </div>
         )
     }
 }
+
+export default AdminDashboardView;
