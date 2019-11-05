@@ -9,7 +9,11 @@ class UserDashboardView extends React.Component {
     }
 
     render() {
-        
+        return (
+            <div className="panel container">
+                <h1>Your files</h1>
+            </div>
+        )
     }
 }
-export default Login;
+export default UserDashboardView;
