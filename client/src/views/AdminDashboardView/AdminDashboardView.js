@@ -1,4 +1,5 @@
 import React from 'react';
+import { Tabs } from '../../components/Tabs/Tabs';
 import './AdminDashboardView.css'
 
 class AdminDashboardView extends React.Component {
@@ -11,7 +12,7 @@ class AdminDashboardView extends React.Component {
     render() {
         return (
             <div className="panel container">
-                
+
             </div>
         )
     }
