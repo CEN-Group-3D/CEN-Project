@@ -16,23 +16,23 @@ class FormView extends React.Component {
                     <div className="panel col-xs-12">
                         <div className="form-entry">
                             <label for="fname">First Name</label>
-                            <input name="fname" type="text"></input>
+                            <input id="fname" type="text"></input>
                         </div>
                         <div className="form-entry">
                             <label for="mname">Middle Initial</label>
-                            <input name="mname" type="text"></input>
+                            <input id="mname" type="text"></input>
                         </div>
                         <div className="form-entry">
                             <label for="lname">Last Name</label>
-                            <input name="lname" type="text"></input>
+                            <input id="lname" type="text"></input>
                         </div>
                         <div className="form-entry">
                             <label for="dob">First Name</label>
-                            <input name="dob" type="date"></input>
+                            <input id="dob" type="date"></input>
                         </div>
                         <div className="form-entry">
                             <label for="gender">Gender</label>
-                            <select name="gender">
+                            <select id="gender">
                                 <option value="male">Male</option>
                                 <option value="female">Female</option>
                                 <option value="transgender">Transgender</option>
@@ -41,7 +41,7 @@ class FormView extends React.Component {
                         </div>
                         <div className="form-entry">
                             <label for="marital-status">Marital Status</label>
-                            <select name="marital-status">
+                            <select i="marital-status">
                                 <option value="single">Single</option>
                                 <option value="married">Married</option>
                                 <option value="divorced">Divorced</option>

@@ -14,12 +14,12 @@ body {
 
     padding: 20px;
 }
-input {
+/* input {
     border-radius: 5px;
     border: 1px solid #414141;
     padding: 8px;
     font-size: 12px;
-}
+} */
 #main-content-panel {
     height: 100vh;
     display: flex;
