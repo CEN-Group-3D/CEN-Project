@@ -13,11 +13,14 @@ class FormView extends React.Component {
         // Begin the form with the title
         let generatedForm = [<h1>{formData.title}</h1>]
 
+        // Iterate through each of the fields
         formData.fields.forEach(field => {
             let inputElement = null;
 
+            // When the field.type is option, we want controlled input (like gender)
             if (field.type === "option") {
                 let options = [];
+                // Add each of the options to the array
                 field.options.forEach(option => {
                     options.push(<option value={option.value}>{option.name}</option>)
                 });
