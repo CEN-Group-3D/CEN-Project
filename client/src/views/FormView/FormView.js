@@ -1,4 +1,5 @@
 import React from 'react';
+import { personalAndFamily } from "./FormData"
 import './FormView.css';
 
 class FormView extends React.Component {
@@ -8,11 +9,41 @@ class FormView extends React.Component {
         this.state = {};
     }
 
+    generateForm = (formData) => {
+        // Begin the form with the title
+        let generatedForm = [<h1>{formData.title}</h1>]
+
+        formData.fields.forEach(field => {
+            let inputElement = null;
+
+            if (field.type === "option") {
+                let options = [];
+                field.options.forEach(option => {
+                    options.push(<option value={option.value}>{option.name}</option>)
+                });
+                inputElement = <select id={field.dataTag}>{options}</select>
+            } else {
+                inputElement = <input id={field.dataTag} type={field.type}></input>
+            }
+
+            generatedForm.push(
+                <div className="form-entry">
+                    <label for={field.dataTag}>{field.label}</label>
+                    {inputElement}
+                </div>
+            )
+
+        });
+
+        return <div className="panel col-xs-12">{generatedForm}</div>;
+    }
+
     render() {
         return (
             <div className="col-xs-12 col-md-6">
                 <form className="container">
-                    <h1>Personal and Family</h1>
+                    {this.generateForm(personalAndFamily)}
+                    {/* <h1>Personal and Family</h1>
                     <div className="panel col-xs-12">
                         <div className="form-entry">
                             <label for="fname">First Name</label>
@@ -48,7 +79,7 @@ class FormView extends React.Component {
                                 <option value="widowed">Widowed</option>
                             </select>
                         </div>
-                    </div> 
+                    </div>  */}
                 </form>
             </div>
         );

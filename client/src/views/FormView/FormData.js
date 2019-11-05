@@ -1,4 +1,4 @@
-var personalAndFamily = {
+export let personalAndFamily = {
     title: "Personal and Family",
     fields: [
         {
