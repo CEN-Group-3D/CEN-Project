@@ -21,6 +21,7 @@ const App = () => {
           <Route exact path="/welcome" component={Welcome} />
           <Route exact path="/payments" component={PaymentPlans} />
           <Route exact path="/Home" component={Home} />
+          <Route exact path="/admin-dashboard" component={AdminDashboardView} />
           <Route exact path="/">
             <Redirect to="/Home" />
           </Route>
