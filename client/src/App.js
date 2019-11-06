@@ -4,6 +4,7 @@ import Home from "./views/Home/Home"
 import Login from "./views/Login/Login"
 import Welcome from "./views/Welcome/Welcome"
 import PaymentPlans from "./views/PaymentPlans/PaymentPlans"
+import UserDashboardView from "./views/UserDashboardView/UserDashboardView"
 import NotFound from "./views/NotFound"
 import Header from "./components/Header/Header"
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -21,6 +22,7 @@ const App = () => {
           <Route exact path="/welcome" component={Welcome} />
           <Route exact path="/payments" component={PaymentPlans} />
           <Route exact path="/Home" component={Home} />
+          <Route exact path="/dashboard" component={UserDashboardView} />
           <Route exact path="/">
             <Redirect to="/Home" />
           </Route>
