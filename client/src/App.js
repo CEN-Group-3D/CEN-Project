@@ -4,6 +4,7 @@ import Home from "./views/Home/Home"
 import Login from "./views/Login/Login"
 import Welcome from "./views/Welcome/Welcome"
 import PaymentPlans from "./views/PaymentPlans/PaymentPlans"
+import UserDashboardView from "./views/UserDashboardView/UserDashboardView"
 import NotFound from "./views/NotFound"
 import AdminDashboardView from "./views/AdminDashboardView/AdminDashboardView"
 import Header from "./components/Header/Header"
@@ -23,6 +24,7 @@ const App = () => {
           <Route exact path="/payments" component={PaymentPlans} />
           <Route exact path="/Home" component={Home} />
           <Route exact path="/admin-dashboard" component={AdminDashboardView} />
+          <Route exact path="/dashboard" component={UserDashboardView} />
           <Route exact path="/">
             <Redirect to="/Home" />
           </Route>

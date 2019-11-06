@@ -1,38 +1,43 @@
-var path = require('path'),  
-    express = require('express'),  //refers to Express the middleware helper for Node.js 
+const path = require('path'),
+    express = require('express'),
     mongoose = require('mongoose'),
     morgan = require('morgan'),
-    bodyParser = require('body-parser'),
-    config = require('./config'),
-    usersRouter = require('../routes/users.server.routes') 
+    bodyParser = require('body-parser')
+   // exampleRouter = require('../routes/examples.server.routes');
 
-module.exports.init = function() {
-  //connect to database
-  mongoose.connect(config.db.uri, { useNewUrlParser: true });
+module.exports.init = () => {
+    /* 
+        connect to database
+        - reference README for db uri
+    */
+    mongoose.connect(process.env.DB_URI || require('./config').db.uri, {
+        useNewUrlParser: true
+    });
     mongoose.set('useCreateIndex', true);
     mongoose.set('useFindAndModify', false);
 
-  //initialize app
-  var app = express();
+    // initialize app
+    const app = express();
 
-  //enable request logging for development debugging
-  app.use(morgan('dev'));
+    // enable request logging for development debugging
+    app.use(morgan('dev'));
 
-  //body parsing middleware 
-  app.use(bodyParser.json());
+    // body parsing middleware
+    app.use(bodyParser.json());
 
-  /* serve static files - see http://expressjs.com/en/starter/static-files.html */
-  app.use('/', express.static(__dirname + '/../../client/public'));
+    // add a router
+    //app.use('/api/example', exampleRouter);
 
-  app.use('/api/users', usersRouter);
+    if (process.env.NODE_ENV === 'production') {
+        // Serve any static files
+        app.use(express.static(path.join(__dirname, '../../client/build')));
 
-  /* Request Handeler for all other routes
-     Sends a response (res) to go to the homepage for all routes not specified */ 
-  app.all('/*', (req, res) => {
-   
-    res.sendFile(path.join(__dirname + '/../../client/public/index.html'));
-        
-  });
-  
-  return app;
-};  
+        // Handle React routing, return all requests to React app
+        app.get('*', function(req, res) {
+            res.sendFile(path.join(__dirname, '../../client/build', 'index.html'));
+        });
+    }
+
+    return app
+}
+
