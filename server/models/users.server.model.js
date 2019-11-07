@@ -4,7 +4,10 @@ var mongoose = require('mongoose'),
 
 var userSchema = new Schema({
     first_name: {type: String, required: true, default: null},
-    last_name: {type: String, required: true, default: null}
+    last_name: {type: String, required: true, default: null},
+    email: {type: String, required: true, default: null},
+    password: {type: String, required: true, default: null},
+    date: {type: Date, default: Date.now}
     });
 
 userSchema.pre('save', function(next) {
@@ -22,6 +25,6 @@ userSchema.pre('save', function(next) {
     next();
 });
 
+// export for use in other files
 var User = mongoose.model('User', userSchema);
-
 module.exports = User;

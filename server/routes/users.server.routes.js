@@ -3,11 +3,12 @@ var users = require('../controllers/users.server.controller.js'),
     express = require('express'),
     router = express.Router();
 
-/* the route here is "server_host/api/users" */
+router.route('/login')
+  .get(users.login)
+ // .get(users.user_all) /* return a list of all users in database*/
 
-router.route('/')
-  .get(users.user_all) /* return a list of all users in database*/
-  .post(users.create); /*creates a user*/
+router.route('/register')
+  .post(users.register) /* creates a user */
 
 /*
   The ':' specifies a URL parameter. 

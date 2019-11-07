@@ -1,9 +1,45 @@
 /* Dependencies */
 var mongoose = require('mongoose'), 
     User = require('../models/users.server.model.js')
+
+exports.login = (req, res) => {
+    res.send("Login")
+}
     
+exports.register = (req, res) => {
+    res.send("Register")
+}
+
 /* TODO Create a user */
 exports.create = (req, res) => {
+
+    // grab data from request
+    const {first_name, last_name, email, password, password_confirm} = req.body;
+
+    let errors = [];
+
+    // check required fields
+    if (!(first_name && last_name && email && password)) {
+        errors.push({msq : 'Please fill in all fields'});
+    }
+
+    // check passwords are the same during user register
+    if (password != password_confirm) {
+        errors.push({msg: 'Passwords do not match'})
+    }
+
+    // check pass length
+    if (password.length < 6) {
+        errors.push({msg: 'Password should at least be 6 characters'});
+    }
+
+    if (errors.length > 0) {
+        // reapply the registration form to the user
+        res.send('fail')
+    }
+    else {
+        res.send('pass')
+    }
 
   /* Instantiate a user */
   var user = User(req.body);
