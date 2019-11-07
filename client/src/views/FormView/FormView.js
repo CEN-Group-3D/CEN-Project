@@ -1,5 +1,5 @@
 import React from 'react';
-import { personalAndFamily } from "./FormData"
+import { personalAndFamily, survivorAndBeneficiary} from "./FormData"
 import './FormView.css';
 
 class FormView extends React.Component {
@@ -46,6 +46,7 @@ class FormView extends React.Component {
             <div className="col-xs-12 col-md-6">
                 <form className="container">
                     {this.generateForm(personalAndFamily)}
+                    {this.generateForm(survivorAndBeneficiary)}
                     {/* <h1>Personal and Family</h1>
                     <div className="panel col-xs-12">
                         <div className="form-entry">
