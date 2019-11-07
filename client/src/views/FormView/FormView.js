@@ -38,13 +38,13 @@ class FormView extends React.Component {
 
         });
 
-        return <div className="panel col-xs-12">{generatedForm}</div>;
+        return <div className="container panel col-xs-12">{generatedForm}</div>;
     }
 
     render() {
         return (
             <div className="col-xs-12 col-md-6">
-                <form className="container">
+                <form>
                     {this.generateForm(personalAndFamily)}
                     {this.generateForm(survivorAndBeneficiary)}
                     {/* <h1>Personal and Family</h1>
