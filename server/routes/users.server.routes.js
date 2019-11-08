@@ -4,8 +4,10 @@ var users = require('../controllers/users.server.controller.js'),
     router = express.Router();
 
 router.route('/login')
-  .get(users.login)
- // .get(users.user_all) /* return a list of all users in database*/
+  .post(users.login) /* reads user from database */
+
+router.route('/get_users')
+    .get(users.get_users)
 
 router.route('/register')
   .post(users.register) /* creates a user */

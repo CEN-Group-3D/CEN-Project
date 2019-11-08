@@ -26,16 +26,9 @@ module.exports.init = () => {
     // body parsing middleware
     app.use(bodyParser.json());
     app.use(bodyParser.urlencoded({extended: false}))
-    // app.use(express.urlencoded({extended: false}));
 
     // add a router
-    app.use('/users', userRouter);
-
-    app.post('/login', function(req, res) {
-        var user_name=req.body.user
-        var password=req.body.password
-        res.end("yes")
-    })
+    app.use('/api', userRouter);
 
     if (process.env.NODE_ENV === 'production') {
         // Serve any static files

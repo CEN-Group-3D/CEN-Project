@@ -1,35 +1,50 @@
 /* Dependencies */
 var mongoose = require('mongoose'), 
-    User = require('../models/users.server.model.js')
+    User = require('../models/users.server.model.js'),
+    bcrypt = require('bcryptjs');
 
+/* user login */
 exports.login = (req, res) => {
-    res.send("Login")
-}
     
-exports.register = (req, res) => {
-    res.send("Register")
+    //var status = err ? 400 : 200;
+	//res.status(status).json(data);
+
+    const {username, password} = req.body;
+    //console.log(username, password)
+    
+    // check to see if user exists in database
+    //    return user data
+    // else
+    //    send back no user exists
+
+    res.send("User data")
 }
 
-/* TODO Create a user */
-exports.create = (req, res) => {
+/* Create a user */
+exports.register = (req, res) => {
 
     // grab data from request
-    const {first_name, last_name, email, password, password_confirm} = req.body;
+    const {name, email} = req.body; // add passwords back into here
+    var password = "password";
+    var password_confirm = "password";
 
     let errors = [];
 
     // check required fields
-    if (!(first_name && last_name && email && password)) {
+    if (!name || !email) {
+        console.log('fill in all fields')
         errors.push({msq : 'Please fill in all fields'});
     }
 
     // check passwords are the same during user register
     if (password != password_confirm) {
+        console.log('password do not match')
         errors.push({msg: 'Passwords do not match'})
     }
 
     // check pass length
     if (password.length < 6) {
+        console.log('passwords needs to be at least 6 characters')
         errors.push({msg: 'Password should at least be 6 characters'});
     }
 
@@ -38,19 +53,53 @@ exports.create = (req, res) => {
         res.send('fail')
     }
     else {
+        // validation passed, verify user not in database, then save
+        User.findOne({email: email}, (err, user) => {
+            if (err) throw err;
+            else if (user) {
+                // user exists
+                errors.push({msg: 'Email is already registered'});
+                console.log("Exists")
+            } else {
+                // add user to database and ENCRYPT password
+                var new_user = User(req.body);
+                console.log('User created')
+                
+                new_user.save();
+
+                // HASH password
+              //  bcrypt.getSalt(10, (salt) => 
+              //      bcrypt.hash(new_user.password, salt, (err, hash) => {
+              //          if (err) throw err;
+
+              //          console.log("hashing the password")
+              //          // set password to hash
+              //          new_user.password = hash;
+
+              //          console.log("saving the user")
+              //          // save the user
+              //          new_user.save(err => {
+              //              if (err) {
+              //                  throw err;
+              //              } else {
+              //                  console.log('User created')
+              //              }
+              //          })
+              //         // .then(user => {
+              //         //     res.redirect('/login');
+              //         // })
+              //         // .catch(err => console.log(err));
+              //  }))
+                res.send('added user')
+            }
+        })
         res.send('pass')
     }
-
-  /* Instantiate a user */
-  var user = User(req.body);
-
-    /* if user does not exist, then create it, otherwise output some error saying username exists*/
-
 };
 
 
 
-/* TODO Verify that it works Show the current user info */
+/* Verify that it works Show the current user info */
 exports.user = (req, res) => {
 
   /* send back the user as json from the request */
@@ -78,25 +127,25 @@ exports.update = (req, res) => {
 
 
 
-/* TODO Delete a user */
+/* Delete a user */
 exports.delete = (req, res) => {
 
-  User.deleteOne(req, (err, data) => {
+  User.deleteOne(req, (err) => {
   if (err) {
     res.send(err);
   }
   else
-    console.log("Deleted") // not sure if this is correct since a delete doesn't really need anything
+    console.log("Deleted")
   })
 };
 
 
 
 
-/* TODO Retreive all the users, sorted alphabetically by user code */
-exports.user_all = (req, res) => {
+/* TODO Retreive all the users, sorted alphabetically by user name */
+exports.get_users = (req, res) => {
 
-  User.find({}).sort('code').exec((err, user) => {
+  User.find({}).sort('name').exec((err, user) => {
   if (err) {
     res.send(err);
   } else {
@@ -113,11 +162,12 @@ exports.user_all = (req, res) => {
  */
 exports.userByID = function(req, res, next, id) {
   User.findById(id, (err, user) => {
-    if(err) {
-      res.send(err);
-    } else {
-      req.user = user;
-      next();
+
+      if (err) {
+          res.send(err);
+      } else {
+        req.user = user;
+        next();
     }
   });
 };
