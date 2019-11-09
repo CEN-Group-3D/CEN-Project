@@ -1,9 +1,12 @@
 const path = require('path'),
-    express = require('express'),
-    mongoose = require('mongoose'),
-    morgan = require('morgan'),
-    bodyParser = require('body-parser')
-    userRouter = require('../routes/users.server.routes');
+      express = require('express'),
+      mongoose = require('mongoose'),
+      morgan = require('morgan'),
+      bodyParser = require('body-parser'),
+      session = require("express-session"),
+      passport = require('passport'),
+      passportConf = require('./passport');
+      userRouter = require('../routes/users.server.routes');
 
 module.exports.init = () => {
 
@@ -26,9 +29,33 @@ module.exports.init = () => {
     // body parsing middleware
     app.use(bodyParser.json());
     app.use(bodyParser.urlencoded({extended: false}))
+    // express sessions // TODO not sure if we need
+    app.use(session({
+        secret: 'secret',
+        resave: true,
+        saveUninitialized: true,
+        //cookie: {secure: true}
+    }))
+
+    // connect flash
+    // app.use(flash());
+    
+    // passport middleware
+    app.use(passport.initialize());
+    app.use(passport.session());
+
 
     // add a router
-    app.use('/api', userRouter);
+    //app.use('/', userRouter);
+    //
+    
+    app.post('/login',
+        passport.authenticate('local', {
+            successRedirect: '/welcome',
+            failureRedirect: '/login'
+        })
+    );
+
 
     if (process.env.NODE_ENV === 'production') {
         // Serve any static files
@@ -42,4 +69,3 @@ module.exports.init = () => {
 
     return app
 }
-

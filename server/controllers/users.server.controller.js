@@ -1,26 +1,11 @@
-/* Dependencies */
-var mongoose = require('mongoose'), 
-    User = require('../models/users.server.model.js'),
-    bcrypt = require('bcryptjs');
+const User = require('../models/users.server.model.js'),
+      passport = require('passport'),
+      bcrypt = require('bcryptjs');
 
 const saltRounds = 10;
 
-/* user login */
-exports.login = (req, res) => {
 
-    //var status = err ? 400 : 200;
-    //res.status(status).json(data);
 
-    const {username, password} = req.body;
-    //console.log(username, password)
-
-    // check to see if user exists in database
-    //    return user data
-    // else
-    //    send back no user exists
-
-    res.send("User data")
-}
 
 /* TODO try to complete for code duplication */
 exports.user_auth = (req) => {
@@ -41,6 +26,28 @@ exports.user_auth = (req) => {
 
     }
 }
+
+
+
+
+/* user login */
+exports.login = (req, res, next) => {
+
+    console.log('inside login')
+    passport.authenticate('local', {
+        successRedirect: '/welcome',
+        failureRedirect: '/home' // sends 302
+    }) (req, res, next);
+};
+
+/* user logout */
+exports.logout = (req, res) => {
+
+    console.log('User logout')
+    req.logout();
+    res.redirect('/login');
+};
+
 
 
 /* Create a user */
@@ -91,15 +98,11 @@ exports.register = (req, res) => {
                             //console.log(new_user.password)
                             console.log("attempting to save the user")
                             // save the user
-                            new_user.save(err => {
-                                if (err) {
-                                    console.log(err)
-                                    res.status(400).send('Error')
-                                } else {
-                                    console.log('User saved into database') 
-                                    res.status(200).send(new_user)
-                                }
+                            new_user.save()
+                            .then(user => {
+                                res.redirect('/login' + user);
                             })
+                            .catch(err => console.log(err))
                         })
                     })
                 }

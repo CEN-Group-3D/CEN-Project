@@ -8,10 +8,10 @@ var should = require('should'),
 var app, agent, user, id, id2;
 
     var user = {
-      name: 'tim testmeagain', 
+      name: 'pleaseWork', 
       email: 'bigstest12@gmail.com',
-      password: 'password',
-      password_confirm: 'password'
+      password: 'password123',
+      password_confirm: 'password123'
     };
 
     var updatedUser = {
@@ -34,7 +34,7 @@ describe('Users CRUD tests', function() {
   });
 
   //it('should be able to retrieve all users', function(done) {
-  //  agent.get('/api/get_users')
+  //  agent.get('/get_users')
   //    .expect(200)
   //    .end(function(err, res) {
   //      should.not.exist(err);
@@ -49,7 +49,7 @@ describe('Users CRUD tests', function() {
  //     if(err) {
  //       console.log(err);
  //     } else {
- //       agent.get('/api/' + user._id)
+ //       agent.get('/' + user._id)
  //         .expect(200)
  //         .end(function(err, res) {
  //           should.not.exist(err);
@@ -64,7 +64,7 @@ describe('Users CRUD tests', function() {
  // });
 
   it('should be able to save a user', function(done) {
-    agent.post('/api/register')
+    agent.post('/register')
       .send(user)
       .expect(200)
       .end(function(err, res) {
@@ -78,7 +78,7 @@ describe('Users CRUD tests', function() {
   });
 
   it('should be able to update a user', function(done) {
-    agent.put('/api/' + id)
+    agent.put('/' + id)
       .send(updatedUser)
       .expect(200)
       .end(function(err, res) {
@@ -91,13 +91,13 @@ describe('Users CRUD tests', function() {
   });
 
  // it('should be able to delete a user', function(done) {
- //   agent.delete('/api/' + id)
+ //   agent.delete('/' + id)
  //     .expect(200)
  //     .end(function(err, res) {
  //       should.not.exist(err);
  //       should.exist(res);
 
- //       agent.get('/api/' + id) 
+ //       agent.get('/' + id) 
  //         .expect(400)
  //         .end(function(err, res) {
  //           id = undefined;
