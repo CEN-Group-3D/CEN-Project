@@ -1,7 +1,7 @@
-var users = require('../controllers/users.server.controller.js'), 
-    express = require('express'),
-    { ensureAuthenticated } = require('../config/auth'),
-    router = express.Router();
+const users = require('../controllers/users.server.controller.js'), 
+      express = require('express'),
+      router = express.Router(),
+      { ensureAuthenticated } = require('../config/auth');
 
 /* login with passport authentication */
 router.route('/login')
@@ -9,7 +9,7 @@ router.route('/login')
 
 /* get all users */
 router.route('/get_users')
-    .get(users.get_users, ensureAuthenticated) // TODO apply to other links
+    .get(users.get_users, ensureAuthenticated)
 
 /* user creation and register route */
 router.route('/register')
@@ -17,13 +17,13 @@ router.route('/register')
 
 /* routes for passing in a userId */
 router.route('/:userId')
-    .get(users.user)
-    .put(users.update)
-    .delete(users.delete);
+    .get(users.user, ensureAuthenticated)
+    .put(users.update, ensureAuthenticated)
+    .delete(users.delete, ensureAuthenticated);
 
 /* logout handler */
 router.route('/logout/:userId')
-    .get(users.logout)
+    .get(users.logout, ensureAuthenticated)
 
 // binds user to req object using ID parameter
 router.param('userId', users.userByID);

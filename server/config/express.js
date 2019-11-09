@@ -29,7 +29,8 @@ module.exports.init = () => {
     // body parsing middleware
     app.use(bodyParser.json());
     app.use(bodyParser.urlencoded({extended: false}))
-    // express sessions // TODO not sure if we need
+
+    // express sessions
     app.use(session({
         secret: 'secret',
         resave: true,
@@ -46,17 +47,8 @@ module.exports.init = () => {
 
 
     // add a router
-    //app.use('/', userRouter);
-    //
+    app.use('/', userRouter);
     
-    app.post('/login',
-        passport.authenticate('local', {
-            successRedirect: '/welcome',
-            failureRedirect: '/login'
-        })
-    );
-
-
     if (process.env.NODE_ENV === 'production') {
         // Serve any static files
         app.use(express.static(path.join(__dirname, '../../client/build')));

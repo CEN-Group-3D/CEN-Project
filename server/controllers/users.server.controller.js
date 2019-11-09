@@ -33,12 +33,14 @@ exports.user_auth = (req) => {
 /* user login */
 exports.login = (req, res, next) => {
 
-    console.log('inside login')
     passport.authenticate('local', {
-        successRedirect: '/welcome',
-        failureRedirect: '/home' // sends 302
+        successRedirect: '/dashboard',
+        failureRedirect: '/login' // sends 302
     }) (req, res, next);
 };
+
+
+
 
 /* user logout */
 exports.logout = (req, res) => {
@@ -100,7 +102,7 @@ exports.register = (req, res) => {
                             // save the user
                             new_user.save()
                             .then(user => {
-                                res.redirect('/login' + user);
+                                res.redirect('/dashboard');
                             })
                             .catch(err => console.log(err))
                         })
@@ -116,7 +118,7 @@ exports.register = (req, res) => {
 exports.user = (req, res) => {
 
     /* send back the user as json from the request */
-    console.log(req.user)
+    console.log('Requested user', JSON.stringify(req.body))
     res.send(req.user);
 };
 
@@ -182,7 +184,7 @@ exports.update = (req, res) => {
                             })
                         } else {
                             // update user within database based on parameters
-                            User.updateOne(user, updated_user, (err) => { // this was the only way I could make this work! I had to duplicate it
+                            User.updateOne(user, updated_user, (err) => { // TODO this was the only way I could make this work! I had to duplicate it
                                 if (err) {
                                     throw err;
                                 } else {

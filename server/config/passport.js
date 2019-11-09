@@ -6,9 +6,8 @@ const mongoose = require('mongoose'),
 
 // passport database verification
 passport.use(new LocalStrategy({
-        usernameField: 'email'}, (email, password, done) => {
+        usernameField: 'username'}, (email, password, done) => {
 
-        console.log('inside passport')
         // check for email in database
         User.findOne( {email: email}, (err, user) => {
                 if (err) {
@@ -21,18 +20,18 @@ passport.use(new LocalStrategy({
                 }
 
                 // match decrypted password
-               // bcrypt.compare( password, user.password, ( err, isMatch ) => {
-               //     if ( err ) throw err;
+                bcrypt.compare( password, user.password, ( err, isMatch ) => {
+                    if ( err ) throw err;
 
-               //     if ( isMatch ) {
-               //         // returns user from the database
-               //         console.log( user );
-               //         return done( null, user );
-               //     } else {
-               //         console.log( 'Password incorrect' );
-               //         return done( null, false, { message: 'Password incorrect' } )
-               //     }
-               // });
+                    if ( isMatch ) {
+                        // returns user from the database
+                        console.log( 'Matched user in database' );
+                        return done( null, user );
+                    } else {
+                        console.log( 'Password incorrect' );
+                        return done( null, false, { message: 'Password incorrect' } )
+                    }
+                });
             })
         })
     );
