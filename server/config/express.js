@@ -1,18 +1,22 @@
 const path = require('path'),
-    express = require('express'),
-    mongoose = require('mongoose'),
-    morgan = require('morgan'),
-    bodyParser = require('body-parser'),
-    exampleRouter = require('../routes/examples.server.routes');
+      express = require('express'),
+      mongoose = require('mongoose'),
+      morgan = require('morgan'),
+      bodyParser = require('body-parser'),
+      session = require("express-session"),
+      passport = require('passport'),
+      passportConf = require('./passport');
+      userRouter = require('../routes/users.server.routes');
 
 module.exports.init = () => {
-    /* 
-        connect to database
-        - reference README for db uri
-    */
+
     mongoose.connect(process.env.DB_URI || require('./config').db.uri, {
-        useNewUrlParser: true
-    });
+        useNewUrlParser: true,
+        useUnifiedTopology: true
+    })
+    .then(() => console.log('MongoDB connected...'))
+    .catch(err => console.log(err));
+
     mongoose.set('useCreateIndex', true);
     mongoose.set('useFindAndModify', false);
 
@@ -24,10 +28,27 @@ module.exports.init = () => {
 
     // body parsing middleware
     app.use(bodyParser.json());
+    app.use(bodyParser.urlencoded({extended: false}))
+
+    // express sessions
+    app.use(session({
+        secret: 'secret',
+        resave: true,
+        saveUninitialized: true,
+        //cookie: {secure: true}
+    }))
+
+    // connect flash
+    // app.use(flash());
+    
+    // passport middleware
+    app.use(passport.initialize());
+    app.use(passport.session());
+
 
     // add a router
-    app.use('/api/example', exampleRouter);
-
+    app.use('/', userRouter);
+    
     if (process.env.NODE_ENV === 'production') {
         // Serve any static files
         app.use(express.static(path.join(__dirname, '../../client/build')));
@@ -40,4 +61,3 @@ module.exports.init = () => {
 
     return app
 }
-
