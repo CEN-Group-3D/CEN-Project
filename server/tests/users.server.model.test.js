@@ -6,8 +6,8 @@ var should = require('should'),
 var user, id;
 
 user =  {
-  first_name: "Tim", 
-  last_name: "Henry" 
+  name: "Tim Henry", 
+  email: "timhenry@gmail.com"
 }
 
 describe('User Schema Unit Tests', function() {
@@ -26,11 +26,12 @@ describe('User Schema Unit Tests', function() {
      */
     this.timeout(10000);
 
-    it('saves properly when both names provided', function(done){
+    it('saves properly when name and email are provided', function(done){
       new User({
-        first_name: user.first_name, 
-        last_name: user.last_name
-      }).save(function(err, user){
+        name: user.name, 
+        email: user.email
+      })
+        .save(function(err, user){
         should.not.exist(err);
         id = user._id;
         done();
@@ -38,31 +39,35 @@ describe('User Schema Unit Tests', function() {
     });
 
     it('saves properly when all properties provided', function(done){
-      new User(user).save(function(err, user){
+      new User(
+          user
+      )
+        .save(function(err, user){
         should.not.exist(err);
         id = user._id;
         done();
       });
     });
 
-    it('throws an error when first name not provided', function(done){
+    it('throws an error when email not provided', function(done){
       new User({
-        last_name: user.last_name
-      }).save(function(err){
+        name: user.name
+      })
+        .save(function(err){
         should.exist(err);
         done();
       })
     });
   });
 
-  afterEach(function(done) {
-    if(id) {
-      User.deleteOne({ _id: id }).exec(function() {
-        id = null;
-        done();
-      });
-    } else {
-      done();
-    }
-  });
+  //afterEach(function(done) {
+  //  if(id) {
+  //    User.deleteOne({ _id: id }).exec(function() {
+  //      id = null;
+  //      done();
+  //    });
+  //  } else {
+  //    done();
+  //  }
+  //});
 });

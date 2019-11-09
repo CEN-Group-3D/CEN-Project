@@ -3,11 +3,9 @@ var mongoose = require('mongoose'),
     Schema = mongoose.Schema;
 
 var userSchema = new Schema({
-    first_name: {type: String, required: true, default: null},
-    last_name: {type: String, required: true, default: null},
+    name: {type: String, required: true, default: null},
     email: {type: String, required: true, default: null},
-    password: {type: String, required: true, default: null},
-    date: {type: Date, default: Date.now}
+    password: {type: String, required: false, default: null},
     });
 
 userSchema.pre('save', function(next) {

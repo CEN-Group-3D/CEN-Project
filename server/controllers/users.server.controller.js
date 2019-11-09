@@ -1,123 +1,254 @@
-/* Dependencies */
-var mongoose = require('mongoose'), 
-    User = require('../models/users.server.model.js')
+const User = require('../models/users.server.model.js'),
+      passport = require('passport'),
+      bcrypt = require('bcryptjs');
 
-exports.login = (req, res) => {
-    res.send("Login")
-}
-    
-exports.register = (req, res) => {
-    res.send("Register")
-}
+const saltRounds = 10;
 
-/* TODO Create a user */
-exports.create = (req, res) => {
+
+
+
+/* TODO try to complete for code duplication */
+exports.user_auth = (req) => {
 
     // grab data from request
-    const {first_name, last_name, email, password, password_confirm} = req.body;
-
-    let errors = [];
+    const {name, email, password, password_confirm} = req.body; // add passwords back into here
 
     // check required fields
-    if (!(first_name && last_name && email && password)) {
-        errors.push({msq : 'Please fill in all fields'});
+    if (!name || !email || !password || !password_confirm) {
+        console.log('fill in all fields')
+        res.status(400).send();
     }
 
-    // check passwords are the same during user register
-    if (password != password_confirm) {
-        errors.push({msg: 'Passwords do not match'})
-    }
+    // check passwords are the same if a password was included
+    if (password!==undefined && (password != password_confirm)) {
+        console.log('password do not match')
+        res.status(400).send();
 
+    }
+}
+
+
+
+
+/* user login */
+exports.login = (req, res, next) => {
+
+    passport.authenticate('local', {
+        successRedirect: '/dashboard',
+        failureRedirect: '/login' // sends 302
+    }) (req, res, next);
+};
+
+
+
+
+/* user logout */
+exports.logout = (req, res) => {
+
+    console.log('User logout')
+    req.logout();
+    res.redirect('/login');
+};
+
+
+
+/* Create a user */
+exports.register = (req, res) => {
+
+    // TODO this.user_auth(req) // try to complete to save code duplication
+
+    // grab data from request
+    const {name, email, password, password_confirm} = req.body; // add passwords back into here
+
+    // check required fields
+    if (!name || !email || !password || !password_confirm) {
+        console.log('fill in all fields')
+        res.status(400).send();
+    }
+    // check passwords are the same
+    else if (password != password_confirm) {
+        console.log('password do not match')
+        res.status(400).send();
+    }
     // check pass length
-    if (password.length < 6) {
-        errors.push({msg: 'Password should at least be 6 characters'});
-    }
-
-    if (errors.length > 0) {
-        // reapply the registration form to the user
-        res.send('fail')
+    else if (password.length < 6) {
+        console.log('passwords needs to be at least 6 characters')
+        res.status(400).send();
     }
     else {
-        res.send('pass')
+        // validation passed, verify user not in database, then save
+        User.findOne({email: email})
+        .then(user => {
+                if (user) {
+                    // user exists
+                    console.log("User already exists")
+                    res.status(400).send('User already exists')
+                } else {
+                    // add user to database and ENCRYPT password
+                    var new_user = User(req.body);
+                    //console.log(new_user)
+
+                    // HASH password
+                    bcrypt.genSalt(saltRounds, (err, salt) => { 
+                        bcrypt.hash(new_user.password, salt, (err, hash) => {
+                            if (err) throw err;
+
+                            //console.log("hashing the password")
+                            // set password to hash
+                            new_user.password = hash;
+
+                            //console.log(new_user.password)
+                            console.log("attempting to save the user")
+                            // save the user
+                            new_user.save()
+                            .then(user => {
+                                res.redirect('/dashboard');
+                            })
+                            .catch(err => console.log(err))
+                        })
+                    })
+                }
+            })
     }
-
-  /* Instantiate a user */
-  var user = User(req.body);
-
-    /* if user does not exist, then create it, otherwise output some error saying username exists*/
-
 };
 
 
 
-/* TODO Verify that it works Show the current user info */
+/* get user */
 exports.user = (req, res) => {
 
-  /* send back the user as json from the request */
-  res.send(req.user);
+    /* send back the user as json from the request */
+    console.log('Requested user', JSON.stringify(req.body))
+    res.send(req.user);
 };
 
 
 
 
-/* TODO Update a user - note the order in which this function is called by the router*/
+/* Update a user - note the order in which this function is called by the router*/
 exports.update = (req, res) => {
 
-  /* Instantiate a User */
-  var user = User(req.body);
+    /* Instantiate a User that is within the database */
+    console.log('User info in database', req.user)
+    console.log('Users new info', req.body)
 
-  /* Save the user */
-    user.save(err => {
-      if(err) {
-        res.status(400).send(err);
-      } 
-      res.send(user);
+
+    // if a user was found by the ID that was passed in...
+    if (req.user) {
+
+        // TODO this.user_auth(req) // try to complete to save code duplication
+
+        // grab data from request
+        const {email, password, password_confirm} = req.body; // add passwords back into here
+
+        // check passwords are the same if a password was included
+        if (password!==undefined && (password != password_confirm)) {
+            console.log('password do not match')
+            res.status(400).send();
+        }
+        // check pass length if a password was included in the update 
+        else if (password!==undefined && (password.length < 6)) {
+            console.log('passwords needs to be at least 6 characters')
+            res.status(400).send();
+        }
+        else {
+            // validation passed, verify email is not database
+            User.findOne({email: email})
+                .then(user => {
+                    if (user) {
+                        // user exists
+                        console.log("User already exists")
+                        res.status(400).send(user)
+                    } else {
+                        // if password was given to be updated, hash it
+                        var user = Object.assign(req.user);
+                        var updated_user = Object.assign(req.body);
+
+                        if (updated_user.password !== undefined) {
+                            bcrypt.genSalt(saltRounds, (err, salt) => { 
+                                bcrypt.hash(updated_user.password, salt, (err, hash) => {
+                                    if (err) throw err;
+
+                                    // set password to hash
+                                    updated_user.password = hash;
+                                    // update user within database based on parameters
+                                    User.updateOne(user, updated_user, (err) => {
+                                        if (err) {
+                                            throw err;
+                                        } else {
+                                            //console.log('User updated')
+                                            res.send(updated_user) // only used for testing...not actually looking in database for the change
+                                        }
+                                    })
+                                })
+                            })
+                        } else {
+                            // update user within database based on parameters
+                            User.updateOne(user, updated_user, (err) => { // TODO this was the only way I could make this work! I had to duplicate it
+                                if (err) {
+                                    throw err;
+                                } else {
+                                    //console.log('User updated')
+                                    res.send(updated_user) // only used for testing...not actually looking in database for the change
+                                }
+                            })
+                        }
+
+                    }
+                })
+        }
+    } 
+    else {
+        console.log('User not updated')
+    }
+};
+
+
+
+
+/* Delete a user */
+exports.delete = (req, res) => {
+
+    User.deleteOne(req.user, (err) => {
+        if (err) {
+            throw err;
+        }
+        else
+            //console.log("User deleted");
+            res.send('Deleted');
+    })
+};
+
+
+
+
+/* Retrieve all the users, sorted alphabetically by user name */
+exports.get_users = (req, res) => {
+
+    User.find({}).sort('name').exec((err, user) => {
+        if (err) {
+            throw err;
+        } else {
+            res.send(user);
+        }
     });
 };
 
 
+/* finds user by ID and then calls next() */
+exports.userByID = (req, res, next, id) => {
 
-
-/* TODO Delete a user */
-exports.delete = (req, res) => {
-
-  User.deleteOne(req, (err, data) => {
-  if (err) {
-    res.send(err);
-  }
-  else
-    console.log("Deleted") // not sure if this is correct since a delete doesn't really need anything
-  })
-};
-
-
-
-
-/* TODO Retreive all the users, sorted alphabetically by user code */
-exports.user_all = (req, res) => {
-
-  User.find({}).sort('code').exec((err, user) => {
-  if (err) {
-    res.send(err);
-  } else {
-    res.send(user);
-      }
-  });
-};
-
-
-
-/* 
-  Middleware: find a user by its ID, then pass it to the next request handler. 
-
- */
-exports.userByID = function(req, res, next, id) {
-  User.findById(id, (err, user) => {
-    if(err) {
-      res.send(err);
-    } else {
-      req.user = user;
-      next();
-    }
-  });
+    User.findById(id, (err, user) => {
+        if (err) {
+            throw err;
+        } else if (!user) {
+            //console.log('No user in database')
+            res.status(400).send('No user')
+        } else {
+            //console.log(req.user)
+            req.user = user;
+            //console.log('User found by ID...calling next()')
+            next();
+        }
+    });
 };
