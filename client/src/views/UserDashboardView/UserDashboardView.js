@@ -28,7 +28,7 @@ render() {
               file={test}
               onLoadSuccess={this.onDocumentLoadSuccess}
             >
-              <Page pageNumber={pageNumber} />
+              <Page pageNumber={1} />
             </Document>        
              </div>
         )
