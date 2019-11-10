@@ -13,12 +13,20 @@ class Login extends React.Component {
         let username = evt.target.username.value;
         let password = evt.target.password.value;
         
-        let loginData = new FormData();
-        loginData.append('username', username);
-        loginData.append('password', password);
+        let loginData = {username, password}
+        
         fetch('/login', {
             method: 'POST',
-            body: loginData,
+            body: JSON.stringify(loginData),
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            }
+            
+        }).then((response) => {
+            console.log(response.status)
+            if (response.status === 302) {
+                console.log('wrong user')
+            }
         })
     }
 
@@ -26,7 +34,7 @@ class Login extends React.Component {
         return (
             <div className='login-panel panel container col-xs-12 col-md-3'>
                 <h2 id="login-header">Welcome back</h2>
-                <form  method="POST" className="login-form">
+                <form onSubmit={this.handleLogin} method="POST" className="login-form">
                     <div className="login-field">
                         <label for="username">Email</label>
                         <input type="text" id="username" name="username"></input>
