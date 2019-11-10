@@ -25,7 +25,8 @@ passport.use(new LocalStrategy({
 
                     if ( isMatch ) {
                         // returns user from the database
-                        console.log( 'Matched user in database' );
+                        console.log( 'Matched user in database, logging in' );
+                        console.log(user);
                         return done( null, user );
                     } else {
                         console.log( 'Password incorrect' );
@@ -38,11 +39,9 @@ passport.use(new LocalStrategy({
 
 // used by passport to communicate to and from a session
 passport.serializeUser( (user, done ) => {
-    done( null, user.id );
+    done( null, user );
 });
 
-passport.deserializeUser( ( id, done ) => {
-    User.findById( id, ( err, user ) => {
-        done( err, user );
-    });
+passport.deserializeUser( ( user, done ) => {
+        done( null, user );
 });

@@ -1,31 +1,8 @@
 const User = require('../models/users.server.model.js'),
       passport = require('passport'),
+      { check, validationResult } = require('express-validator'),
       bcrypt = require('bcryptjs');
-
 const saltRounds = 10;
-
-
-
-
-/* TODO try to complete for code duplication */
-exports.user_auth = (req) => {
-
-    // grab data from request
-    const {name, email, password, password_confirm} = req.body; // add passwords back into here
-
-    // check required fields
-    if (!name || !email || !password || !password_confirm) {
-        console.log('fill in all fields')
-        res.status(400).send();
-    }
-
-    // check passwords are the same if a password was included
-    if (password!==undefined && (password != password_confirm)) {
-        console.log('password do not match')
-        res.status(400).send();
-
-    }
-}
 
 
 
@@ -33,12 +10,30 @@ exports.user_auth = (req) => {
 /* user login */
 exports.login = (req, res, next) => {
 
+    // calls req.login() automatically on successRedirect
     passport.authenticate('local', {
         successRedirect: '/dashboard',
         failureRedirect: '/login' // sends 302
-    }) (req, res, next);
+    }) (req, res, next); 
 };
 
+
+
+// user homepage
+exports.home = (req, res) => {
+    console.log('User home')
+    console.log(req.isAuthenticated());
+    res.send('User home');
+}
+
+
+// user dashboard
+exports.dashboard = (req, res) => {
+
+    console.log('User dashboard')
+    console.log(req.isAuthenticated());
+    res.send('User dashboard');
+}
 
 
 
@@ -52,64 +47,57 @@ exports.logout = (req, res) => {
 
 
 
+
 /* Create a user */
 exports.register = (req, res) => {
-
-    // TODO this.user_auth(req) // try to complete to save code duplication
 
     // grab data from request
     const {name, email, password, password_confirm} = req.body; // add passwords back into here
 
-    // check required fields
-    if (!name || !email || !password || !password_confirm) {
-        console.log('fill in all fields')
-        res.status(400).send();
+    // TODO finish validation
+    const checks = [ check(email).isEmail(), 
+        check(name).isLength({ min: 3 }), 
+        check(password).isLength({ min: 6 }) ]; 
+
+    const errors = validationResult(checks);
+
+    if (!errors.isEmpty()) {
+        return res.status(422).json({ errors: errors.array() });
     }
-    // check passwords are the same
-    else if (password != password_confirm) {
-        console.log('password do not match')
-        res.status(400).send();
-    }
-    // check pass length
-    else if (password.length < 6) {
-        console.log('passwords needs to be at least 6 characters')
-        res.status(400).send();
-    }
-    else {
-        // validation passed, verify user not in database, then save
-        User.findOne({email: email})
+
+    // validation passed, verify user not in database, then save
+    User.findOne({email: email})
         .then(user => {
-                if (user) {
-                    // user exists
-                    console.log("User already exists")
-                    res.status(400).send('User already exists')
-                } else {
-                    // add user to database and ENCRYPT password
-                    var new_user = User(req.body);
-                    //console.log(new_user)
+            if (user) {
+                // user exists
+                console.log("User already exists")
+                res.status(400).send('User already exists')
+            } else {
+                // add user to database and ENCRYPT password
+                var new_user = User(req.body);
+                //console.log(new_user)
 
-                    // HASH password
-                    bcrypt.genSalt(saltRounds, (err, salt) => { 
-                        bcrypt.hash(new_user.password, salt, (err, hash) => {
-                            if (err) throw err;
+                // HASH password
+                bcrypt.genSalt(saltRounds, (err, salt) => { 
+                    bcrypt.hash(new_user.password, salt, (err, hash) => {
+                        if (err) throw err;
 
-                            //console.log("hashing the password")
-                            // set password to hash
-                            new_user.password = hash;
+                        //console.log("hashing the password")
+                        // set password to hash
+                        new_user.password = hash;
 
-                            //console.log(new_user.password)
-                            console.log("attempting to save the user")
-                            // save the user
-                            new_user.save()
+                        //console.log(new_user.password)
+                        console.log("attempting to save the user")
+                        // save the user
+                        new_user.save()
                             .then(user => {
-                                res.redirect('/dashboard');
+                                res.redirect('/login');
                             })
                             .catch(err => console.log(err))
-                        })
                     })
-                }
-            })
-    }
+                })
+            }
+        })
 };
 
 
@@ -119,6 +107,8 @@ exports.user = (req, res) => {
 
     /* send back the user as json from the request */
     console.log('Requested user', JSON.stringify(req.body))
+   // console.log(res.user);
+    //console.log(req.isAuthenticated());
     res.send(req.user);
 };
 
@@ -141,6 +131,7 @@ exports.update = (req, res) => {
         // grab data from request
         const {email, password, password_confirm} = req.body; // add passwords back into here
 
+        // TODO fix validation
         // check passwords are the same if a password was included
         if (password!==undefined && (password != password_confirm)) {
             console.log('password do not match')
@@ -233,6 +224,8 @@ exports.get_users = (req, res) => {
         }
     });
 };
+
+
 
 
 /* finds user by ID and then calls next() */

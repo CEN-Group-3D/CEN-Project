@@ -3,13 +3,16 @@ const path = require('path'),
       mongoose = require('mongoose'),
       morgan = require('morgan'),
       bodyParser = require('body-parser'),
-      session = require("express-session"),
+      cookieParser = require('cookie-parser'),
+      session = require('express-session'),
+      mongoStore = require('connect-mongo') (session),
       passport = require('passport'),
-      passportConf = require('./passport');
+      passportConf = require('./passport'); // required 
       userRouter = require('../routes/users.server.routes');
 
 module.exports.init = () => {
 
+    // database connection
     mongoose.connect(process.env.DB_URI || require('./config').db.uri, {
         useNewUrlParser: true,
         useUnifiedTopology: true
@@ -26,28 +29,32 @@ module.exports.init = () => {
     // enable request logging for development debugging
     app.use(morgan('dev'));
 
-    // body parsing middleware
+    // connect flash
+    // app.use(flash());
+    
+    // parsing middleware
+    app.use(cookieParser()); // has to be above session
     app.use(bodyParser.json());
     app.use(bodyParser.urlencoded({extended: false}))
 
     // express sessions
     app.use(session({
-        secret: 'secret',
-        resave: true,
-        saveUninitialized: true,
-        //cookie: {secure: true}
-    }))
+        secret: 'static_random_string',
+        resave: false, // only update cookie with data change
+        saveUninitialized: false, // only create cookie on login
+        store: new mongoStore({
+        url: require('./config').db.uri,
+        collection: 'sessions'}),
+        cookie: {secure: false} // enabled for https
+    }));
 
-    // connect flash
-    // app.use(flash());
-    
-    // passport middleware
+    // passport init
     app.use(passport.initialize());
     app.use(passport.session());
 
-
-    // add a router
+    // routes
     app.use('/', userRouter);
+    //app.use('/admin', adminRouter);
     
     if (process.env.NODE_ENV === 'production') {
         // Serve any static files
@@ -58,6 +65,5 @@ module.exports.init = () => {
             res.sendFile(path.join(__dirname, '../../client/build', 'index.html'));
         });
     }
-
     return app
 }
