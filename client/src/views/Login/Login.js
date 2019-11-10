@@ -19,8 +19,9 @@ class Login extends React.Component {
             method: 'POST',
             body: JSON.stringify(loginData),
             headers: {
-                'Content-Type': 'application/x-www-form-urlencoded'
-            }
+                'Content-Type': 'application/json'
+            },
+            credentials: 'include',
             
         }).then((response) => {
             console.log(response.status)
