@@ -4,6 +4,15 @@
 .login-field label {
     margin-bottom: 3px;
 }
+#login-panel {
+    max-width: 300px;
+}
+.register-text {
+    line-height: 1;
+    margin-top: 20px;
+    margin-bottom: 0;
+    width: 100%;
+}
 /* .login-form {
     display: flex;
     flex-direction: column;

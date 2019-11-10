@@ -37,7 +37,7 @@ class Login extends React.Component {
 
     render() {
         return (
-            <div className='login-panel panel container col-xs-12 col-md-3'>
+            <div className='panel container' id="login-panel">
                 <h2 id="login-header">Welcome back</h2>
                 <form onSubmit={this.handleLogin} method="POST" className="login-form">
                     {
@@ -53,8 +53,9 @@ class Login extends React.Component {
                         <label for="password">Password</label>
                         <input required className={`${this.state.error ? 'is-invalid' : ''} form-control`} type="password" id="password" name="password"></input>
                     </div>
-                    <button className="btn btn-primary">Log in</button>
+                    <button className="col-12 btn btn-primary">Log in</button>                   
                 </form>
+                <p className="register-text text-center">Don't have an account? <a href="/register">Register.</a></p>
             </div>
         );
     }
