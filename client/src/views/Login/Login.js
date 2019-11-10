@@ -24,7 +24,9 @@ class Login extends React.Component {
             credentials: 'include',
             
         }).then((response) => {
-            console.log(response.status)
+            if (response.ok) {
+                window.location = response.url;
+            }
             if (response.status === 302) {
                 console.log('wrong user')
             }
