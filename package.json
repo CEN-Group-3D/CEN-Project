@@ -21,15 +21,25 @@
   "author": "Dakota Rennemann",
   "license": "MIT",
   "dependencies": {
+<<<<<<< HEAD
     "@react-pdf/renderer": "^1.6.7",
+=======
+    "bcryptjs": "^2.4.3",
+>>>>>>> 06114046c38c46ad162d66fc63743a1a81d43d5c
     "body-parser": "^1.19.0",
     "concurrently": "^4.1.0",
     "express": "^4.17.1",
+    "express-session": "^1.17.0",
     "mocha": "^6.2.2",
     "mongoose": "^5.7.7",
     "morgan": "^1.9.1",
     "nodemon": "^1.19.4",
+<<<<<<< HEAD
     "react-pdf": "^4.1.0",
+=======
+    "passport": "^0.4.0",
+    "passport-local": "^1.0.0",
+>>>>>>> 06114046c38c46ad162d66fc63743a1a81d43d5c
     "should": "^13.2.3",
     "supertest": "^4.0.2"
   },

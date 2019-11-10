@@ -4,6 +4,7 @@ import Home from "./views/Home/Home"
 import Login from "./views/Login/Login"
 import Welcome from "./views/Welcome/Welcome"
 import PaymentPlans from "./views/PaymentPlans/PaymentPlans"
+import FormView from "./views/FormView/FormView"
 import UserDashboardView from "./views/UserDashboardView/UserDashboardView"
 import NotFound from "./views/NotFound"
 import AdminDashboardView from "./views/AdminDashboardView/AdminDashboardView"
@@ -22,6 +23,7 @@ const App = () => {
           <Route exact path="/login" component={Login} />
           <Route exact path="/welcome" component={Welcome} />
           <Route exact path="/payments" component={PaymentPlans} />
+          <Route exact path="/form" component={FormView} />
           <Route exact path="/Home" component={Home} />
           <Route exact path="/admin-dashboard" component={AdminDashboardView} />
           <Route exact path="/dashboard" component={UserDashboardView} />
