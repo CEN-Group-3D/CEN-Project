@@ -5,7 +5,9 @@ class Login extends React.Component {
     constructor(props) {
         super(props);
 
-        this.state = {};
+        this.state = {
+            error: false,
+        };
     }
     
     handleLogin = (evt) => {
@@ -24,11 +26,11 @@ class Login extends React.Component {
             credentials: 'include',
             
         }).then((response) => {
+            this.setState({error: false});
             if (response.ok) {
                 window.location = response.url;
-            }
-            if (response.status === 302) {
-                console.log('wrong user')
+            } else {
+                this.setState({error: true});
             }
         })
     }
@@ -38,13 +40,18 @@ class Login extends React.Component {
             <div className='login-panel panel container col-xs-12 col-md-3'>
                 <h2 id="login-header">Welcome back</h2>
                 <form onSubmit={this.handleLogin} method="POST" className="login-form">
-                    <div className="login-field">
+                    {
+                        this.state.error ? 
+                            <div className="alert alert-danger">The email and/or password is incorrect!</div> : 
+                            null
+                    }
+                    <div className="form-group login-field">
                         <label for="username">Email</label>
-                        <input type="text" id="username" name="username"></input>
+                        <input required className={`${this.state.error ? 'is-invalid' : ''} form-control`} type="text" id="username" name="username"></input>
                     </div>
-                    <div className="login-field">
+                    <div className="form-group login-field">
                         <label for="password">Password</label>
-                        <input type="password" id="password" name="password"></input>
+                        <input required className={`${this.state.error ? 'is-invalid' : ''} form-control`} type="password" id="password" name="password"></input>
                     </div>
                     <button className="btn btn-primary">Log in</button>
                 </form>
