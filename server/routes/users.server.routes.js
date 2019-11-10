@@ -1,7 +1,7 @@
 const users = require('../controllers/users.server.controller.js'), 
       express = require('express'),
-      router = express.Router(),
-      { ensureAuthenticated } = require('../config/auth');
+      auth = require('../config/auth'),
+      router = express.Router();
 
 /* login with passport authentication */
 router.route('/login')
@@ -9,23 +9,41 @@ router.route('/login')
 
 /* get all users */
 router.route('/get_users')
-    .get(users.get_users, ensureAuthenticated)
+    .get(users.get_users);
 
 /* user creation and register route */
 router.route('/register')
-    .post(users.register) /* creates a user */
+    .post(users.register); /* creates a user */
 
 /* routes for passing in a userId */
 router.route('/:userId')
-    .get(users.user, ensureAuthenticated)
-    .put(users.update, ensureAuthenticated)
-    .delete(users.delete, ensureAuthenticated);
+    //.get(users.user)
+    .put(users.update)
+    .delete(users.delete);
+
+// user dashboard
+router.route('/dashboard')
+    .get(users.dashboard);
+
+router.route('/home')
+    .get(users.home);
 
 /* logout handler */
-router.route('/logout/:userId')
-    .get(users.logout, ensureAuthenticated)
+router.route('/logout') //TODO make sure only logged in access this
+    .post(users.logout);
 
 // binds user to req object using ID parameter
 router.param('userId', users.userByID);
+
+
+// TODO make this work
+function authMiddleware() {  
+        return (req, res, next) => {
+            console.log(`req.session.passport.user: ${JSON.stringify(req.session.passport)}`);
+
+            if (req.isAuthenticated()) return next();
+            res.redirect('/login')
+        }
+    }
 
 module.exports = router;
