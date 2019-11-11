@@ -10,8 +10,13 @@ class Register extends React.Component {
         };
     }
 
-    checkInput = () => {
+    checkInput = (evt) => {
+        let form = evt.target.form;
 
+        let confirmPasswordInput = form.elements.confirmPassword;
+        let passwordInput = form.elements.password;
+
+        confirmPasswordInput.setCustomValidity(confirmPasswordInput.value !== passwordInput.value ? "Passwords do not match." : "")
     }
 
     handleSubmit = (evt) => {
@@ -23,7 +28,7 @@ class Register extends React.Component {
         return (
             <div className='panel container' id="login-panel">
                 <h2 id="login-header">Create an account</h2>
-                <form onSubmit={this.handleSubmit} method="POST" className="login-form needs-validation" noValidate>
+                <form onInput={this.checkInput} onSubmit={this.handleSubmit} method="POST" className="login-form" noValidate>
                     {/* {
                         this.state.error ? 
                             <div className="alert alert-danger">The email and/or password is incorrect!</div> : 
@@ -49,7 +54,7 @@ class Register extends React.Component {
                     </div>
                     <div className="form-group login-field">
                         <label htmlFor="confirm-password">Confirm password</label>
-                        <input required minLength="6" className="form-control" type="password" id="confirm-password" name="confirm-password"></input>
+                        <input required minLength="6" className="form-control" type="password" id="confirmPassword" name="confirm-password"></input>
                         <div className="invalid-feedback">Please confirm your password.</div>
                     </div>
                     <button className="col-12 btn btn-primary">Register</button>                   
