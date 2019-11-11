@@ -6,8 +6,13 @@ class Register extends React.Component {
         super(props);
 
         this.state = {
-            passwordError: 'Please confirm your password.',
+            passwordError: 'Please provide a valid password.',
+            emailError: 'Please provide a valid email.'
         };
+    }
+
+    checkEmail = (email) => {
+        return /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/.test(email);
     }
 
     checkInput = (evt) => {
@@ -15,6 +20,7 @@ class Register extends React.Component {
 
         let confirmPasswordInput = form.elements.confirmPassword;
         let passwordInput = form.elements.password;
+        let emailInput = form.elements.email;
 
         let passwordMatch = confirmPasswordInput.value === passwordInput.value;
         
@@ -22,13 +28,39 @@ class Register extends React.Component {
         if (!passwordMatch) {
             this.setState({passwordError: 'The passwords do not match.'});
         } else {
-            this.setState({passwordError: 'Please confirm your password'});
+            this.setState({passwordError: 'Please provide a valid password.'});
         }
+
+        let validEmail = this.checkEmail(emailInput.value);
+        emailInput.setCustomValidity(!validEmail ? "Your email is not valid." : "");
+
     }
 
     handleSubmit = (evt) => {
         evt.preventDefault();
         evt.target.classList.add('was-validated');
+
+        let email = evt.target.email.value;
+        let password = evt.target.password.value;
+        let name = evt.target.name.value;
+        
+        let registerData = {name, password, email}
+        
+        fetch('/login', {
+            method: 'POST',
+            body: JSON.stringify(registerData),
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            credentials: 'include',
+            
+        }).then((response) => {
+            if (response.ok) {
+                window.location = response.url;
+            } else {
+                // Handles if user already exists
+            }
+        })
     }
 
     render() {
@@ -49,7 +81,7 @@ class Register extends React.Component {
                     <div className="form-group login-field">
                         <label htmlFor="email">Email</label>
                         <input required className="form-control" type="text" id="email" name="email"></input>
-                        <div className="invalid-feedback">Please provide a valid email.</div>
+                        <div className="invalid-feedback">{this.state.emailError}</div>
                     </div>
                     <div className="form-group login-field">
                         <label htmlFor="password">Password</label>
