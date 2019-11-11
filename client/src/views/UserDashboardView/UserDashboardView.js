@@ -13,6 +13,11 @@ class UserDashboardView extends React.Component {
             method: 'POST',
             body: JSON.stringify({}),
             credentials: 'include',
+        }).then((response) => {
+            console.log(response)
+            if (response.status === 302) {
+                window.location = response.url;
+            }
         })
     }
 
@@ -21,7 +26,7 @@ class UserDashboardView extends React.Component {
             <div className="panel container">
                 <div className="row">
                     <h1>Your files</h1>
-                    <button className="btn btn-outline-primary">Logout</button>
+                    <button onClick={this.handleLogout} className="float-right btn btn-outline-primary">Logout</button>
                 </div>
             </div>
         )
