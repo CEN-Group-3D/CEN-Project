@@ -6,7 +6,7 @@ class Register extends React.Component {
         super(props);
 
         this.state = {
-
+            passwordError: 'Please confirm your password.',
         };
     }
 
@@ -16,7 +16,14 @@ class Register extends React.Component {
         let confirmPasswordInput = form.elements.confirmPassword;
         let passwordInput = form.elements.password;
 
-        confirmPasswordInput.setCustomValidity(confirmPasswordInput.value !== passwordInput.value ? "Passwords do not match." : "")
+        let passwordMatch = confirmPasswordInput.value === passwordInput.value;
+        
+        confirmPasswordInput.setCustomValidity(!passwordMatch ? "Passwords do not match." : "")
+        if (!passwordMatch) {
+            this.setState({passwordError: 'The passwords do not match.'});
+        } else {
+            this.setState({passwordError: 'Please confirm your password'});
+        }
     }
 
     handleSubmit = (evt) => {
@@ -53,9 +60,9 @@ class Register extends React.Component {
                         </small>
                     </div>
                     <div className="form-group login-field">
-                        <label htmlFor="confirm-password">Confirm password</label>
-                        <input required minLength="6" className="form-control" type="password" id="confirmPassword" name="confirm-password"></input>
-                        <div className="invalid-feedback">Please confirm your password.</div>
+                        <label htmlFor="confirmPassword">Confirm password</label>
+                        <input required minLength="6" className="form-control" type="password" id="confirmPassword" name="confirmPassword"></input>
+                    <div className="invalid-feedback">{this.state.passwordError}</div>
                     </div>
                     <button className="col-12 btn btn-primary">Register</button>                   
                 </form>
