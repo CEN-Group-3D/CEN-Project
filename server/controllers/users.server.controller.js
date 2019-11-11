@@ -71,7 +71,7 @@ exports.register = (req, res) => {
             if (user) {
                 // user exists
                 console.log("User already exists")
-                res.status(400).send('User already exists')
+                res.redirect('/register')
             } else {
                 // add user to database and ENCRYPT password
                 var new_user = User(req.body);
