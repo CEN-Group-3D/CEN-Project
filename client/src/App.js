@@ -1,6 +1,7 @@
 import React from 'react';
 import { Route, Switch, Redirect  } from 'react-router-dom';
 import Home from "./views/Home/Home"
+import Register from "./views/Register/Register"
 import Login from "./views/Login/Login"
 import Welcome from "./views/Welcome/Welcome"
 import PaymentPlans from "./views/PaymentPlans/PaymentPlans"
@@ -20,6 +21,7 @@ const App = () => {
       <Header />
       <div id="main-content-panel">
         <Switch>
+          <Route exact path="/register" component={Register} />
           <Route exact path="/login" component={Login} />
           <Route exact path="/welcome" component={Welcome} />
           <Route exact path="/payments" component={PaymentPlans} />
