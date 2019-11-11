@@ -1,9 +1,10 @@
 module.exports = {
-    ensureAuthenticated: (req, res, next) => {
-        if ( req.isAuthenticated() ) {
-            return next();
+    authMiddleware () {  
+        return (req, res, next) => {
+            console.log(`req.session.passport.user: ${JSON.stringify(req.session.passport)}`);
+
+            if (req.isAuthenticated()) return next();
+            res.redirect('/login')
         }
-        console.log('Log in to view resource')
-        req.redirect('/login');
     }
 }
