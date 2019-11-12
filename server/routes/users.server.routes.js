@@ -4,10 +4,7 @@ const users = require('../controllers/users.server.controller.js'),
 
 /* login with passport authentication */
 router.route('/login')
-    .get(users.logged_in)
     .post(users.login);
-
-router.route('/login')
 
 /* get all users */
 router.route('/get_users')
