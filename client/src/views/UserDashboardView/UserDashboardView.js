@@ -1,5 +1,7 @@
 import React from 'react';
 import './UserDashboardView.css';
+import Tabs from '../../components/Tabs/Tabs';
+import UpdateUser from './UpdateUser/UpdateUser';
 
 class UserDashboardView extends React.Component {
     constructor(props) {
@@ -32,6 +34,10 @@ class UserDashboardView extends React.Component {
                         <button onClick={this.handleLogout} className="btn btn-outline-primary">Logout</button>
                     </div>
                 </div>
+                <Tabs
+                    titles={['Documents', 'Profile']}
+                    components={[<div>Documents</div>, <UpdateUser />]}
+                />
             </div>
         )
     }
