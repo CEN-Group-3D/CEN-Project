@@ -21,20 +21,20 @@ class Tabs extends React.Component {
     render() {
         return (
             <React.Fragment>
-                <div className="header">
+                <div id="tabs-header">
                     {this.props.header}
                 </div>
-                <div className="tabs-container">
-                    <div className="tabs-list">
+                <div id="tabs-container">
+                    <div id="tabs-list">
                         <ul>
                             {
                                 this.props.titles.map((value, index) => {
-                                    return <li key={index}><button key={index} className="tab-button" onClick={() => this.handleClick(index)}>{value}</button></li>
+                                    return <li key={index}><button key={index} className="tab-button btn btn-light" onClick={() => this.handleClick(index)}>{value}</button></li>
                                 })
                             }
                         </ul>
                     </div>
-                    <div className="tabs-display">
+                    <div id="tabs-display">
                         { this.props.components[this.state.selectedTab] }
                     </div>
                 </div>

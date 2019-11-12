@@ -1,0 +1,25 @@
+#tabs-container {
+    display: flex;
+    width: 100%;
+}
+#tabs-header {
+    margin-top: 20px;
+}
+#tabs-list {
+    padding-right: 20px;
+}
+#tabs-list ul {
+    border: 1px solid #535353;
+    border-radius: 5px;
+
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+}
+.tab-button {
+    border-radius: 0;
+    width: 100%;
+}
+#tabs-display {
+
+}
