@@ -10,9 +10,26 @@ class UpdateUser extends React.Component {
         }
     }
 
+    handleUpdate = (evt) => {
+        evt.preventDefault();
+    }
+
     render() {
         return (
-            <div></div>
+            <React.Fragment>
+                <form method="PUT" onSubmit={this.handleUpdate} id="update-profile-form">
+                    <h3>Update your Profile</h3>
+                    <div className="form-group login-field">
+                        <label htmlFor="username">Name</label>
+                        <input className="form-control" type="text" id="name" name="name"></input>
+                    </div>
+                    <div className="form-group login-field">
+                        <label htmlFor="username">Email</label>
+                        <input className="form-control" type="text" id="email" name="email"></input>
+                    </div>
+                    <button className="btn btn-primary">Update profile</button>
+                </form>
+            </React.Fragment>
         )
     }
 }
