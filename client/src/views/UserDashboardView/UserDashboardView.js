@@ -38,7 +38,7 @@ class UserDashboardView extends React.Component {
                     <div className="col">
                         <h1 id="dash-title">{this.state.tabTitle}</h1>
                     </div>
-                    <div className="d-flex col-xs-auto align-items-center">
+                    <div id="logout-container" className="d-flex align-items-center">
                         <button onClick={this.handleLogout} className="btn btn-outline-primary">Logout</button>
                     </div>
                 </div>
