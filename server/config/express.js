@@ -15,7 +15,7 @@ module.exports.init = () => {
     // database connection
     mongoose.connect(process.env.DB_URI || require('./config').db.uri, {
         useNewUrlParser: true,
-        useUnifiedTopology: true
+        useUnifiedTopology: false
     })
     .then(() => console.log('MongoDB connected...'))
     .catch(err => console.log(err));
