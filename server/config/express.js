@@ -10,10 +10,12 @@ const path = require('path'),
       passportConf = require('./passport'); // required 
       userRouter = require('../routes/users.server.routes');
 
+var url = process.env.DB_URI;
+
 module.exports.init = () => {
 
     // database connection
-    mongoose.connect(process.env.DB_URI || require('./config').db.uri, {
+    mongoose.connect(url || require('./config').db.uri, {
         useNewUrlParser: true,
         useUnifiedTopology: true
     })
@@ -43,7 +45,7 @@ module.exports.init = () => {
         resave: false, // only update cookie with data change
         saveUninitialized: false, // only create cookie on login
         store: new mongoStore({
-        url: process.env.DB_URI || require('./config').db.uri,
+        url: url || require('./config').db.uri,
         collection: 'sessions'}),
         cookie: {secure: false} // enabled for https
     }));
