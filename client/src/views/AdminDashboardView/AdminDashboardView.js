@@ -14,6 +14,23 @@ class AdminDashboardView extends React.Component {
     tabTitles = ['Users', 'Forms'];
     tabComponents = [<p>hey</p>, <p>Forms</p>];
 
+    componentDidMount() {
+        fetch ('/get_users', {
+            method: 'GET',
+            credentials: 'include',
+        }).then((response) => {
+            if (response.ok) {
+                return response.json()
+            } else {
+                throw new Error('Invalid credentials');
+            }
+        }).then((data) => {
+            console.log(data);
+        }).catch((err) => {
+            console.error(err);
+        })
+    }
+
     handleTabChange = (index, title) => {
         this.setState({tabTitle: title})
     }
