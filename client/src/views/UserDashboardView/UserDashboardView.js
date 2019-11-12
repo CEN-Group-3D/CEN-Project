@@ -12,7 +12,8 @@ class UserDashboardView extends React.Component {
         };
     }
 
-    tabTitles = ['Documents', 'Profile']
+    tabTitles = ['Documents', 'Forms', 'Profile']
+    tabComponents = [<div>Documents</div>, <div>Forms</div>, <UpdateUser />];
 
     handleLogout = () => {
         fetch('/logout', {
@@ -44,7 +45,7 @@ class UserDashboardView extends React.Component {
                 </div>
                 <Tabs
                     titles={this.tabTitles}
-                    components={[<div>Documents</div>, <UpdateUser />]}
+                    components={this.tabComponents}
                     onTabChangeCallback={this.handleTabChange}
                 />
             </div>
