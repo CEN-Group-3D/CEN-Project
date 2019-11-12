@@ -1,6 +1,8 @@
 import React from 'react';
+import UsersList from './UsersList/UsersList';
 import Tabs from '../../components/Tabs/Tabs';
-import './AdminDashboardView.css'
+import User from './User/User';
+import './AdminDashboardView.css';
 
 class AdminDashboardView extends React.Component {
     constructor(props) {
@@ -12,7 +14,8 @@ class AdminDashboardView extends React.Component {
     }
 
     tabTitles = ['Users', 'Forms'];
-    tabComponents = [<p>hey</p>, <p>Forms</p>];
+    users = [];
+    tabComponents = [<UsersList usersList={this.users}/>, <p>Forms</p>];
 
     componentDidMount() {
         fetch ('/get_users', {
@@ -25,7 +28,9 @@ class AdminDashboardView extends React.Component {
                 throw new Error('Invalid credentials');
             }
         }).then((data) => {
-            console.log(data);
+            data.forEach(user => {
+                this.users.push(new User(user.name, user.email, 0));
+            });
         }).catch((err) => {
             console.error(err);
         })
