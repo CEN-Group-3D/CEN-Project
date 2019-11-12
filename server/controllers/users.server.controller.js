@@ -17,11 +17,6 @@ exports.login = (req, res, next) => {
 };
 
 
-exports.logged_in = (req, res) => {
-    console.log('logged in')
-    res.send('it worked')
-};
-
 
 /* user logout */
 exports.logout = (req, res) => {
@@ -29,7 +24,7 @@ exports.logout = (req, res) => {
     console.log('User logging out...')
     req.logout();
     req.session.destroy();
-    res.send('OK');
+    res.send('O');
 };
 
 
