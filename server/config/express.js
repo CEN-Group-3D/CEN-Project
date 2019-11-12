@@ -51,6 +51,8 @@ module.exports.init = () => {
     // passport init
     app.use(passport.initialize());
     app.use(passport.session());
+    
+    // app.use(cors({ origin: 'https://localhost:3000', credentials: true }));
 
     // routes
     app.use('/', userRouter);

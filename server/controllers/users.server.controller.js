@@ -1,21 +1,22 @@
 const User = require('../models/users.server.model.js'),
       passport = require('passport'),
       { check, validationResult } = require('express-validator'),
-      bcrypt = require('bcryptjs');
-const saltRounds = 10;
-
+      bcrypt = require('bcryptjs'),
+      saltRounds = 10;
 
 
 
 /* user login */
 exports.login = (req, res, next) => {
 
-    // calls req.login() automatically on successRedirect
+    // passport.authenticate() calls req.login() automatically on successRedirect
     passport.authenticate('local', {
         successRedirect: '/dashboard',
         failureRedirect: '/login' // sends 302
     }) (req, res, next); 
 };
+
+
 
 /* for GET request after logout button pressed */
 exports.logged_out = (req, res) => {
@@ -40,6 +41,7 @@ exports.logout = (req, res) => {
 
     console.log('User logging out...')
     req.logout();
+    req.session.destroy();
     res.redirect('/login');
 };
 
@@ -54,15 +56,15 @@ exports.register = (req, res) => {
     const {name, email, password, password_confirm} = req.body; // add passwords back into here
 
     // TODO finish validation
-    const checks = [ check(email).isEmail(), 
-        check(name).isLength({ min: 3 }), 
-        check(password).isLength({ min: 6 }) ]; 
+    //const checks = [ check(email).isEmail(), 
+    //    check(name).isLength({ min: 3 }), 
+    //    check(password).isLength({ min: 6 }) ]; 
 
-    const errors = validationResult(checks);
+    //const errors = validationResult(checks);
 
-    if (!errors.isEmpty()) {
-        return res.status(422).json({ errors: errors.array() });
-    }
+    //if (!errors.isEmpty()) {
+    //    return res.status(422).json({ errors: errors.array() });
+    //}
 
     // validation passed, verify user not in database, then save
     User.findOne({email: email})
@@ -105,10 +107,8 @@ exports.register = (req, res) => {
 exports.user = (req, res) => {
 
     /* send back the user as json from the request */
-    console.log('Requested user', JSON.stringify(req.body))
    // console.log(res.user);
-    //console.log(req.isAuthenticated());
-    res.send(req.user);
+    res.send('User info');
 };
 
 
@@ -132,16 +132,16 @@ exports.update = (req, res) => {
 
         // TODO fix validation
         // check passwords are the same if a password was included
-        if (password!==undefined && (password != password_confirm)) {
-            console.log('password do not match')
-            res.status(400).send();
-        }
-        // check pass length if a password was included in the update 
-        else if (password!==undefined && (password.length < 6)) {
-            console.log('passwords needs to be at least 6 characters')
-            res.status(400).send();
-        }
-        else {
+       // if (password!==undefined && (password != password_confirm)) {
+       //     console.log('password do not match')
+       //     res.status(400).send();
+       // }
+       // // check pass length if a password was included in the update 
+       // else if (password!==undefined && (password.length < 6)) {
+       //     console.log('passwords needs to be at least 6 characters')
+       //     res.status(400).send();
+       // }
+       // else {
             // validation passed, verify email is not database
             User.findOne({email: email})
                 .then(user => {
@@ -167,7 +167,7 @@ exports.update = (req, res) => {
                                             throw err;
                                         } else {
                                             //console.log('User updated')
-                                            res.send(updated_user) // only used for testing...not actually looking in database for the change
+                                            res.send('Updated user with new hash')
                                         }
                                     })
                                 })
@@ -179,14 +179,14 @@ exports.update = (req, res) => {
                                     throw err;
                                 } else {
                                     //console.log('User updated')
-                                    res.send(updated_user) // only used for testing...not actually looking in database for the change
+                                    res.send('Updated user') // only used for testing...not actually looking in database for the change
                                 }
                             })
                         }
 
                     }
                 })
-        }
+        //}
     } 
     else {
         console.log('User not updated')
@@ -237,7 +237,6 @@ exports.userByID = (req, res, next, id) => {
             //console.log('No user in database')
             res.status(400).send('No user')
         } else {
-            //console.log(req.user)
             req.user = user;
             //console.log('User found by ID...calling next()')
             next();
