@@ -15,7 +15,7 @@ module.exports.init = () => {
     // database connection
     mongoose.connect(process.env.DB_URI || require('./config').db.uri, {
         useNewUrlParser: true,
-        useUnifiedTopology: false
+        useUnifiedTopology: true
     })
     .then(() => console.log('MongoDB connected...'))
     .catch(err => console.log(err));
@@ -38,15 +38,15 @@ module.exports.init = () => {
     app.use(bodyParser.urlencoded({extended: false}))
 
     // express sessions
-    app.use(session({
-        secret: 'static_random_string',
-        resave: false, // only update cookie with data change
-        saveUninitialized: false, // only create cookie on login
-        store: new mongoStore({
-        url: process.env.DB_URI || require('./config').db.uri,
-        collection: 'sessions'}),
-        cookie: {secure: false} // enabled for https
-    }));
+    //app.use(session({
+    //    secret: 'static_random_string',
+    //    resave: false, // only update cookie with data change
+    //    saveUninitialized: false, // only create cookie on login
+    //    store: new mongoStore({
+    //    url: url || require('./config').db.uri,
+    //    collection: 'sessions'}),
+    //    cookie: {secure: false} // enabled for https
+    //}));
 
     // passport init
     app.use(passport.initialize());
