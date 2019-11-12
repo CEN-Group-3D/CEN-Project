@@ -1,5 +1,4 @@
 import React from 'react';
-import Redirect from 'react';
 import './PaymentPlans.css';
 
 class PaymentPlans extends React.Component {

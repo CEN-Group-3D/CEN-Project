@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import UserEntry from './UserEntry';
 import User from '../User/User';
 
@@ -62,9 +61,5 @@ class UsersList extends React.Component {
             </div>
         )
     }
-}
-
-
-UsersList.propTypes = {
 }
 export default UsersList

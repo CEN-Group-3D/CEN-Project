@@ -13,7 +13,7 @@ class AdminDashboardView extends React.Component {
         };
     }
 
-    tabTitles = ['Users', 'Forms'];
+    tabTitles = ['Users', 'Attorneys', 'Forms'];
 
     
 
@@ -31,7 +31,7 @@ class AdminDashboardView extends React.Component {
                 </div>
                 <Tabs
                     titles={this.tabTitles}
-                    components={[<UsersList />, <p>Forms</p>]}
+                    components={[<UsersList />, <p>Attorneys</p>, <p>Forms</p>]}
                     onTabChangeCallback={this.handleTabChange}
                 />
             </div>
