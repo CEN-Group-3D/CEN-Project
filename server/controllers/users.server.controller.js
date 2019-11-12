@@ -21,7 +21,7 @@ exports.login = (req, res, next) => {
 /* for GET request after logout button pressed */
 exports.logged_out = (req, res) => {
     console.log('login check: GET method!')
-    res.send('GET for /login response');
+    res.send();
 }
 
 
@@ -46,6 +46,12 @@ exports.logout = (req, res) => {
 };
 
 
+
+/* for GET request after logout button pressed */
+exports.register_get = (req, res) => {
+    console.log('login check: GET method!')
+    res.send();
+}
 
 
 

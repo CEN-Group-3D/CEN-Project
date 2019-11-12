@@ -14,6 +14,7 @@ router.route('/get_users')
 
 /* user creation and register route */
 router.route('/register')
+    .get(users.register_get)
     .post(users.register); /* creates a user */
 
 /* routes for passing in a userId */
