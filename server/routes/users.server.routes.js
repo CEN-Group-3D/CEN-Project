@@ -18,7 +18,7 @@ router.route('/register')
 
 /* routes for passing in a userId */
 router.route('/:userId')
-    .get(users.user)
+    //.get(users.user)
     .put(users.update)
     .delete(users.delete);
 
