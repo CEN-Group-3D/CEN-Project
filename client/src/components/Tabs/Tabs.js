@@ -29,7 +29,11 @@ class Tabs extends React.Component {
                         <ul>
                             {
                                 this.props.titles.map((value, index) => {
-                                    return <li key={index}><button key={index} className="tab-button btn btn-light" onClick={() => this.handleClick(index)}>{value}</button></li>
+                                    return (<li key={index}>
+                                                <button key={index} className={`${index === this.state.selectedTab ? 'active' : ''} tab-button btn btn-light`} onClick={() => this.handleClick(index)}>
+                                                    {value}
+                                                </button>
+                                            </li>)
                                 })
                             }
                         </ul>
