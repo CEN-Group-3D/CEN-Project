@@ -46,7 +46,7 @@ class Register extends React.Component {
         
         let registerData = {name, password, email}
         
-        fetch('/login', {
+        fetch('/register', {
             method: 'POST',
             body: JSON.stringify(registerData),
             headers: {
@@ -75,7 +75,7 @@ class Register extends React.Component {
                     } */}
                     <div className="form-group login-field">
                         <label htmlFor="name">Name</label>
-                        <input required placeholder="First and last name" required className="form-control" type="text" id="name" name="name"></input>
+                        <input required placeholder="First and last name" className="form-control" type="text" id="name" name="name"></input>
                         <div className="invalid-feedback">Please provide a first and last name.</div>
                     </div>
                     <div className="form-group login-field">
