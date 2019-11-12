@@ -38,7 +38,7 @@ class UsersList extends React.Component {
     render() {
         return (
             <div>
-                <table className="table">
+                <table className="table table-striped">
                     <thead>
                         <tr>
                             <th scope="col">Name</th>
