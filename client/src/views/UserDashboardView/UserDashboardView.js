@@ -2,7 +2,7 @@
 
 import React, { Component } from 'react';
 import { Document, Page } from 'react-pdf';
-import test from '../../assets/Coping with Grief and Loss.pdf';
+import test from '../../assets/Coping_with_Grief_and_Loss.pdf';
 import { pdfjs } from 'react-pdf';
 import 'react-pdf/dist/Page/AnnotationLayer.css';
 import './UserDashboardView.css';
