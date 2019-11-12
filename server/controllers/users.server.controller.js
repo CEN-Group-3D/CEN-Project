@@ -17,14 +17,12 @@ exports.login = (req, res, next) => {
     }) (req, res, next); 
 };
 
-
-
-// user homepage
-exports.home = (req, res) => {
-    console.log('User home')
-    console.log(req.isAuthenticated());
-    res.send('User home');
+/* for GET request after logout button pressed */
+exports.logged_out = (req, res) => {
+    console.log('login check: GET method!')
+    res.send('GET for /login response');
 }
+
 
 
 // user dashboard
@@ -40,10 +38,11 @@ exports.dashboard = (req, res) => {
 /* user logout */
 exports.logout = (req, res) => {
 
-    console.log('User logout')
+    console.log('User logging out...')
     req.logout();
     res.redirect('/login');
 };
+
 
 
 
