@@ -15,7 +15,7 @@ class UserDashboardView extends React.Component {
             credentials: 'include',
         }).then((response) => {
             console.log(response)
-            if (response.status === 302) {
+            if (response.status === 200) {
                 window.location = response.url;
             }
         })
@@ -24,9 +24,13 @@ class UserDashboardView extends React.Component {
     render() {
         return (
             <div className="panel container">
-                <div className="row">
-                    <h1>Your files</h1>
-                    <button onClick={this.handleLogout} className="float-right btn btn-outline-primary">Logout</button>
+                <div className="row justify-content-between">
+                    <div className="col">
+                        <h1 id="dash-title">Your files</h1>
+                    </div>
+                    <div className="d-flex col-xs-auto align-items-center">
+                        <button onClick={this.handleLogout} className="btn btn-outline-primary">Logout</button>
+                    </div>
                 </div>
             </div>
         )
