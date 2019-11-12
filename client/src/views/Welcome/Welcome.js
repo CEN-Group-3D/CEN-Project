@@ -1,5 +1,4 @@
 import React from 'react';
-import Redirect from 'react';
 import './Welcome.css';
 
 class Welcome extends React.Component {
