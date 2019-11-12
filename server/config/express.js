@@ -43,7 +43,7 @@ module.exports.init = () => {
         resave: false, // only update cookie with data change
         saveUninitialized: false, // only create cookie on login
         store: new mongoStore({
-        url: process.env.DB_URI,
+        mongooseConnection: mongoose.connection,
         collection: 'sessions'}),
         cookie: {secure: false} // enabled for https
     }));
