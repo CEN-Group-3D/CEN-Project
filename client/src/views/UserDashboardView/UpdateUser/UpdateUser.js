@@ -18,7 +18,7 @@ class UpdateUser extends React.Component {
         return (
             <React.Fragment>
                 <form method="PUT" onSubmit={this.handleUpdate} id="update-profile-form">
-                    <h3>Update your Profile</h3>
+                    <h4>Update your Profile</h4>
                     <div className="form-group login-field">
                         <label htmlFor="username">Name</label>
                         <input className="form-control" type="text" id="name" name="name"></input>
