@@ -22,7 +22,7 @@ class UserDashboardView extends React.Component {
             credentials: 'include',
         }).then((response) => {
             if (response.status === 200) {
-                window.location = response.url;
+                window.location = '/login';
             }
         })
     }
