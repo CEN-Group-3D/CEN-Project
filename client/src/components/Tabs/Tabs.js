@@ -55,8 +55,9 @@ class Tabs extends React.Component {
 }
 
 Tabs.propTypes = {
-    titles: PropTypes.arrayOf(PropTypes.string),
-    components: PropTypes.array,
+    titles: PropTypes.arrayOf(PropTypes.string).isRequired,
+    components: PropTypes.array.isRequired,
+    onTabChangeCallback: PropTypes.func,
     header: PropTypes.element,
 }
 
