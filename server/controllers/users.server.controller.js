@@ -17,23 +17,10 @@ exports.login = (req, res, next) => {
 };
 
 
-
-/* for GET request after logout button pressed */
-exports.logged_out = (req, res) => {
-    console.log('login check: GET method!')
-    res.send();
-}
-
-
-
-// user dashboard
-exports.dashboard = (req, res) => {
-
-    console.log('User dashboard')
-    console.log(req.isAuthenticated());
-    res.send('User dashboard');
-}
-
+exports.logged_in = (req, res) => {
+    console.log('logged in')
+    res.send('it worked')
+};
 
 
 /* user logout */
@@ -42,16 +29,9 @@ exports.logout = (req, res) => {
     console.log('User logging out...')
     req.logout();
     req.session.destroy();
-    res.redirect('/login');
+    res.send('OK');
 };
 
-
-
-/* for GET request after logout button pressed */
-exports.register_get = (req, res) => {
-    console.log('login check: GET method!')
-    res.send();
-}
 
 
 
@@ -78,7 +58,7 @@ exports.register = (req, res) => {
             if (user) {
                 // user exists
                 console.log("User already exists")
-                res.redirect('/register')
+                res.status(409).send('Bad Request')
             } else {
                 // add user to database and ENCRYPT password
                 var new_user = User(req.body);
@@ -98,7 +78,7 @@ exports.register = (req, res) => {
                         // save the user
                         new_user.save()
                             .then(user => {
-                                res.redirect('/login');
+                                res.send('User created');
                             })
                             .catch(err => console.log(err))
                     })
@@ -154,7 +134,7 @@ exports.update = (req, res) => {
                     if (user) {
                         // user exists
                         console.log("User already exists")
-                        res.status(400).send(user)
+                        res.status(409).send('Bad Request')
                     } else {
                         // if password was given to be updated, hash it
                         var user = Object.assign(req.user);
