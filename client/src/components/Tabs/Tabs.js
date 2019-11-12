@@ -30,7 +30,14 @@ class Tabs extends React.Component {
                             {
                                 this.props.titles.map((value, index) => {
                                     return (<li key={index}>
-                                                <button key={index} className={`${index === this.state.selectedTab ? 'active' : ''} tab-button btn btn-light`} onClick={() => this.handleClick(index)}>
+                                                <button 
+                                                    key={index} 
+                                                    className={`${index === this.state.selectedTab ? 'active' : ''} 
+                                                                ${index === 0 ? 'first-tab-button' : index === this.props.titles.length - 1 ? 'last-tab-button' : ''}
+                                                                tab-button
+                                                                btn
+                                                                btn-light`}
+                                                    onClick={() => this.handleClick(index)}>
                                                     {value}
                                                 </button>
                                             </li>)
