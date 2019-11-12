@@ -19,26 +19,33 @@ class Tabs extends React.Component {
 
     render() {
         return (
-            <div className="tabs-container">
-                <div>
-                    <ul>
-                        {
-                            this.props.titles.map((value, index) => {
-                                return <li key={index}><button key={index} className="tab-button" onClick={() => this.handleClick(index)}>{value}</button></li>
-                            })
-                        }
-                    </ul>
+            <React.Fragment>
+                <div className="header">
+                    {this.props.header}
                 </div>
-                <div>
-                    { this.props.components[this.state.selectedTab] }
+                <div className="tabs-container">
+                    <div className="tabs-list">
+                        <ul>
+                            {
+                                this.props.titles.map((value, index) => {
+                                    return <li key={index}><button key={index} className="tab-button" onClick={() => this.handleClick(index)}>{value}</button></li>
+                                })
+                            }
+                        </ul>
+                    </div>
+                    <div className="tabs-display">
+                        { this.props.components[this.state.selectedTab] }
+                    </div>
                 </div>
-            </div>
+            </React.Fragment>
         )
     }
 }
 
 Tabs.propTypes = {
     titles: PropTypes.arrayOf(PropTypes.string),
+    components: PropTypes.array,
+    header: PropTypes.element,
 }
 
 export default Tabs;
