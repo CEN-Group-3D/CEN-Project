@@ -6,17 +6,43 @@ import test from '../../assets/Coping_with_Grief_and_Loss.pdf';
 import { pdfjs } from 'react-pdf';
 import 'react-pdf/dist/Page/AnnotationLayer.css';
 import './UserDashboardView.css';
+import Tabs from '../../components/Tabs/Tabs';
+import UpdateUser from './UpdateUser/UpdateUser';
 
 class UserDashboardView extends React.Component {
     constructor(props) {
         super(props);
 
         this.state = {
+
             numPages: null,
             pageNumber: 1,
+            tabTitle: this.tabTitles[0],
         };
 
     pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
+
+    }        
+        
+    
+
+    tabTitles = ['Documents', 'Forms', 'Profile']
+    tabComponents = [<div>Documents</div>, <div>Forms</div>, <UpdateUser />];
+
+    handleLogout = () => {
+        fetch('/logout', {
+            method: 'POST',
+            body: JSON.stringify({}),
+            credentials: 'include',
+        }).then((response) => {
+            if (response.status === 200) {
+                window.location = response.url;
+            }
+        })
+    }
+
+    handleTabChange = (index, title) => {
+        this.setState({tabTitle: title})
     }
 
 render() {
@@ -31,6 +57,20 @@ render() {
               <Page pageNumber={1} />
             </Document>        
              </div>
+                <div className="row justify-content-between">
+                    <div className="col">
+                        <h1 id="dash-title">{this.state.tabTitle}</h1>
+                    </div>
+                    <div id="logout-container" className="d-flex align-items-center">
+                        <button onClick={this.handleLogout} className="btn btn-outline-primary">Logout</button>
+                    </div>
+                </div>
+                <Tabs
+                    titles={this.tabTitles}
+                    components={this.tabComponents}
+                    onTabChangeCallback={this.handleTabChange}
+                />
+            </div>
         )
     }
 }

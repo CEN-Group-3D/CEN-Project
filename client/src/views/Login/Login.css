@@ -1,7 +1,19 @@
 #login-header {
     text-align: center;
 }
-.login-form {
+.login-field label {
+    margin-bottom: 3px;
+}
+#login-panel {
+    max-width: 400px;
+}
+.register-text {
+    line-height: 1;
+    margin-top: 20px;
+    margin-bottom: 0;
+    width: 100%;
+}
+/* .login-form {
     display: flex;
     flex-direction: column;
 }
@@ -14,4 +26,4 @@
     font-size: 12px;
     color: #2c2c2c;
     margin-bottom: 0;
-}
+} */
