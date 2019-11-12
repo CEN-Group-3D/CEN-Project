@@ -1,32 +1,30 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import './Header.css';
 
 const Header = () => {
-    return (<div></div>)
-    // return (
-    //     <div className='topnav'>
-    //         {/* Logo */}
-    //         <Link id="logo-link" to="/">
-    //             <img className="topnav-logo" src={ "/logo192.png" } alt="React logo" />
-    //         </Link>
-
-    //         {/* Page Links */}
-    //         <div className="topnav-right">
-    //             <Link className="topnav-link" to='/Register'>Sign in</Link>
-    //             <Link className="topnav-link" to='/projects'>Projects</Link>
-    //             <a className="topnav-link" target='_blank' rel="noopener noreferrer" href="https://www.facebook.com/groups/ufosc/events/?source=4&action_history=null&filter=calendar">
-    //                 Events
-    //                 <i className="fas fa-external-link-alt external-link" data-fa-transform="up-6"></i>
-    //             </a>
-    //             <a className="topnav-link" target='_blank' rel="noopener noreferrer" href="https://github.com/ufosc/club-resources">
-    //                 Resources
-    //                 <i className="fas fa-external-link-alt external-link" data-fa-transform="up-6 right-4"></i>
-    //             </a>
-    //             <Link className="topnav-link" to="/about">About</Link>
-    //         </div>
-    //     </div>
-    // )
+    return (
+        <nav className="navbar navbar-light navbar-expand-xl">
+            <ul className="navbar-nav">
+                <li>
+                    <a className="navbar-brand" href="#">Logo</a>
+                </li>
+                <li className="nav-item active">
+                    <a className="nav-link" href="/home">Home</a>
+                </li>
+                <li className="nav-item">
+                    <a className="nav-link" href="/about">About</a>
+                </li>
+            </ul>
+            <ul className="navbar-nav navbar-right navbar-buttons">
+                <li>
+                    <a href="/login" className="btn btn-outline-primary">Login</a>
+                </li>
+                <li>
+                    <a href="/register" className="btn btn-primary">Sign up</a>
+                </li>
+            </ul>
+        </nav>
+    )   
 }
 
 export default Header;

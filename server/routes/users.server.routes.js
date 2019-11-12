@@ -1,6 +1,5 @@
 const users = require('../controllers/users.server.controller.js'), 
       express = require('express'),
-      auth = require('../config/auth'),
       router = express.Router();
 
 /* login with passport authentication */
@@ -23,27 +22,9 @@ router.route('/:userId')
 
 // user dashboard
 router.route('/dashboard')
-    .get(users.dashboard);
-
-router.route('/home')
-    .get(users.home);
-
-/* logout handler */
-router.route('/logout') //TODO make sure only logged in access this
-    .post(users.logout);
+    .post(users.logout)
 
 // binds user to req object using ID parameter
 router.param('userId', users.userByID);
-
-
-// TODO make this work
-function authMiddleware() {  
-        return (req, res, next) => {
-            console.log(`req.session.passport.user: ${JSON.stringify(req.session.passport)}`);
-
-            if (req.isAuthenticated()) return next();
-            res.redirect('/login')
-        }
-    }
 
 module.exports = router;

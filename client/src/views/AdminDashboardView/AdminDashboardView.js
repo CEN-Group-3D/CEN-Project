@@ -1,32 +1,39 @@
 import React from 'react';
+import UsersList from './UsersList/UsersList';
 import Tabs from '../../components/Tabs/Tabs';
-import './AdminDashboardView.css'
+import './AdminDashboardView.css';
 
 class AdminDashboardView extends React.Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            selectedTab: 0,
+            tabTitle: this.tabTitles[0],
+            usersList: [],
         };
     }
 
-    tabComponents = [<p>hey</p>, <p>hello</p>]
+    tabTitles = ['Users', 'Attorneys', 'Forms'];
 
-    displayNewTab = (index) => {
-        this.setState({
-            selectedTab: index,
-        })
+    
+
+    handleTabChange = (index, title) => {
+        this.setState({tabTitle: title})
     }
 
     render() {
         return (
             <div className="panel container">
+                <div className="row">
+                    <div className="col">
+                        <h1>{this.state.tabTitle}</h1>
+                    </div>
+                </div>
                 <Tabs
-                    titles={['Users', 'Forms']}
-                    handleTabChangeCallback={this.displayNewTab}
+                    titles={this.tabTitles}
+                    components={[<UsersList />, <p>Attorneys</p>, <p>Forms</p>]}
+                    onTabChangeCallback={this.handleTabChange}
                 />
-                { this.tabComponents[this.state.selectedTab] }
             </div>
         )
     }

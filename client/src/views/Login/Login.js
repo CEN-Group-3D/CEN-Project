@@ -5,24 +5,57 @@ class Login extends React.Component {
     constructor(props) {
         super(props);
 
-        this.state = {};
+        this.state = {
+            error: false,
+        };
     }
     
+    handleLogin = (evt) => {
+        evt.preventDefault();
+        let username = evt.target.username.value;
+        let password = evt.target.password.value;
+        
+        let loginData = {username, password}
+        
+        fetch('/login', {
+            method: 'POST',
+            body: JSON.stringify(loginData),
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            credentials: 'include',
+            
+        }).then((response) => {
+            this.setState({error: false});
+            if (response.ok) {
+                window.location = '/dashboard';
+            } else {
+                this.setState({error: true});
+            }
+        })
+    }
+
     render() {
         return (
-            <div className='login-panel panel container col-xs-12 col-md-3'>
+            <div className='panel container' id="login-panel">
                 <h2 id="login-header">Welcome back</h2>
-                <form className="login-form">
-                    <div className="login-field">
-                        <label for="username">Username</label>
-                        <input type="text" id="username" name="username"></input>
+                <form onSubmit={this.handleLogin} method="POST" className="login-form">
+                    {
+                        this.state.error ? 
+                            <div className="alert alert-danger">The email and/or password is incorrect!</div> : 
+                            null
+                    }
+                    <div className="form-group login-field">
+                        <label for="username">Email</label>
+                        <input required className={`${this.state.error ? 'is-invalid' : ''} form-control`} type="text" id="username" name="username"></input>
                     </div>
-                    <div className="login-field">
+                    <div className="form-group login-field">
                         <label for="password">Password</label>
-                        <input type="password" id="password" name="password"></input>
+                        <input required className={`${this.state.error ? 'is-invalid' : ''} form-control`} type="password" id="password" name="password"></input>
                     </div>
-                    <button className="btn btn-primary">Log in</button>
+                    <button className="col-12 btn btn-primary">Log in</button>                   
                 </form>
+                <p className="register-text text-center">Don't have an account? <a href="/register">Register.</a></p>
             </div>
         );
     }
