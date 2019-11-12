@@ -5,17 +5,15 @@ const path = require('path'),
       bodyParser = require('body-parser'),
       cookieParser = require('cookie-parser'),
       session = require('express-session'),
-      mongoStore = require('connect-mongo') (session),
+      mongoStore = require('connect-mongo')(session),
       passport = require('passport'),
       passportConf = require('./passport'); // required 
       userRouter = require('../routes/users.server.routes');
 
-var url = process.env.DB_URI;
-
 module.exports.init = () => {
 
     // database connection
-    mongoose.connect(url || require('./config').db.uri, {
+    mongoose.connect(process.env.DB_URI || require('./config').db.uri, {
         useNewUrlParser: true,
         useUnifiedTopology: true
     })
@@ -45,7 +43,7 @@ module.exports.init = () => {
         resave: false, // only update cookie with data change
         saveUninitialized: false, // only create cookie on login
         store: new mongoStore({
-        url: url || require('./config').db.uri,
+        mongooseConnection: mongoose.connection,
         collection: 'sessions'}),
         cookie: {secure: false} // enabled for https
     }));
@@ -53,6 +51,8 @@ module.exports.init = () => {
     // passport init
     app.use(passport.initialize());
     app.use(passport.session());
+    
+    // app.use(cors({ origin: 'https://localhost:3000', credentials: true }));
 
     // routes
     app.use('/', userRouter);
