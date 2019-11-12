@@ -15,6 +15,7 @@ class Tabs extends React.Component {
         this.setState({
             selectedTab: index,
         })
+        this.props.onTabChangeCallback(index, this.props.titles[index])
     }
 
     render() {

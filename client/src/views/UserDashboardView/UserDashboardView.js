@@ -23,6 +23,10 @@ class UserDashboardView extends React.Component {
         })
     }
 
+    handleTabChange = (index, title) => {
+        console.log(title);
+    }
+
     render() {
         return (
             <div className="panel container">
@@ -37,6 +41,7 @@ class UserDashboardView extends React.Component {
                 <Tabs
                     titles={['Documents', 'Profile']}
                     components={[<div>Documents</div>, <UpdateUser />]}
+                    onTabChangeCallback={this.handleTabChange}
                 />
             </div>
         )
