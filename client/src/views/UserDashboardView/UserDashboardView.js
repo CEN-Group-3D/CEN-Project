@@ -7,8 +7,12 @@ class UserDashboardView extends React.Component {
     constructor(props) {
         super(props);
 
-        this.state = {};
+        this.state = {
+            tabTitle: this.tabTitles[0]
+        };
     }
+
+    tabTitles = ['Documents', 'Profile']
 
     handleLogout = () => {
         fetch('/logout', {
@@ -24,7 +28,7 @@ class UserDashboardView extends React.Component {
     }
 
     handleTabChange = (index, title) => {
-        console.log(title);
+        this.setState({tabTitle: title})
     }
 
     render() {
@@ -32,14 +36,14 @@ class UserDashboardView extends React.Component {
             <div className="panel container">
                 <div className="row justify-content-between">
                     <div className="col">
-                        <h1 id="dash-title">Your files</h1>
+                        <h1 id="dash-title">{this.state.tabTitle}</h1>
                     </div>
                     <div className="d-flex col-xs-auto align-items-center">
                         <button onClick={this.handleLogout} className="btn btn-outline-primary">Logout</button>
                     </div>
                 </div>
                 <Tabs
-                    titles={['Documents', 'Profile']}
+                    titles={this.tabTitles}
                     components={[<div>Documents</div>, <UpdateUser />]}
                     onTabChangeCallback={this.handleTabChange}
                 />
