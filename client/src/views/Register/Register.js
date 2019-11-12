@@ -57,7 +57,8 @@ class Register extends React.Component {
         }).then((response) => {
             if (response.ok) {
                 window.location = response.url;
-            } else {
+            } else if (response.status === 409) {
+                console.log('user already exists')
                 // Handles if user already exists
             }
         })

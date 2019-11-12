@@ -21,7 +21,6 @@ class UserDashboardView extends React.Component {
             body: JSON.stringify({}),
             credentials: 'include',
         }).then((response) => {
-            console.log(response)
             if (response.status === 200) {
                 window.location = response.url;
             }
