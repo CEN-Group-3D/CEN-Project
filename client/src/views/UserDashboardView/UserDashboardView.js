@@ -8,10 +8,26 @@ class UserDashboardView extends React.Component {
         this.state = {};
     }
 
+    handleLogout = () => {
+        fetch('/logout', {
+            method: 'POST',
+            body: JSON.stringify({}),
+            credentials: 'include',
+        }).then((response) => {
+            console.log(response)
+            if (response.status === 302) {
+                window.location = response.url;
+            }
+        })
+    }
+
     render() {
         return (
             <div className="panel container">
-                <h1>Your files</h1>
+                <div className="row">
+                    <h1>Your files</h1>
+                    <button onClick={this.handleLogout} className="float-right btn btn-outline-primary">Logout</button>
+                </div>
             </div>
         )
     }
