@@ -7,22 +7,24 @@ class AdminDashboardView extends React.Component {
         super(props);
 
         this.state = {
-            selectedTab: 0,
+            tabTitle: this.tabTitles[0],
         };
     }
 
-    displayNewTab = (index) => {
-        this.setState({
-            selectedTab: index,
-        })
+    tabTitles = ['Users', 'Forms'];
+    tabComponents = [<p>hey</p>, <p>Forms</p>];
+
+    handleTabChange = (index, title) => {
+        this.setState({tabTitle: title})
     }
 
     render() {
         return (
             <div className="panel container">
                 <Tabs
-                    titles={['Users', 'Forms']}
-                    components={[<p>hey</p>, <p>hello</p>]}
+                    titles={this.tabTitles}
+                    components={this.tabComponents}
+                    onTabChangeCallback={this.handleTabChange}
                 />
             </div>
         )
