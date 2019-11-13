@@ -28,7 +28,7 @@ class Login extends React.Component {
         }).then((response) => {
             this.setState({error: false});
             if (response.ok) {
-                window.location = response.url;
+                window.location = '/dashboard';
             } else {
                 this.setState({error: true});
             }

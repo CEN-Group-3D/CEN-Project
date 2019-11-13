@@ -30,7 +30,7 @@ const App = () => {
           <Route exact path="/admin-dashboard" component={AdminDashboardView} />
           <Route exact path="/dashboard" component={UserDashboardView} />
           <Route exact path="/">
-            <Redirect to="/Home" />
+            <Redirect to="/home" />
           </Route>
           <Route component={NotFound}/>
         </Switch>

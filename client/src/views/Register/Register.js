@@ -53,13 +53,16 @@ class Register extends React.Component {
                 'Content-Type': 'application/json'
             },
             credentials: 'include',
-            
         }).then((response) => {
+            console.log(response);
             if (response.ok) {
-                window.location = response.url;
-            } else {
+                window.location = '/login';
+            } else if (response.status === 409) {
+                console.log('user already exists')
                 // Handles if user already exists
             }
+        }).catch((err) => {
+            console.error(err);
         })
     }
 
