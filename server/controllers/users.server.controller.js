@@ -24,7 +24,7 @@ exports.logout = (req, res) => {
     console.log('User logging out...')
     req.logout();
     req.session.destroy();
-    res.send('O');
+    res.send('OK');
 };
 
 
