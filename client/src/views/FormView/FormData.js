@@ -1823,7 +1823,7 @@ export let survivorAndBeneficiary = {
 
 
 export let Assets = {
-    title: "Survivor and Beneficiary",
+    title: "Assets",
     fields: [
         {
             label: "First Name of Spouse",
