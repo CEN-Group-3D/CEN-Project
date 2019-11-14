@@ -14,33 +14,43 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 require('./App.css')
 
-let isLoggedIn = false;
-let handleSuccessfulLogin = () => {
-  isLoggedIn = true;
-} 
+class App extends React.Component {
+  constructor(props) {
+    super(props)
+    
+    this.state = {
+      isLoggedIn: false,
+    }
+  }
+  
+  handleSuccessfulLogin = () => {
+    console.log('is logged in')
+    this.setState({isLoggedIn: true});
+  } 
 
-const App = () => {
-  return (
-    <div>
-      <Header dynamicContent={isLoggedIn}/>
-      <div id="main-content-panel">
-        <Switch>
-          <Route exact path="/register" component={Register} />
-          <Route exact path="/login" render={(props) => <Login onSuccessfulLogin={handleSuccessfulLogin} />} />
-          <Route exact path="/welcome" component={Welcome} />
-          <Route exact path="/payments" component={PaymentPlans} />
-          <Route exact path="/form" component={FormView} />
-          <Route exact path="/home" component={Home} />
-          <Route exact path="/admin_dashboard" component={AdminDashboardView} />
-          <Route exact path="/dashboard" component={UserDashboardView} />
-          <Route exact path="/">
-            <Redirect to="/home" />
-          </Route>
-          <Route component={NotFound}/>
-        </Switch>
+  render() {
+    return (
+      <div>
+        <Header dynamicContent={this.state.isLoggedIn}/>
+        <div id="main-content-panel">
+          <Switch>
+            <Route exact path="/register" component={Register} />
+            <Route exact path="/login" render={(props) => <Login onSuccessfulLogin={this.handleSuccessfulLogin} />} />
+            <Route exact path="/welcome" component={Welcome} />
+            <Route exact path="/payments" component={PaymentPlans} />
+            <Route exact path="/form" component={FormView} />
+            <Route exact path="/home" component={Home} />
+            <Route exact path="/admin_dashboard" component={AdminDashboardView} />
+            <Route exact path="/dashboard" component={UserDashboardView} />
+            <Route exact path="/">
+              <Redirect to="/home" />
+            </Route>
+            <Route component={NotFound}/>
+          </Switch>
+        </div>
       </div>
-    </div>
-  );
+    );
+  }
 }
 
 export default App;
