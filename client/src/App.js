@@ -27,7 +27,7 @@ const App = () => {
           <Route exact path="/payments" component={PaymentPlans} />
           <Route exact path="/form" component={FormView} />
           <Route exact path="/home" component={Home} />
-          <Route exact path="/admin-dashboard" component={AdminDashboardView} />
+          <Route exact path="/admin_dashboard" component={AdminDashboardView} />
           <Route exact path="/dashboard" component={UserDashboardView} />
           <Route exact path="/">
             <Redirect to="/home" />
