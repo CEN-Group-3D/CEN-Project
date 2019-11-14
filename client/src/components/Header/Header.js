@@ -1,11 +1,16 @@
 import React from 'react';
+import Cookies from 'universal-cookie'
 import './Header.css';
+
+const cookies = new Cookies();
 
 class Header extends React.Component {
     constructor(props) {
         super(props);
 
-        this.state = {};
+        this.state = {
+            isLoggedIn: cookies.get('loggedIn'),
+        };
     }
 
     render() {
@@ -22,7 +27,7 @@ class Header extends React.Component {
                         <a className="nav-link" href="/about">About</a>
                     </li>
                 </ul>
-                { !this.props.isLoggedIn ? 
+                { !this.state.isLoggedIn ? 
                     <ul className="navbar-nav navbar-right navbar-buttons">
                         <li>
                             <a href="/login" className="btn btn-outline-primary">Login</a>

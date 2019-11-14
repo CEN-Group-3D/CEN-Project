@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route, Switch, Redirect  } from 'react-router-dom';
+import { Route, Switch, Redirect, BrowserRouter as Router} from 'react-router-dom';
 import Home from "./views/Home/Home"
 import Register from "./views/Register/Register"
 import Login from "./views/Login/Login"
@@ -17,11 +17,7 @@ require('./App.css')
 class App extends React.Component {
   constructor(props) {
     super(props)
-    
-    this.state = {
-      isLoggedIn: false,
-    }
-  }
+      }
   
   handleSuccessfulLogin = () => {
     console.log('is logged in')
@@ -31,22 +27,24 @@ class App extends React.Component {
   render() {
     return (
       <div>
-        <Header isLoggedIn={this.state.isLoggedIn}/>
+        <Header/>
         <div id="main-content-panel">
-          <Switch>
-            <Route exact path="/register" component={Register} />
-            <Route exact path="/login" render={(props) => <Login onSuccessfulLogin={this.handleSuccessfulLogin} />} />
-            <Route exact path="/welcome" component={Welcome} />
-            <Route exact path="/payments" component={PaymentPlans} />
-            <Route exact path="/form" component={FormView} />
-            <Route exact path="/home" component={Home} />
-            <Route exact path="/admin_dashboard" component={AdminDashboardView} />
-            <Route exact path="/dashboard" component={UserDashboardView} />
-            <Route exact path="/">
-              <Redirect to="/home" />
-            </Route>
-            <Route component={NotFound}/>
-          </Switch>
+          <Router>
+            <Switch>
+              <Route exact path="/register" component={Register} />
+              <Route exact path="/login" component={Login} />
+              <Route exact path="/welcome" component={Welcome} />
+              <Route exact path="/payments" component={PaymentPlans} />
+              <Route exact path="/form" component={FormView} />
+              <Route exact path="/home" component={Home} />
+              <Route exact path="/admin_dashboard" component={AdminDashboardView} />
+              <Route exact path="/dashboard" component={UserDashboardView} />
+              <Route exact path="/">
+                <Redirect to="/home" />
+              </Route>
+              <Route component={NotFound}/>
+            </Switch>
+          </Router>
         </div>
       </div>
     );
