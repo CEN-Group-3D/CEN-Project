@@ -14,15 +14,19 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 require('./App.css')
 
+let isLoggedIn = false;
+let handleSuccessfulLogin = () => {
+  isLoggedIn = true;
+} 
 
 const App = () => {
   return (
     <div>
-      <Header dynamicContent={true}/>
+      <Header dynamicContent={isLoggedIn}/>
       <div id="main-content-panel">
         <Switch>
           <Route exact path="/register" component={Register} />
-          <Route exact path="/login" component={Login} />
+          <Route exact path="/login" render={(props) => <Login onSuccessfulLogin={handleSuccessfulLogin} />} />
           <Route exact path="/welcome" component={Welcome} />
           <Route exact path="/payments" component={PaymentPlans} />
           <Route exact path="/form" component={FormView} />

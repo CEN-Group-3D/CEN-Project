@@ -28,6 +28,7 @@ class Login extends React.Component {
         }).then((response) => {
             this.setState({error: false});
             if (response.ok) {
+                this.props.onSuccessfulLogin();
                 window.location = '/dashboard';
             } else {
                 this.setState({error: true});
@@ -46,11 +47,11 @@ class Login extends React.Component {
                             null
                     }
                     <div className="form-group login-field">
-                        <label for="username">Email</label>
+                        <label s="username">Email</label>
                         <input required className={`${this.state.error ? 'is-invalid' : ''} form-control`} type="text" id="username" name="username"></input>
                     </div>
                     <div className="form-group login-field">
-                        <label for="password">Password</label>
+                        <label s="password">Password</label>
                         <input required className={`${this.state.error ? 'is-invalid' : ''} form-control`} type="password" id="password" name="password"></input>
                     </div>
                     <button className="col-12 btn btn-primary">Log in</button>                   
