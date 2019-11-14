@@ -9,10 +9,24 @@ const User = require('../models/users.server.model.js'),
 /* user login */
 exports.login = (req, res, next) => {
 
-    // passport.authenticate() calls req.login() automatically on successRedirect
-    passport.authenticate('local', {
-        successRedirect: '/dashboard',
-        failureRedirect: '/login' // sends 302
+    passport.authenticate('local', (err, user, info) => {
+
+        if (err) {
+            return next(err)
+        }
+
+        if (!user) {
+            res.status(409).send('Bad Request');
+        }
+        else {
+            req.login(user, (err) => {
+            if (err) 
+                { 
+                    return next(err); 
+                }
+            });
+            res.send();
+        }
     }) (req, res, next); 
 };
 
