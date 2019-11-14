@@ -30,7 +30,7 @@ class Login extends React.Component {
             if (response.ok) {
                 console.log('test')
                 this.props.onSuccessfulLogin();
-                //window.location = '/dashboard';
+                window.location = '/dashboard';
             } else {
                 this.setState({error: true});
             }

@@ -31,7 +31,7 @@ class App extends React.Component {
   render() {
     return (
       <div>
-        <Header dynamicContent={this.state.isLoggedIn}/>
+        <Header isLoggedIn={this.state.isLoggedIn}/>
         <div id="main-content-panel">
           <Switch>
             <Route exact path="/register" component={Register} />
