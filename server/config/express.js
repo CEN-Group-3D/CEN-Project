@@ -8,6 +8,7 @@ const path = require('path'),
       mongoStore = require('connect-mongo')(session),
       passport = require('passport'),
       passportConf = require('./passport'); // required 
+      adminRouter = require('../routes/admin.server.routes'),
       userRouter = require('../routes/users.server.routes');
 
 module.exports.init = () => {
@@ -55,8 +56,9 @@ module.exports.init = () => {
     // app.use(cors({ origin: 'https://localhost:3000', credentials: true }));
 
     // routes
-    app.use('/', userRouter);
-    //app.use('/admin', adminRouter);
+    app.use('/', mainRouter)
+    app.use('/user', userRouter);
+    app.use('/admin', adminRouter);
     
     if (process.env.NODE_ENV === 'production') {
 
