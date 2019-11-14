@@ -18,7 +18,7 @@ require('./App.css')
 const App = () => {
   return (
     <div>
-      <Header />
+      <Header dynamicContent={true}/>
       <div id="main-content-panel">
         <Switch>
           <Route exact path="/register" component={Register} />
