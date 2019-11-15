@@ -1,12 +1,15 @@
 #tabs-container {
     display: flex;
     width: 100%;
+    margin-top: 20px;
 }
 #tabs-header {
     margin-top: 20px;
 }
 #tabs-list {
+    margin-left: 20px;
     padding-right: 20px;
+    
 }
 #tabs-list ul {
     border: 1px solid #b6b6b6;

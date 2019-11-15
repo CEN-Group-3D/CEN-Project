@@ -2,7 +2,7 @@
 
 import React, { Component } from 'react';
 import { Document, Page } from 'react-pdf';
-import test from '../../assets/Coping_with_Grief_and_Loss.pdf';
+import test from '../../assets/Coping with Grief and Loss.pdf';
 import { pdfjs } from 'react-pdf';
 import 'react-pdf/dist/Page/AnnotationLayer.css';
 import './UserDashboardView.css';
@@ -14,20 +14,27 @@ class UserDashboardView extends React.Component {
         super(props);
 
         this.state = {
-
             numPages: null,
             pageNumber: 1,
-            tabTitle: this.tabTitles[0],
+            tabTitle: this.tabTitles[0]
         };
 
     pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
-
-    }        
-        
-    
+    }
 
     tabTitles = ['Documents', 'Forms', 'Profile']
-    tabComponents = [<div>Documents</div>, <div>Forms</div>, <UpdateUser />];
+    tabComponents =[<div id="user-docs">
+                        <Document
+                            file={test}
+                            onLoadSuccess={this.onDocumentLoadSuccess}
+                        >
+                            <Page pageNumber={1} />
+                        </Document>
+                    </div>,
+
+                    <div>Forms</div>, 
+
+                    <UpdateUser />];
 
     handleLogout = () => {
         fetch('/logout', {
@@ -36,27 +43,20 @@ class UserDashboardView extends React.Component {
             credentials: 'include',
         }).then((response) => {
             if (response.status === 200) {
-                window.location = response.url;
+                window.location = '/login';
             }
         })
     }
 
     handleTabChange = (index, title) => {
         this.setState({tabTitle: title})
+
     }
 
 render() {
 
         return (
             <div className="panel container">
-                <h1>Your files</h1>
-            <Document
-              file={test}
-              onLoadSuccess={this.onDocumentLoadSuccess}
-            >
-              <Page pageNumber={1} />
-            </Document>        
-             </div>
                 <div className="row justify-content-between">
                     <div className="col">
                         <h1 id="dash-title">{this.state.tabTitle}</h1>
@@ -64,13 +64,14 @@ render() {
                     <div id="logout-container" className="d-flex align-items-center">
                         <button onClick={this.handleLogout} className="btn btn-outline-primary">Logout</button>
                     </div>
+                    <Tabs
+                        titles={this.tabTitles}
+                        components={this.tabComponents}
+                        onTabChangeCallback={this.handleTabChange}
+                    />
                 </div>
-                <Tabs
-                    titles={this.tabTitles}
-                    components={this.tabComponents}
-                    onTabChangeCallback={this.handleTabChange}
-                />
             </div>
+
         )
     }
 }
