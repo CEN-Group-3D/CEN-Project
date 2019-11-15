@@ -1,7 +1,6 @@
 //PDF reader taken from https://www.npmjs.com/package/react-pdf#browserify-and-others
 
 import React, { Component } from 'react';
-import Cookies from 'universal-cookie'
 import { Document, Page } from 'react-pdf';
 import test from '../../assets/Coping with Grief and Loss.pdf';
 import { pdfjs } from 'react-pdf';
@@ -10,7 +9,6 @@ import './UserDashboardView.css';
 import Tabs from '../../components/Tabs/Tabs';
 import UpdateUser from './UpdateUser/UpdateUser';
 
-const cookies = new Cookies();
 
 class UserDashboardView extends React.Component {
     constructor(props) {
@@ -46,7 +44,6 @@ class UserDashboardView extends React.Component {
             credentials: 'include',
         }).then((response) => {
             if (response.status === 200) {
-                cookies.set('loggedIn', false, {path: '/'})
                 window.location = '/login';
             }
         })

@@ -1,8 +1,6 @@
 import React from 'react';
-import Cookies from 'universal-cookie'
 import './Login.css';
 
-const cookies = new Cookies();
 
 class Login extends React.Component {
     constructor(props) {
@@ -31,7 +29,6 @@ class Login extends React.Component {
         }).then((response) => {
             this.setState({error: false});
             if (response.ok) {
-                cookies.set('loggedIn', true, {path: '/'})
                 window.location = '/dashboard';
             } else {
                 this.setState({error: true});

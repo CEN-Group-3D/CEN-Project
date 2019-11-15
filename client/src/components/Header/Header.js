@@ -1,15 +1,13 @@
 import React from 'react';
-import Cookies from 'universal-cookie'
 import './Header.css';
 
-const cookies = new Cookies();
 
 class Header extends React.Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            isLoggedIn: cookies.get('loggedIn'),
+            isLoggedIn: false,
         };
     }
 
