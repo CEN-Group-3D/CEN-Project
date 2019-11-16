@@ -47,6 +47,7 @@ class UserDashboardView extends React.Component {
             credentials: 'include',
         }).then((response) => {
             if (response.status === 200) {
+                this.props.onSuccessfulLogout();
                 window.location = '/login';
             }
         })
