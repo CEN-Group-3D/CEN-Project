@@ -1,4 +1,7 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { onSuccessfulLogin } from '../../actions/authActions';
 import './Login.css';
 
 
@@ -29,6 +32,7 @@ class Login extends React.Component {
         }).then((response) => {
             this.setState({error: false});
             if (response.ok) {
+                this.props.onSuccessfulLogin();
                 window.location = '/dashboard';
             } else {
                 this.setState({error: true});
@@ -62,4 +66,8 @@ class Login extends React.Component {
     }
 }
 
-export default Login;
+Login.propTypes = {
+    onSuccessfulLogin: PropTypes.func.isRequired,
+};
+
+export default connect(null, { onSuccessfulLogin })(Login);

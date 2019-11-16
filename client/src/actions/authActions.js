@@ -1,12 +1,12 @@
 import { LOGIN, LOGOUT } from './types';
 
-export const successfulLogin = () => dispatch => {
+export const onSuccessfulLogin = () => dispatch => {
     dispatch({
         type: LOGIN,
     })
 }
 
-export const successfulLogout = () => dispatch => {
+export const onSuccessfulLogout = () => dispatch => {
     dispatch({
         type: LOGOUT,
     })

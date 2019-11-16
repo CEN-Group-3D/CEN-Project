@@ -1,7 +1,10 @@
 //PDF reader taken from https://www.npmjs.com/package/react-pdf#browserify-and-others
 
-import React, { Component } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import { Document, Page } from 'react-pdf';
+import { connect } from 'react-redux';
+import { onSuccessfulLogout } from '../../actions/authActions';
 import test from '../../assets/Coping with Grief and Loss.pdf';
 import { pdfjs } from 'react-pdf';
 import 'react-pdf/dist/Page/AnnotationLayer.css';
@@ -76,4 +79,9 @@ render() {
         )
     }
 }
-export default UserDashboardView;
+
+UserDashboardView.propTypes = {
+    onSuccessfulLogout: PropTypes.func.isRequired,
+}
+
+export default connect(null, { onSuccessfulLogout })(UserDashboardView);
