@@ -16,13 +16,8 @@ require('./App.css')
 
 class App extends React.Component {
   constructor(props) {
-    super(props)
-      }
-  
-  handleSuccessfulLogin = () => {
-    console.log('is logged in')
-    this.setState({isLoggedIn: true});
-  } 
+    super(props);
+  }
 
   render() {
     return (
