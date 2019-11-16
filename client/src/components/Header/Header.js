@@ -1,16 +1,11 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import './Header.css';
 
 
 class Header extends React.Component {
-    constructor(props) {
-        super(props);
-
-        this.state = {
-            isLoggedIn: false,
-        };
-    }
-
+    
     render() {
         return (
             <nav className="navbar navbar-light navbar-expand-xl">
@@ -25,7 +20,7 @@ class Header extends React.Component {
                         <a className="nav-link" href="/about">About</a>
                     </li>
                 </ul>
-                { !this.state.isLoggedIn ? 
+                { !this.props.isLoggedIn ? 
                     <ul className="navbar-nav navbar-right navbar-buttons">
                         <li>
                             <a href="/login" className="btn btn-outline-primary">Login</a>
@@ -42,4 +37,12 @@ class Header extends React.Component {
     }
 }
 
-export default Header;
+Header.propTypes = {
+    isLoggedIn: PropTypes.bool.isRequired,
+}
+
+const mapStateToProps = state => ({
+    isLoggedIn: state.isLoggedIn,
+});
+
+export default connect(mapStateToProps, {})(Header);
