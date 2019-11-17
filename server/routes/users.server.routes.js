@@ -20,8 +20,8 @@ router.route('/:userId')
     .put(users.update)
     .delete(users.delete);
 
-// logout from user dashboard
-router.route('/logout')
+// user dashboard
+router.route('/dashboard')
     .post(users.logout)
 
 // binds user to req object using ID parameter

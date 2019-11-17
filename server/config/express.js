@@ -9,7 +9,7 @@ const path = require('path'),
       passport = require('passport'),
       passportConf = require('./passport'); // required 
       adminRouter = require('../routes/admin.server.routes'),
-      userRouter = require('../routes/users.server.routes');
+      userRouter = require('../routes/user.server.routes');
 
 module.exports.init = () => {
 
