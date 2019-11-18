@@ -56,7 +56,7 @@ module.exports.init = () => {
     // app.use(cors({ origin: 'https://localhost:3000', credentials: true }));
 
     // routes
-    app.use('/', mainRouter)
+    //app.use('/', mainRouter)
     app.use('/user', userRouter);
     app.use('/admin', adminRouter);
     
