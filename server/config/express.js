@@ -9,6 +9,7 @@ const path = require('path'),
       passport = require('passport'),
       passportConf = require('./passport'); // required 
       adminRouter = require('../routes/admin.server.routes'),
+      mainRouter = require('../routes/mainRouter.server.routes'),
       userRouter = require('../routes/user.server.routes');
 
 module.exports.init = () => {
@@ -56,7 +57,7 @@ module.exports.init = () => {
     // app.use(cors({ origin: 'https://localhost:3000', credentials: true }));
 
     // routes
-    //app.use('/', mainRouter)
+    app.use('/', mainRouter);
     app.use('/user', userRouter);
     app.use('/admin', adminRouter);
     
