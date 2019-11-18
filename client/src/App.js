@@ -28,12 +28,10 @@ class App extends React.Component {
               <Route exact path="/welcome" component={Welcome} />
               <Route exact path="/payments" component={PaymentPlans} />
               <Route exact path="/form" component={FormView} />
-              <Route exact path="/home" component={Home} />
+              <Route exact path="/" component={Home} />
               <Route exact path="/admin_dashboard" component={AdminDashboardView} />
               <Route exact path="/dashboard" component={UserDashboardView} />
-              <Route exact path="/">
-                <Redirect to="/home" />
-              </Route>
+                
               <Route component={NotFound}/>
             </Switch>
           </Router>
