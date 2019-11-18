@@ -38,11 +38,17 @@ class Register extends React.Component {
 
     handleSubmit = (evt) => {
         evt.preventDefault();
-        evt.target.classList.add('was-validated');
+        let form = evt.target;
+        let isFormValid = form.checkValidity();
 
-        let email = evt.target.email.value;
-        let password = evt.target.password.value;
-        let name = evt.target.name.value;
+        form.classList.add('was-validated');
+        
+        if (!isFormValid) {
+            return false;
+        }
+        let email = form.email.value;
+        let password = form.password.value;
+        let name = form.name.value;
         
         let registerData = {name, password, email}
         
