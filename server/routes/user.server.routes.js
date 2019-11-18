@@ -15,7 +15,7 @@ router.route('/register')
     .post(user.register); /* creates a user */
 
 /* routes for passing in a userId */
-router.route('/:userId') // TODO update to account for userId
+router.route('/:userId')
     //.get(user.user)
     .put(user.update)
     .delete(user.delete);
