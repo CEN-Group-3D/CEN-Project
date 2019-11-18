@@ -41,7 +41,7 @@ class UserDashboardView extends React.Component {
                     <UpdateUser />];
 
     handleLogout = () => {
-        fetch('/logout', {
+        fetch('/user/logout', {
             method: 'POST',
             body: JSON.stringify({}),
             credentials: 'include',

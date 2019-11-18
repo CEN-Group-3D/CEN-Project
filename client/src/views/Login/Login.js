@@ -15,6 +15,7 @@ class Login extends React.Component {
     }
     
     handleLogin = (evt) => {
+        console.log('test')
         evt.preventDefault();
         let username = evt.target.username.value;
         let password = evt.target.password.value;
