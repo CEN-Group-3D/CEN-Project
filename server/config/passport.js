@@ -2,7 +2,7 @@ const mongoose = require('mongoose'),
       LocalStrategy = require('passport-local').Strategy,
       bcrypt = require('bcryptjs'),
       passport = require('passport'),
-      User = require('../models/users.server.model');
+      User = require('../models/user.server.model');
 
 // passport database verification
 passport.use(new LocalStrategy({

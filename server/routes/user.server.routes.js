@@ -6,16 +6,12 @@ const user = require('../controllers/user.server.controller.js'),
 router.route('/login')
     .post(user.login);
 
-/* get all user */
-router.route('/get_users')
-    .get(user.get_users);
-
 /* user creation and register route */
 router.route('/register')
     .post(user.register); /* creates a user */
 
 /* routes for passing in a userId */
-router.route('/:userId')
+router.route('/:userCookie')
     //.get(user.user)
     .put(user.update)
     .delete(user.delete);
@@ -25,6 +21,6 @@ router.route('/logout')
     .post(user.logout)
 
 // binds user to req object using ID parameter
-router.param('userId', user.userByID);
+//router.param('userCookie', user.userByCookie);
 
 module.exports = router;

@@ -1,5 +1,5 @@
 const admin = require('../controllers/admin.server.controller.js'), 
-      users = require('../controllers/admin.server.controller.js'),
+      user = require('../controllers/user.server.controller.js'),
       express = require('express'),
       router = express.Router();
 
@@ -12,19 +12,19 @@ router.route('/get_users')
 
 /* login with passport authentication */
 router.route('/login')
-    .post(users.login);
+    .post(user.login);
 
 /* routes for passing in a userId */
 router.route('/:adminId')
     //.get(users.user)
-    .put(users.update)
-    .delete(users.delete);
+    .put(user.update)
+    .delete(user.delete);
 
 // logout from user dashboard
 router.route('/logout')
-    .post(users.logout)
+    .post(user.logout)
 
 // binds user to req object using ID parameter
-router.param('adminId', users.userByID);
+router.param('adminId', user.userByID);
 
 module.exports = router;
