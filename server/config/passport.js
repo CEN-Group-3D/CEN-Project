@@ -26,10 +26,10 @@ passport.use(new LocalStrategy({
                     if ( isMatch ) {
                         // returns user from the database
                         console.log( 'Matched user in database, logging in' );
-                        console.log(user);
+                        //console.log(user);
                         return done( null, user );
                     } else {
-                        console.log( 'Password incorrect' );
+                        //console.log( 'Password incorrect' );
                         return done( null, false, { message: 'Password incorrect' } )
                     }
                 });

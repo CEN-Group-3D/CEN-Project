@@ -1,30 +1,30 @@
-const users = require('../controllers/users.server.controller.js'), 
+const user = require('../controllers/user.server.controller.js'), 
       express = require('express'),
       router = express.Router();
 
 /* login with passport authentication */
 router.route('/login')
-    .post(users.login);
+    .post(user.login);
 
-/* get all users */
+/* get all user */
 router.route('/get_users')
-    .get(users.get_users);
+    .get(user.get_users);
 
 /* user creation and register route */
 router.route('/register')
-    .post(users.register); /* creates a user */
+    .post(user.register); /* creates a user */
 
 /* routes for passing in a userId */
 router.route('/:userId')
-    //.get(users.user)
-    .put(users.update)
-    .delete(users.delete);
+    //.get(user.user)
+    .put(user.update)
+    .delete(user.delete);
 
 // logout from user dashboard
 router.route('/logout')
-    .post(users.logout)
+    .post(user.logout)
 
 // binds user to req object using ID parameter
-router.param('userId', users.userByID);
+router.param('userId', user.userByID);
 
 module.exports = router;
