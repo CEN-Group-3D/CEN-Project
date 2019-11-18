@@ -21,7 +21,7 @@ class Login extends React.Component {
         
         let loginData = {username, password}
         
-        fetch('/login', {
+        fetch('/user/login', {
             method: 'POST',
             body: JSON.stringify(loginData),
             headers: {

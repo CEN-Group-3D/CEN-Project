@@ -46,7 +46,7 @@ class Register extends React.Component {
         
         let registerData = {name, password, email}
         
-        fetch('/register', {
+        fetch('/user/register', {
             method: 'POST',
             body: JSON.stringify(registerData),
             headers: {

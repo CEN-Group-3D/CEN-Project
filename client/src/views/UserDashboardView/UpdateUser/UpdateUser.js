@@ -12,12 +12,29 @@ class UpdateUser extends React.Component {
 
     handleUpdate = (evt) => {
         evt.preventDefault();
+
+        let username = evt.target.name.value;
+        let email = evt.target.email.value;
+        
+        let updateData = {username, email}
+
+        fetch('/user/update', {
+            method: 'PUT',
+            body: JSON.stringify({updateData}),
+            credentials: 'include',
+        }).then((response) => {
+            if (response.status === 200) {
+                console.log('successful update');
+            } else {
+                console.log('unsuccessful update');
+            }
+        })
     }
 
     render() {
         return (
             <React.Fragment>
-                <form method="PUT" onSubmit={this.handleUpdate} id="update-profile-form">
+                <form onSubmit={this.handleUpdate} id="update-profile-form">
                     <h4>Update your profile</h4>
                     <div className="form-group login-field">
                         <label htmlFor="username">Name</label>
