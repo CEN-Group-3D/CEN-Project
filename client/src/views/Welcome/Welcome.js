@@ -11,20 +11,24 @@ class Welcome extends React.Component {
     render() {
         return (
             <div className='panel container col-xs-12 col-md-3'>
-                <h1>Welcome to EstatePlanR.</h1>
-                <form action="/plans">
-                    <div id="question-field" className="form-group">
-                        <label for="estate-plans">Do you already have any estate plans?</label>
-                        <select className="form-control" name="estate-plans">
-                            <option value="none">No</option>
-                            <option value="poa">Power of Attorney</option>
-                            <option value="lwill">Living Will</option>
-                            <option value="will">Will</option>
-                            <option value="trust">Trust</option>
-                        </select>
-                    </div>
-                    <button className="btn btn-primary">Continue</button>
-                </form>
+                <h3 className='panel-title'>Welcome to EstatePlanR</h3>
+                <div className='panel-content'>
+                    <form action="/plans">
+                        <div id="question-field" className="form-group">
+                            <label for="estate-plans">Do you already have any estate plans?</label>
+                            <select className="form-control" name="estate-plans">
+                                <option value="none">No</option>
+                                <option value="poa">Power of Attorney</option>
+                                <option value="lwill">Living Will</option>
+                                <option value="will">Will</option>
+                                <option value="trust">Trust</option>
+                            </select>
+                        </div>
+                        <div className="text-right">
+                            <button className="btn btn-primary pull-right">Continue</button>
+                        </div>
+                    </form>
+                </div>
             </div>
         );
     }
