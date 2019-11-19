@@ -11,11 +11,11 @@ class Welcome extends React.Component {
     render() {
         return (
             <div className='panel container col-xs-12 col-md-3'>
-                <h1>Welcome to EstatePlanR!</h1>
+                <h1>Welcome to EstatePlanR.</h1>
                 <form action="/plans">
-                    <div id="question-field">
+                    <div id="question-field" className="form-group">
                         <label for="estate-plans">Do you already have any estate plans?</label>
-                        <select name="estate-plans">
+                        <select className="form-control" name="estate-plans">
                             <option value="none">No</option>
                             <option value="poa">Power of Attorney</option>
                             <option value="lwill">Living Will</option>
