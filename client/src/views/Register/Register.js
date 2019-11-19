@@ -36,19 +36,24 @@ class Register extends React.Component {
 
     }
 
-    handleSubmit = (evt) => {
-        evt.preventDefault();
-        let form = evt.target;
-        let isFormValid = form.checkValidity();
-
+    clearFormErrors = (form) => {
         form.email.classList.remove('is-invalid');
         form.name.classList.remove('is-invalid');
         form.password.classList.remove('is-invalid');
         form.confirmPassword.classList.remove('is-invalid');
-
         this.setState({
             emailError: 'Please provide a valid email',
         });
+    }
+
+    handleSubmit = (evt) => {
+        // Prevent form from using an HTML5 submit
+        evt.preventDefault();
+        let form = evt.target;
+        let isFormValid = form.checkValidity();
+
+        // Remove the invalid classes
+        this.clearFormErrors(form);
 
         form.classList.add('was-validated');
         
@@ -74,8 +79,10 @@ class Register extends React.Component {
                 window.location = '/login';
             } else if (response.status === 409) {
                 // User already exists
+                // Remove was-validated as validation is now server-side
                 form.classList.remove('was-validated');
 
+                // Apply validation manually
                 form.email.classList.add('is-invalid');
                 form.password.classList.add('is-valid');
                 form.confirmPassword.classList.add('is-valid');
@@ -95,11 +102,6 @@ class Register extends React.Component {
             <div className='panel container' id="login-panel">
                 <h2 id="login-header">Create an account</h2>
                 <form onInput={this.checkInput} onSubmit={this.handleSubmit} method="POST" className="login-form" noValidate>
-                    {/* {
-                        this.state.error ? 
-                            <div className="alert alert-danger">The email and/or password is incorrect!</div> : 
-                            null
-                    } */}
                     <div className="form-group login-field">
                         <label htmlFor="name">Name</label>
                         <input required placeholder="First and last name" className="form-control" type="text" id="name" name="name"></input>
