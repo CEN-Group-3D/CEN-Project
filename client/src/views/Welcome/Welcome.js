@@ -13,7 +13,7 @@ class Welcome extends React.Component {
             <div className='panel container col-xs-12 col-md-3'>
                 <h3 className='panel-title'>Welcome to EstatePlanR</h3>
                 <div className='panel-content'>
-                    <form action="/plans">
+                    <form action="/payments" method="GET">
                         <div id="question-field" className="form-group">
                             <label for="estate-plans">Do you already have any estate plans?</label>
                             <select className="form-control" name="estate-plans">
