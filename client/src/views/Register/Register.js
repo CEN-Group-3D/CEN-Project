@@ -36,13 +36,34 @@ class Register extends React.Component {
 
     }
 
-    handleSubmit = (evt) => {
-        evt.preventDefault();
-        evt.target.classList.add('was-validated');
+    clearFormErrors = (form) => {
+        form.email.classList.remove('is-invalid');
+        form.name.classList.remove('is-invalid');
+        form.password.classList.remove('is-invalid');
+        form.confirmPassword.classList.remove('is-invalid');
+        this.setState({
+            emailError: 'Please provide a valid email',
+        });
+    }
 
-        let email = evt.target.email.value;
-        let password = evt.target.password.value;
-        let name = evt.target.name.value;
+    handleSubmit = (evt) => {
+        // Prevent form from using an HTML5 submit
+        evt.preventDefault();
+        let form = evt.target;
+        let isFormValid = form.checkValidity();
+
+        // Remove the invalid classes
+        this.clearFormErrors(form);
+
+        form.classList.add('was-validated');
+        
+        if (!isFormValid) {
+            return false;
+        }
+
+        let email = form.email.value;
+        let password = form.password.value;
+        let name = form.name.value;
         
         let registerData = {name, password, email}
         
@@ -54,12 +75,22 @@ class Register extends React.Component {
             },
             credentials: 'include',
         }).then((response) => {
-            console.log(response);
             if (response.ok) {
                 window.location = '/login';
             } else if (response.status === 409) {
-                console.log('user already exists')
-                // Handles if user already exists
+                // User already exists
+                // Remove was-validated as validation is now server-side
+                form.classList.remove('was-validated');
+
+                // Apply validation manually
+                form.email.classList.add('is-invalid');
+                form.password.classList.add('is-valid');
+                form.confirmPassword.classList.add('is-valid');
+                form.name.classList.add('is-valid')
+
+                this.setState({
+                    emailError: 'Email is already in use.'
+                })
             }
         }).catch((err) => {
             console.error(err);
@@ -71,11 +102,6 @@ class Register extends React.Component {
             <div className='panel container' id="login-panel">
                 <h2 id="login-header">Create an account</h2>
                 <form onInput={this.checkInput} onSubmit={this.handleSubmit} method="POST" className="login-form" noValidate>
-                    {/* {
-                        this.state.error ? 
-                            <div className="alert alert-danger">The email and/or password is incorrect!</div> : 
-                            null
-                    } */}
                     <div className="form-group login-field">
                         <label htmlFor="name">Name</label>
                         <input required placeholder="First and last name" className="form-control" type="text" id="name" name="name"></input>
