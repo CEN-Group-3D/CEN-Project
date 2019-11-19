@@ -42,6 +42,10 @@ class Register extends React.Component {
         let isFormValid = form.checkValidity();
 
         form.email.classList.remove('is-invalid');
+        form.name.classList.remove('is-invalid');
+        form.password.classList.remove('is-invalid');
+        form.confirmPassword.classList.remove('is-invalid');
+
         this.setState({
             emailError: 'Please provide a valid email',
         });
@@ -51,6 +55,7 @@ class Register extends React.Component {
         if (!isFormValid) {
             return false;
         }
+
         let email = form.email.value;
         let password = form.password.value;
         let name = form.name.value;
@@ -68,11 +73,17 @@ class Register extends React.Component {
             if (response.ok) {
                 window.location = '/login';
             } else if (response.status === 409) {
+                // User already exists
+                form.classList.remove('was-validated');
+
                 form.email.classList.add('is-invalid');
+                form.password.classList.add('is-valid');
+                form.confirmPassword.classList.add('is-valid');
+                form.name.classList.add('is-valid')
+
                 this.setState({
                     emailError: 'Email is already in use.'
                 })
-                // Handles if user already exists
             }
         }).catch((err) => {
             console.error(err);
