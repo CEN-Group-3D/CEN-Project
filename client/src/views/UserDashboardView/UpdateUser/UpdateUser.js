@@ -16,11 +16,12 @@ class UpdateUser extends React.Component {
         let username = evt.target.name.value;
         let email = evt.target.email.value;
         
-        let updateData = {username, email}
-
         fetch('/user/update', {
             method: 'PUT',
-            body: JSON.stringify({updateData}),
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({username, email}),
             credentials: 'include',
         }).then((response) => {
             if (response.status === 200) {
