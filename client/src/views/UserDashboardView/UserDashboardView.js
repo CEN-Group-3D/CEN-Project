@@ -62,13 +62,14 @@ render() {
 
         return (
             <div className="panel container">
-                <div className="row justify-content-between">
-                    <div className="col">
-                        <h1 id="dash-title">{this.state.tabTitle}</h1>
-                    </div>
+                <div className="panel-title">
+                    <h1 id="dash-title">{this.state.tabTitle}</h1>
+                    
                     <div id="logout-container" className="d-flex align-items-center">
                         <button onClick={this.handleLogout} className="btn btn-outline-primary">Logout</button>
                     </div>
+                </div>
+                <div className="panel-content">
                     <Tabs
                         titles={this.tabTitles}
                         components={this.tabComponents}

@@ -1,0 +1,10 @@
+.plan-container {
+    min-width: 0 !important;
+}
+.features-list {
+    padding-left: 20px;
+}
+.price {
+    font-size: 30px;
+    font-weight: bold;
+}

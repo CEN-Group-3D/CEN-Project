@@ -23,17 +23,15 @@ class AdminDashboardView extends React.Component {
 
     render() {
         return (
-            <div className="panel container">
-                <div className="row">
-                    <div className="col">
-                        <h1>{this.state.tabTitle}</h1>
-                    </div>
+            <div className="panel container">   
+                <h1 className="panel-title">{this.state.tabTitle}</h1>
+                <div className="panel-content">
+                    <Tabs
+                        titles={this.tabTitles}
+                        components={[<UsersList />, <p>Attorneys</p>, <p>Forms</p>]}
+                        onTabChangeCallback={this.handleTabChange}
+                    />
                 </div>
-                <Tabs
-                    titles={this.tabTitles}
-                    components={[<UsersList />, <p>Attorneys</p>, <p>Forms</p>]}
-                    onTabChangeCallback={this.handleTabChange}
-                />
             </div>
         )
     }
