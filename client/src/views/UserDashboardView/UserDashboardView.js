@@ -1,5 +1,6 @@
 //PDF reader taken from https://www.npmjs.com/package/react-pdf#browserify-and-others
-
+//Dependencies
+// @progress/kendo-react-pdf @progress/kendo-drawing
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Document, Page } from 'react-pdf';
@@ -7,6 +8,8 @@ import { connect } from 'react-redux';
 import { onSuccessfulLogout } from '../../actions/authActions';
 import test from '../../assets/Coping with Grief and Loss.pdf';
 import { pdfjs } from 'react-pdf';
+import { PDFExport, savePDF } from '@progress/kendo-react-pdf';
+import {POA} from "./FormTemplates/POA";
 import 'react-pdf/dist/Page/AnnotationLayer.css';
 import './UserDashboardView.css';
 import Tabs from '../../components/Tabs/Tabs';
@@ -26,6 +29,10 @@ class UserDashboardView extends React.Component {
     pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
     }
 
+    exportPDFWithComponent = () => {
+        this.pdfExportComponent.save();
+    }
+
     tabTitles = ['Documents', 'Forms', 'Profile']
     tabComponents =[<div id="user-docs">
                         <Document
@@ -36,7 +43,12 @@ class UserDashboardView extends React.Component {
                         </Document>
                     </div>,
 
-                    <div>Forms</div>, 
+                    <div>Forms
+                        <PDFExport ref={(component) => this.pdfExportComponent = component} fileName= "POA.pdf" paperSize="Letter">                        
+                            {POA}
+                        </PDFExport>
+                        <button className="btn btn-outline-primary" onClick={this.exportPDFWithComponent}>Export PDF</button>                   
+                    </div>, 
 
                     <UpdateUser />];
 
