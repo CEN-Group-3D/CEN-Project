@@ -9,32 +9,51 @@ class FormView extends React.Component {
         this.state = {};
     }
 
+    createInputMarkup = (field) => {
+        // When the field.type is option, we want controlled input (like gender)
+        if (field.type === "option") {
+            let options = [];
+            // Add each of the options to the array
+            field.options.forEach(option => {
+                options.push(<option value={option.value}>{option.name}</option>)
+            });
+            return <select className="form-control" id={field.dataTag}>{options}</select>
+        } else {
+            return <input className="form-control" id={field.dataTag} type={field.type}></input>
+        }
+    }
+
+    createLabelMarkup = (field) => {
+        return (<label for={fieldEntry.dataTag}>{fieldEntry.label}</label>)
+    }
+
     generateForm = (formData) => {
         // Begin the form with the title
         let formTitle = <h1 className="panel-title">{formData.title}</h1>;
         let formEntries = [];
         // Iterate through each of the fields
-        formData.fields.forEach(field => {
+        formData.fields.forEach(fieldEntry => {
             let inputElement = null;
 
-            // When the field.type is option, we want controlled input (like gender)
-            if (field.type === "option") {
-                let options = [];
-                // Add each of the options to the array
-                field.options.forEach(option => {
-                    options.push(<option value={option.value}>{option.name}</option>)
+            if (fieldEntry.formRow) {
+                let fields = []
+                fieldEntry.fields.forEach(field => {
+                    fields.push(this.createInputMarkup(field));
                 });
-                inputElement = <select id={field.dataTag}>{options}</select>
+                let formRow = <div className="form-row">{fields}</div>
+                formEntries.push(formRow);
             } else {
-                inputElement = <input id={field.dataTag} type={field.type}></input>
+                inputElement = this.createInputMarkup(fieldEntry);
+                formEntries.push(
+                    <div className="form-group">
+                        {inputElement}
+                        {this.createLabelMarkup(field)}
+                    </div>
+                )
             }
 
-            formEntries.push(
-                <div className="form-entry">
-                    <label for={field.dataTag}>{field.label}</label>
-                    {inputElement}
-                </div>
-            )
+            
+
 
         });
 
