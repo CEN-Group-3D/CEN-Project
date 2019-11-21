@@ -37,7 +37,7 @@ class FormView extends React.Component {
         } else if (field.type === "checkbox") {
             return <input className="form-check-input" id={field.dataTag} type={field.type}></input>
         }
-        
+
         else {
             return <input className="form-control" id={field.dataTag} type={field.type}></input>;
         }
@@ -45,7 +45,7 @@ class FormView extends React.Component {
 
     createLabelMarkup = (field) => {
         let className = field.type !== 'checkbox' ? '' : 'form-check-label'
-        return (<label className={className} for={field.dataTag}>{field.label}</label>)
+        return (<label className={className} htmlFor={field.dataTag}>{field.label}</label>)
     }
 
     createFormGroup = (field) => {
@@ -85,7 +85,7 @@ class FormView extends React.Component {
                 });
                 formEntries.push(<div className="form-row">{formRow}</div>);
             } else {
-                formEntries.push(this.createFormGroup(fieldEntry))
+                formEntries.push(this.createFormGroup(fieldEntry));
             }
         });
 
