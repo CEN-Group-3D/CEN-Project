@@ -43,10 +43,10 @@ class FormView extends React.Component {
 
     createFormGroup = (field) => {
         return (
-        <React.Fragment>
+        <div className="form-group">
             {this.createLabelMarkup(field)}
             {this.createInputMarkup(field)}
-        </React.Fragment>
+        </div>
         )
     }
 
@@ -64,11 +64,7 @@ class FormView extends React.Component {
                 });
                 formEntries.push(<div className="form-row">{formRow}</div>);
             } else {
-                formEntries.push(
-                    <div className="form-group">
-                        {this.createFormGroup(fieldEntry)}
-                    </div>
-                )
+                formEntries.push(this.createFormGroup(fieldEntry))
             }
         });
 
