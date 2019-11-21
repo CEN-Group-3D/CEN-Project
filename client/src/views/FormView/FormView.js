@@ -27,12 +27,19 @@ class FormView extends React.Component {
             let options = [];
             // Add each of the options to the array
             field.options.forEach(option => {
-                options.push(<option value={option.value}>{option.name}</option>)
+                options.push(<option value={option.value}>{option.name}</option>);
             });
-            return <select className="form-control" id={field.dataTag}>{options}</select>
-        } else {
-            let className = field.type !== 'checkbox' ? 'form-control' : 'form-check-input'
-            return <input className={className} id={field.dataTag} type={field.type}></input>
+            return <select className="form-control" id={field.dataTag}>{options}</select>;
+        
+        } else if (field.type === 'textarea') {
+            return <textarea className="form-control" id={field.dataTag} rows={3}></textarea>
+        
+        } else if (field.type === "checkbox") {
+            return <input className="form-check-input" id={field.dataTag} type={field.type}></input>
+        }
+        
+        else {
+            return <input className="form-control" id={field.dataTag} type={field.type}></input>;
         }
     }
 
