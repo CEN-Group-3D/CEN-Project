@@ -73,7 +73,8 @@ class FormView extends React.Component {
                     <div className="panel-content">
                         {formEntries}
                     </div>
-                </div>);
+                </div>
+                );
     }
 
     render() {

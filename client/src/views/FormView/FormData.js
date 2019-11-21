@@ -4,19 +4,31 @@ export let personalAndFamily = {
     title: "Personal and Family",
     fields: [
         {
-            label: "First Name",
-            dataTag: "fname",
-            type: "text",
-        },
-        {
-            label: "Middle Initial",
-            dataTag: "mname",
-            type: "text",
-        },
-        {
-            label: "Last Name",
-            dataTag: "lname",
-            type: "text",
+            formRow: true,
+            fields: [
+                // Length (within a formRow entry) relates to how much space the input
+                // will take up. An length of -1 means that the length will be auto
+                // generated to fit.
+                // Lengths should add up to 12 or less
+                {
+                    label: "First Name",
+                    dataTag: "fname",
+                    type: "text",
+                    length: 5,
+                },
+                {
+                    label: "Middle Initial",
+                    dataTag: "mname",
+                    type: "text",
+                    length: 1,
+                },
+                {
+                    label: "Last Name",
+                    dataTag: "lname",
+                    type: "text",
+                    length: 6,
+                },
+            ]
         },
         {
             label: "Date of Birth",
