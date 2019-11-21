@@ -14,10 +14,10 @@ export let personalAndFamily = {
                     label: "First Name",
                     dataTag: "fname",
                     type: "text",
-                    length: 5,
+                    length: 4,
                 },
                 {
-                    label: "Middle Initial",
+                    label: "M.I",
                     dataTag: "mname",
                     type: "text",
                     length: 1,
@@ -26,7 +26,7 @@ export let personalAndFamily = {
                     label: "Last Name",
                     dataTag: "lname",
                     type: "text",
-                    length: 6,
+                    length: 5,
                 },
             ]
         },
