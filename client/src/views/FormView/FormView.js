@@ -11,8 +11,8 @@ class FormView extends React.Component {
 
     generateForm = (formData) => {
         // Begin the form with the title
-        let generatedForm = [<h1>{formData.title}</h1>]
-
+        let formTitle = <h1 className="panel-title">{formData.title}</h1>;
+        let formEntries = [];
         // Iterate through each of the fields
         formData.fields.forEach(field => {
             let inputElement = null;
@@ -29,7 +29,7 @@ class FormView extends React.Component {
                 inputElement = <input id={field.dataTag} type={field.type}></input>
             }
 
-            generatedForm.push(
+            formEntries.push(
                 <div className="form-entry">
                     <label for={field.dataTag}>{field.label}</label>
                     {inputElement}
@@ -38,7 +38,12 @@ class FormView extends React.Component {
 
         });
 
-        return <div className="container panel col-12">{generatedForm}</div>;
+        return (<div className="container panel col-12">
+                    {formTitle}
+                    <div className="panel-content">
+                        {formEntries}
+                    </div>
+                </div>);
     }
 
     render() {
