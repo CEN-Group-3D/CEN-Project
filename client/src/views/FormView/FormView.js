@@ -22,8 +22,6 @@ class FormView extends React.Component {
     }
 
     createInputMarkup = (field) => {
-        let className = `form-control ${this.createLengthAttributes(field)}`
-
         // When the field.type is option, we want controlled input (like gender)
         if (field.type === "option") {
             let options = [];
@@ -31,9 +29,9 @@ class FormView extends React.Component {
             field.options.forEach(option => {
                 options.push(<option value={option.value}>{option.name}</option>)
             });
-            return <select className={className} id={field.dataTag}>{options}</select>
+            return <select className="form-control" id={field.dataTag}>{options}</select>
         } else {
-            return <input className={className} id={field.dataTag} type={field.type}></input>
+            return <input className="form-control" id={field.dataTag} type={field.type}></input>
         }
     }
 
@@ -42,8 +40,9 @@ class FormView extends React.Component {
     }
 
     createFormGroup = (field) => {
+        let className = `form-group ${this.createLengthAttributes(field)}`
         return (
-        <div className="form-group">
+        <div className={className}>
             {this.createLabelMarkup(field)}
             {this.createInputMarkup(field)}
         </div>
