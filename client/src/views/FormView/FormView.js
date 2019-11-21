@@ -38,18 +38,23 @@ class FormView extends React.Component {
 
     createLabelMarkup = (field) => {
         let className = field.type !== 'checkbox' ? '' : 'form-check-label'
-        return (<label for={field.dataTag}>{field.label}</label>)
+        return (<label className={className} for={field.dataTag}>{field.label}</label>)
     }
 
     createFormGroup = (field) => {
         let className = `form-group ${this.createLengthAttributes(field)}`
-        let innerFormGroup = <React.Fragment>
+        let innerFormGroup = null;
+
+        if (field.type === 'checkbox') {
+            innerFormGroup = <div className="form-check">
+                                {this.createInputMarkup(field)}
+                                {this.createLabelMarkup(field)}
+                            </div>
+        } else {
+            innerFormGroup = <React.Fragment>
                                 {this.createLabelMarkup(field)}
                                 {this.createInputMarkup(field)}
-                            </React.Fragment>;
-                            
-        if (field.type === 'checkbox') {
-            innerFormGroup = <div className="form-check">{innerFormGroup}</div>
+                            </React.Fragment>
         }
 
         return (
