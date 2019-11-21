@@ -24,7 +24,16 @@ class FormView extends React.Component {
     }
 
     createLabelMarkup = (field) => {
-        return (<label for={fieldEntry.dataTag}>{fieldEntry.label}</label>)
+        return (<label for={field.dataTag}>{field.label}</label>)
+    }
+
+    createFormGroup = (field) => {
+        return (
+        <React.Fragment>
+            {this.createLabelMarkup(field)}
+            {this.createInputMarkup(field)}
+        </React.Fragment>
+        )
     }
 
     generateForm = (formData) => {
@@ -33,28 +42,20 @@ class FormView extends React.Component {
         let formEntries = [];
         // Iterate through each of the fields
         formData.fields.forEach(fieldEntry => {
-            let inputElement = null;
-
+            // Handles if form entries should be on same line.
             if (fieldEntry.formRow) {
-                let fields = []
+                let formRow = []
                 fieldEntry.fields.forEach(field => {
-                    fields.push(this.createInputMarkup(field));
+                    formRow.push(this.createFormGroup(field));
                 });
-                let formRow = <div className="form-row">{fields}</div>
-                formEntries.push(formRow);
+                formEntries.push(<div className="form-row">{formRow}</div>);
             } else {
-                inputElement = this.createInputMarkup(fieldEntry);
                 formEntries.push(
                     <div className="form-group">
-                        {inputElement}
-                        {this.createLabelMarkup(field)}
+                        {this.createFormGroup(fieldEntry)}
                     </div>
                 )
             }
-
-            
-
-
         });
 
         return (<div className="container panel col-12">
