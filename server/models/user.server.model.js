@@ -1,4 +1,3 @@
-/*TODO verify schema we need for database*/
 var mongoose = require('mongoose'), 
     Schema = mongoose.Schema;
 

@@ -17,7 +17,13 @@ exports.login = (req, res, next) => {
         }
         else {
             req.login(user, (err) => {
-                if (err) { return next(err); }
+
+                if (err) { 
+                    return next(err); 
+                }
+
+                //console.log('User logging in: ', req.session)
+                //console.log('User ID: ', req.session.passport.user._id)
             });
             res.send();
         }
@@ -30,7 +36,6 @@ exports.login = (req, res, next) => {
 /* user logout */
 exports.logout = (req, res) => {
 
-    console.log('User logging out...')
     req.logout();
     req.session.destroy();
     res.send('OK');
@@ -106,9 +111,7 @@ exports.user = (req, res) => {
 exports.update = (req, res) => {
 
     /* Instantiate a User that is within the database */
-    console.log('User info in database', req.user)
-    console.log('Users new info', req.body)
-
+    console.log('User info in database', req.session.passport.user)
 
     // if a user was found by the ID that was passed in...
     if (req.user) {
@@ -116,67 +119,69 @@ exports.update = (req, res) => {
         // TODO this.user_auth(req) // try to complete to save code duplication
 
         // grab data from request
-        const {email, password, password_confirm} = req.body; // add passwords back into here
+        const {email, username, password, password_confirm} = req.body; // add passwords back into here
+        // if password was given to be updated, hash it
+        //var current_user = Object.assign(req.user);
+        //var updated_user = Object.assign(req.);
 
         // TODO fix validation
         // check passwords are the same if a password was included
-       // if (password!==undefined && (password != password_confirm)) {
-       //     console.log('password do not match')
-       //     res.status(400).send();
-       // }
-       // // check pass length if a password was included in the update 
-       // else if (password!==undefined && (password.length < 6)) {
-       //     console.log('passwords needs to be at least 6 characters')
-       //     res.status(400).send();
-       // }
-       // else {
-            // validation passed, verify email is not database
-            User.findOne({email: email})
+        // if (password!==undefined && (password != password_confirm)) {
+        //     console.log('password do not match')
+        //     res.status(400).send();
+        // }
+        // // check pass length if a password was included in the update 
+        // else if (password!==undefined && (password.length < 6)) {
+        //     console.log('passwords needs to be at least 6 characters')
+        //     res.status(400).send();
+        // }
+        // else {
+        // validation passed, verify email is not database
+
+        User.findOne({email: email})
             .then(user => {
-                if (user) {
-                    // user exists
-                    console.log("User already exists")
+                if (user && (username === '')) {
+
+                    // user exists and they are only updating their email
+                    console.log("User already exists, try a new email")
                     res.status(409).send('Bad Request')
+                //} 
+                //else if (updated_user.password !== '') {
+                //    bcrypt.genSalt(saltRounds, (err, salt) => { 
+                //        bcrypt.hash(updated_user.password, salt, (err, hash) => {
+                //            if (err) throw err;
+
+                //            // set password to hash
+                //            updated_user.password = hash;
+                //            // update user within database based on parameters
+                //            User.updateOne(user, updated_user, (err) => {
+                //                if (err) {
+                //                    throw err;
+                //                } else {
+                //                    //console.log('User updated')
+                //                    res.send('Updated user with new hash')
+                //                }
+                //            })
+                //        })
+                //    })
                 } else {
-                    // if password was given to be updated, hash it
-                    var user = Object.assign(req.user);
-                    var updated_user = Object.assign(req.body);
+                    var new_email = email;
+                    // update user within database based on parameters
+                    User.updateOne(req.session.passport.user, {email: new_email}, (err) => {
+                        if (err) { 
+                            throw err; 
+                        } else {
 
-                    if (updated_user.password !== undefined) {
-                        bcrypt.genSalt(saltRounds, (err, salt) => { 
-                            bcrypt.hash(updated_user.password, salt, (err, hash) => {
-                                if (err) throw err;
-
-                                // set password to hash
-                                updated_user.password = hash;
-                                // update user within database based on parameters
-                                User.updateOne(user, updated_user, (err) => {
-                                    if (err) {
-                                        throw err;
-                                    } else {
-                                        //console.log('User updated')
-                                        res.send('Updated user with new hash')
-                                    }
-                                })
-                            })
-                        })
-                    } else {
-                        // update user within database based on parameters
-                        User.updateOne(user, updated_user, (err) => { // TODO this was the only way I could make this work! I had to duplicate it
-                            if (err) { 
-                                throw err; 
-                            } else {
-                                //console.log('User updated')
-                                res.send('Updated user') // only used for testing...not actually looking in database for the change
-                            }
-                        })
-                    }
+                            //console.log('User updated')
+                            res.send('Updated user') // only used for testing...not actually looking in database for the change
+                        }
+                    })
                 }
             })
-        //}
+            .catch(err => console.log(err))
     } 
     else {
-        console.log('User not updated')
+        console.log('User does not exist in database...')
     }
 };
 
@@ -194,22 +199,4 @@ exports.delete = (req, res) => {
             //console.log("User deleted");
             res.send('Deleted');
     })
-};
-
-
-
-
-/* finds user by ID and then calls next() */
-exports.userByID = (req, res, next, id) => {
-
-    User.findById(id, (err, user) => {
-        if (err) {
-            throw err;
-        } else if (!user) {
-            res.status(409).send('No user')
-        } else {
-            req.user = user;
-            next();
-        }
-    });
 };

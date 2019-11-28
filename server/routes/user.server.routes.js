@@ -11,16 +11,17 @@ router.route('/register')
     .post(user.register); /* creates a user */
 
 /* routes for passing in a userId */
-router.route('/:userCookie')
-    //.get(user.user)
+router.route('/update')
     .put(user.update)
+
+router.route('/delete')
     .delete(user.delete);
+
+router.route('get_user')
+    //.get(user.user)
 
 // logout from user dashboard
 router.route('/logout')
     .post(user.logout)
-
-// binds user to req object using ID parameter
-//router.param('userCookie', user.userByCookie);
 
 module.exports = router;

@@ -11,20 +11,20 @@ router.route('/get_users')
 /*-------------------------------------- admin only functions------------------------------*/
 
 /* login with passport authentication */
-router.route('/login')
-    .post(user.login);
+//router.route('/login')
+//    .post(user.login);
 
 /* routes for passing in a userId */
-router.route('/:adminId')
+//router.route('/:adminId')
     //.get(users.user)
-    .put(user.update)
-    .delete(user.delete);
+    //.put(user.update)
+    //.delete(user.delete);
 
 // logout from user dashboard
-router.route('/logout')
-    .post(user.logout)
+//router.route('/logout')
+//    .post(user.logout)
 
 // binds user to req object using ID parameter
-router.param('adminId', user.userByID);
+//router.param('adminCookie', user.userByCookie);
 
 module.exports = router;

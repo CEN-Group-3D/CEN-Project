@@ -3,7 +3,6 @@ const path = require('path'),
       mongoose = require('mongoose'),
       morgan = require('morgan'),
       bodyParser = require('body-parser'),
-      cookieParser = require('cookie-parser'),
       session = require('express-session'),
       mongoStore = require('connect-mongo')(session),
       passport = require('passport'),
@@ -35,7 +34,6 @@ module.exports.init = () => {
     // app.use(flash());
     
     // parsing middleware
-    app.use(cookieParser()); // has to be above session
     app.use(bodyParser.json());
     app.use(bodyParser.urlencoded({extended: false}))
 
