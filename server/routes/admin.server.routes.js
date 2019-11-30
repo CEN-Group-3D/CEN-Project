@@ -1,5 +1,4 @@
 const admin = require('../controllers/admin.server.controller.js'), 
-      user = require('../controllers/user.server.controller.js'),
       express = require('express'),
       router = express.Router();
 
@@ -7,6 +6,9 @@ const admin = require('../controllers/admin.server.controller.js'),
 /* get all users */
 router.route('/get_users')
     .get(admin.get_users);
+
+router.route('/upgrade')
+    .put(admin.upgrade);
 
 /*-------------------------------------- admin only functions------------------------------*/
 
