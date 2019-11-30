@@ -1,4 +1,5 @@
 const admin = require('../controllers/admin.server.controller.js'), 
+      user = require('../controllers/user.server.controller.js'), 
       express = require('express'),
       router = express.Router();
 
@@ -9,6 +10,9 @@ router.route('/get_users')
 
 router.route('/upgrade')
     .put(admin.upgrade);
+
+router.route('/delete')
+    .delete(user.delete)
 
 /*-------------------------------------- admin only functions------------------------------*/
 
