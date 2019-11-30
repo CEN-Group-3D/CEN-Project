@@ -5,6 +5,10 @@ var userSchema = new Schema({
     name: {type: String, required: true, default: null},
     email: {type: String, required: true, default: null},
     password: {type: String, required: false, default: null},
+    admin: {type: Boolean, required: false, default: false},
+    root: {type: Boolean, requied: false, default: false},
+    created: Date,
+    updated: Date
     });
 
 userSchema.pre('save', function(next) {
@@ -12,12 +16,12 @@ userSchema.pre('save', function(next) {
     // get the current date
     var currentDate = new Date();
 
-    // change the updated_at field to current date
-    this.updated_at = currentDate;
+    // change the updated field to current date
+    this.updated = currentDate;
 
-    // if created_at doesn't exist, add to that field
-    if (!this.created_at)
-        this.created_at = currentDate;
+    // if created doesn't exist, add to that field
+    if (!this.created)
+        this.created = currentDate;
 
     next();
 });
