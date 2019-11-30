@@ -6,8 +6,11 @@
     "bootstrap": "^4.3.1",
     "jquery": "^3.4.1",
     "react": "^16.10.1",
+    "react-async-script-loader": "^0.3.0",
     "react-bootstrap": "^1.0.0-beta.14",
     "react-dom": "^16.10.1",
+    "react-paypal-button-v2": "^2.6.0",
+    "react-paypal-express-checkout": "^1.0.5",
     "react-scripts": "3.1.2",
     "typescript": "^3.6.4"
   },
@@ -33,6 +36,9 @@
     ]
   },
   "devDependencies": {
+    "dotenv": "^8.2.0",
+    "react-app-env": "^1.2.3",
+    "react-native-dotenv": "^0.2.0",
     "react-router-dom": "^5.1.2"
   },
   "proxy": "http://localhost:5000"
