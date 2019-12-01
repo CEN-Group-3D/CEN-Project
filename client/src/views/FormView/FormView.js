@@ -9,36 +9,93 @@ class FormView extends React.Component {
         this.state = {};
     }
 
+    createLengthAttributes = (field) => {
+        if (field.length) {
+            if (field.length === -1) {
+                return 'col';
+            } else {
+                return `col-md-${field.length}`;
+            }
+        } else {
+            return ''
+        }
+    }
+
+    createInputMarkup = (field) => {
+        // When the field.type is option, we want controlled input (like gender)
+        if (field.type === "option") {
+            let options = [];
+            // Add each of the options to the array
+            field.options.forEach(option => {
+                options.push(<option value={option.value}>{option.name}</option>);
+            });
+            return <select className="form-control" id={field.dataTag}>{options}</select>;
+        
+        } else if (field.type === 'textarea') {
+            return <textarea className="form-control" id={field.dataTag} rows={3}></textarea>
+        
+        } else if (field.type === "checkbox") {
+            return <input className="form-check-input" id={field.dataTag} type={field.type}></input>
+        }
+
+        else {
+            return <input className="form-control" id={field.dataTag} type={field.type}></input>;
+        }
+    }
+
+    createLabelMarkup = (field) => {
+        let className = field.type !== 'checkbox' ? '' : 'form-check-label'
+        return (<label className={className} htmlFor={field.dataTag}>{field.label}</label>)
+    }
+
+    createFormGroup = (field) => {
+        let className = `form-group ${this.createLengthAttributes(field)}`
+        let innerFormGroup = null;
+
+        if (field.type === 'checkbox') {
+            innerFormGroup = <div className="form-check">
+                                {this.createInputMarkup(field)}
+                                {this.createLabelMarkup(field)}
+                            </div>
+        } else {
+            innerFormGroup = <React.Fragment>
+                                {this.createLabelMarkup(field)}
+                                {this.createInputMarkup(field)}
+                            </React.Fragment>
+        }
+
+        return (
+        <div className={className}>
+            {innerFormGroup}
+        </div>
+        )
+    }
+
     generateForm = (formData) => {
         // Begin the form with the title
-        let generatedForm = [<h1>{formData.title}</h1>]
-
+        let formTitle = <h1 className="panel-title">{formData.title}</h1>;
+        let formEntries = [];
         // Iterate through each of the fields
-        formData.fields.forEach(field => {
-            let inputElement = null;
-
-            // When the field.type is option, we want controlled input (like gender)
-            if (field.type === "option") {
-                let options = [];
-                // Add each of the options to the array
-                field.options.forEach(option => {
-                    options.push(<option value={option.value}>{option.name}</option>)
+        formData.fields.forEach(fieldEntry => {
+            // Handles if form entries should be on same line.
+            if (fieldEntry.formRow) {
+                let formRow = []
+                fieldEntry.fields.forEach(field => {
+                    formRow.push(this.createFormGroup(field));
                 });
-                inputElement = <select id={field.dataTag}>{options}</select>
+                formEntries.push(<div className="form-row">{formRow}</div>);
             } else {
-                inputElement = <input id={field.dataTag} type={field.type}></input>
+                formEntries.push(this.createFormGroup(fieldEntry));
             }
-
-            generatedForm.push(
-                <div className="form-entry">
-                    <label for={field.dataTag}>{field.label}</label>
-                    {inputElement}
-                </div>
-            )
-
         });
 
-        return <div className="container panel col-12">{generatedForm}</div>;
+        return (<div className="container panel col-12">
+                    {formTitle}
+                    <div className="panel-content">
+                        {formEntries}
+                    </div>
+                </div>
+                );
     }
 
     render() {

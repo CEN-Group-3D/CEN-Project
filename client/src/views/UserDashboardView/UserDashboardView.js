@@ -1,27 +1,67 @@
+//PDF reader taken from https://www.npmjs.com/package/react-pdf#browserify-and-others
+//Dependencies
+// @progress/kendo-react-pdf @progress/kendo-drawing
 import React from 'react';
+import PropTypes from 'prop-types';
+import { Document, Page } from 'react-pdf';
+import { connect } from 'react-redux';
+import { onSuccessfulLogout } from '../../actions/authActions';
+import test from '../../assets/Coping with Grief and Loss.pdf';
+import { pdfjs } from 'react-pdf';
+import { PDFExport, savePDF } from '@progress/kendo-react-pdf';
+import {POA} from "./FormTemplates/POA";
+import {Medical_POA} from "./FormTemplates/medical-POA - Copy";
+import 'react-pdf/dist/Page/AnnotationLayer.css';
 import './UserDashboardView.css';
 import Tabs from '../../components/Tabs/Tabs';
 import UpdateUser from './UpdateUser/UpdateUser';
+
 
 class UserDashboardView extends React.Component {
     constructor(props) {
         super(props);
 
         this.state = {
+            numPages: null,
+            pageNumber: 1,
             tabTitle: this.tabTitles[0]
         };
+
+    pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
+    }
+
+    exportPDFWithComponent = () => {
+        this.pdfExportComponent.save();
     }
 
     tabTitles = ['Documents', 'Forms', 'Profile']
-    tabComponents = [<div>Documents</div>, <div>Forms</div>, <UpdateUser />];
+    tabComponents =[<div id="user-docs">
+                        <Document
+                            file={test}
+                            onLoadSuccess={this.onDocumentLoadSuccess}
+                        >
+                            <Page pageNumber={1} />
+                        </Document>
+                    </div>,
+
+                    <div>Forms
+                        <PDFExport ref={(component) => this.pdfExportComponent = component} fileName= "POA.pdf" paperSize="Letter">                        
+                            {POA}
+                            
+                        </PDFExport>
+                        <button className="btn btn-outline-primary" onClick={this.exportPDFWithComponent}>Export PDF</button>                   
+                    </div>, 
+
+                    <UpdateUser />];
 
     handleLogout = () => {
-        fetch('/logout', {
+        fetch('/user/logout', {
             method: 'POST',
             body: JSON.stringify({}),
             credentials: 'include',
         }).then((response) => {
             if (response.status === 200) {
+                this.props.onSuccessfulLogout();
                 window.location = '/login';
             }
         })
@@ -29,26 +69,36 @@ class UserDashboardView extends React.Component {
 
     handleTabChange = (index, title) => {
         this.setState({tabTitle: title})
+
     }
 
-    render() {
+render() {
+
         return (
             <div className="panel container">
-                <div className="row justify-content-between">
-                    <div className="col">
-                        <h1 id="dash-title">{this.state.tabTitle}</h1>
-                    </div>
+                <div className="panel-title">
+                    <h1 id="dash-title">{this.state.tabTitle}</h1>
+                    
                     <div id="logout-container" className="d-flex align-items-center">
                         <button onClick={this.handleLogout} className="btn btn-outline-primary">Logout</button>
                     </div>
                 </div>
-                <Tabs
-                    titles={this.tabTitles}
-                    components={this.tabComponents}
-                    onTabChangeCallback={this.handleTabChange}
-                />
+                <div className="panel-content">
+                    <Tabs
+                        titles={this.tabTitles}
+                        components={this.tabComponents}
+                        onTabChangeCallback={this.handleTabChange}
+                    />
+                </div>
             </div>
+
         )
     }
 }
-export default UserDashboardView;
+
+UserDashboardView.propTypes = {
+    onSuccessfulLogout: PropTypes.func.isRequired,
+}
+
+export default connect(null, { onSuccessfulLogout })(UserDashboardView);
+

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route, Switch, Redirect  } from 'react-router-dom';
+import { Route, Switch, Redirect, BrowserRouter as Router} from 'react-router-dom';
 import Home from "./views/Home/Home"
 import Register from "./views/Register/Register"
 import Login from "./views/Login/Login"
@@ -14,29 +14,31 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 require('./App.css')
 
+class App extends React.Component {
 
-const App = () => {
-  return (
-    <div>
-      <Header />
-      <div id="main-content-panel">
-        <Switch>
-          <Route exact path="/register" component={Register} />
-          <Route exact path="/login" component={Login} />
-          <Route exact path="/welcome" component={Welcome} />
-          <Route exact path="/payments" component={PaymentPlans} />
-          <Route exact path="/form" component={FormView} />
-          <Route exact path="/home" component={Home} />
-          <Route exact path="/admin-dashboard" component={AdminDashboardView} />
-          <Route exact path="/dashboard" component={UserDashboardView} />
-          <Route exact path="/">
-            <Redirect to="/home" />
-          </Route>
-          <Route component={NotFound}/>
-        </Switch>
+  render() {
+    return (
+      <div>
+        <Header/>
+        <div id="main-content-panel">
+          <Router>
+            <Switch>
+              <Route exact path="/register" component={Register} />
+              <Route exact path="/login" component={Login} />
+              <Route exact path="/welcome" component={Welcome} />
+              <Route exact path="/payments" component={PaymentPlans} />
+              <Route exact path="/form" component={FormView} />
+              <Route exact path="/" component={Home} />
+              <Route exact path="/admin_dashboard" component={AdminDashboardView} />
+              <Route exact path="/dashboard" component={UserDashboardView} />
+                
+              <Route component={NotFound}/>
+            </Switch>
+          </Router>
+        </div>
       </div>
-    </div>
-  );
+    );
+  }
 }
 
 export default App;
