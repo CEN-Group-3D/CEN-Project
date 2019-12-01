@@ -2,7 +2,7 @@ const mongoose = require('mongoose'),
       LocalStrategy = require('passport-local').Strategy,
       bcrypt = require('bcryptjs'),
       passport = require('passport'),
-      User = require('../models/users.server.model');
+      User = require('../models/user.server.model');
 
 // passport database verification
 passport.use(new LocalStrategy({
@@ -26,10 +26,10 @@ passport.use(new LocalStrategy({
                     if ( isMatch ) {
                         // returns user from the database
                         console.log( 'Matched user in database, logging in' );
-                        console.log(user);
+                        //console.log(user);
                         return done( null, user );
                     } else {
-                        console.log( 'Password incorrect' );
+                        //console.log( 'Password incorrect' );
                         return done( null, false, { message: 'Password incorrect' } )
                     }
                 });

@@ -1,0 +1,30 @@
+const admin = require('../controllers/admin.server.controller.js'), 
+      user = require('../controllers/user.server.controller.js'),
+      express = require('express'),
+      router = express.Router();
+
+/*-------------------------------------- admin only functions------------------------------*/
+/* get all users */
+router.route('/get_users')
+    .get(admin.get_users);
+
+/*-------------------------------------- admin only functions------------------------------*/
+
+/* login with passport authentication */
+router.route('/login')
+    .post(user.login);
+
+/* routes for passing in a userId */
+router.route('/:adminId')
+    //.get(users.user)
+    .put(user.update)
+    .delete(user.delete);
+
+// logout from user dashboard
+router.route('/logout')
+    .post(user.logout)
+
+// binds user to req object using ID parameter
+router.param('adminId', user.userByID);
+
+module.exports = router;

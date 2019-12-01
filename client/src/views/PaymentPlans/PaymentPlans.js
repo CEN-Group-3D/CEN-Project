@@ -56,6 +56,7 @@ class PaymentPlans extends React.Component {
                                     <li>Short desc of feature</li>
                                     <li>Short desc of feature</li>
                                 </ul>
+          
                                 <PaypalExpressBtn 
                                 style={style}
                                 env={env} 
@@ -65,6 +66,8 @@ class PaymentPlans extends React.Component {
                                 onError={onError} 
                                 onSuccess={onSuccess} 
                                 onCancel={onCancel} />
+
+                                <button className="btn btn-outline-primary">Select this plan</button>
                             </div>
                         </div>
                     </div>
@@ -72,7 +75,7 @@ class PaymentPlans extends React.Component {
                         <div className="panel plan-container">
                             <div className="panel-title panel-title-baseline">
                                 <h4>Advanced</h4>
-                                
+
                                 <div className="price-container">
                                     <span className="currency">$</span><span className="price">20</span><span className="period">/mo</span>
                                 </div>
@@ -84,6 +87,7 @@ class PaymentPlans extends React.Component {
                                     <li>Short desc of feature</li>
                                     <li>Short desc of feature</li>
                                 </ul>
+
                                 <PaypalExpressBtn 
                                 style={style}
                                 env={env} 
@@ -93,6 +97,9 @@ class PaymentPlans extends React.Component {
                                 onError={onError} 
                                 onSuccess={onSuccess} 
                                 onCancel={onCancel} />
+
+                                <button className="btn btn-primary">Select this plan</button>
+
                             </div>
                         </div>
                     </div>
@@ -111,6 +118,7 @@ class PaymentPlans extends React.Component {
                                     <li>Short desc of feature</li>
                                     <li>Short desc of feature</li>
                                 </ul>
+
                                 <PaypalExpressBtn 
                                 style={style}
                                 env={env} 
@@ -120,6 +128,9 @@ class PaymentPlans extends React.Component {
                                 onError={onError} 
                                 onSuccess={onSuccess} 
                                 onCancel={onCancel} />
+
+                                <button className="btn btn-primary">Select this plan</button>
+
                             </div>
                         </div>
                     </div>

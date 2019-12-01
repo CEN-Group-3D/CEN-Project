@@ -14,7 +14,7 @@ class UsersList extends React.Component {
     }
 
     componentDidMount() {
-        fetch ('/get_users', {
+        fetch ('/admin/get_users', {
             method: 'GET',
             credentials: 'include',
         }).then((response) => {
