@@ -10,6 +10,7 @@ import test from '../../assets/Coping with Grief and Loss.pdf';
 import { pdfjs } from 'react-pdf';
 import { PDFExport, savePDF } from '@progress/kendo-react-pdf';
 import {POA} from "./FormTemplates/POA";
+import {Medical_POA} from "./FormTemplates/medical-POA - Copy";
 import 'react-pdf/dist/Page/AnnotationLayer.css';
 import './UserDashboardView.css';
 import Tabs from '../../components/Tabs/Tabs';
@@ -46,6 +47,7 @@ class UserDashboardView extends React.Component {
                     <div>Forms
                         <PDFExport ref={(component) => this.pdfExportComponent = component} fileName= "POA.pdf" paperSize="Letter">                        
                             {POA}
+                            
                         </PDFExport>
                         <button className="btn btn-outline-primary" onClick={this.exportPDFWithComponent}>Export PDF</button>                   
                     </div>, 
