@@ -22,10 +22,10 @@ exports.login = (req, res, next) => {
                     return next(err); 
                 }
 
-                //console.log('User logging in: ', req.session)
-                //console.log('User ID: ', req.session.passport.user._id)
+                console.log('User logging in: ', req.session)
+                console.log('User ID: ', req.session.passport.user._id)
+                return res.status(200).json(user)
             });
-            res.send();
         }
     })
     (req, res, next); 
@@ -113,7 +113,6 @@ exports.update = (req, res) => {
     /* Instantiate a User that is within the database */
     console.log('User info in database', req.session.passport.user)
 
-    // if a user was found by the ID that was passed in...
     if (req.user) {
 
         // TODO this.user_auth(req) // try to complete to save code duplication
@@ -191,12 +190,15 @@ exports.update = (req, res) => {
 /* Delete a user */
 exports.delete = (req, res) => {
 
-    User.deleteOne(req.user, (err) => {
-        if (err) {
-            throw err;
-        }
-        else
-            //console.log("User deleted");
-            res.send('Deleted');
-    })
+    if (req.user)
+    {
+        User.deleteOne(req.user, (err) => {
+            if (err) {
+                throw err;
+            }
+            else
+                //console.log("User deleted");
+                res.send('Deleted');
+        })
+    }
 };

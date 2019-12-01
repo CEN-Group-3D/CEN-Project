@@ -14,6 +14,9 @@ router.route('/upgrade')
 router.route('/delete')
     .delete(user.delete)
 
+//router.route('/login')
+//    post(user.login)
+
 /*-------------------------------------- admin only functions------------------------------*/
 
 /* login with passport authentication */
