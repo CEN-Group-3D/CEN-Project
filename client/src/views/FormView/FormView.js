@@ -98,6 +98,24 @@ class FormView extends React.Component {
                 );
     }
 
+    handleSubmit = (evt) => {
+        evt.preventDefault();
+
+        let form = evt.target;
+
+        fetch('/form', {
+            method: 'POST',
+            body: JSON.stringify(loginData),
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            credentials: 'include',
+            
+        }).then((response) => {
+            
+        })
+    }
+
     render() {
         return (
             <div className="col-xs-12 col-md-6">
@@ -141,6 +159,7 @@ class FormView extends React.Component {
                             </select>
                         </div>
                     </div>  */}
+                    <button onClick={this.handleSubmit}>Submit</button>
                 </form>
             </div>
         );
