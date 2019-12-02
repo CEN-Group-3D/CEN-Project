@@ -1,4 +1,9 @@
 /* global styles */
+:root {
+    --color-1: #F67181;
+    --color-2: #B9DC4D;
+    --color-3: rgb(243, 192, 72);
+}
 body {
     background-color: #edf0f5;
 }
@@ -57,4 +62,50 @@ input[type=number]::-webkit-inner-spin-button {
 
 input[type=number] {
     -moz-appearance:textfield;
+}
+
+.btn-brand-1 { 
+    color: #ffffff; 
+    background-color: #F47283; 
+    border-color: #F47283; 
+} 
+   
+.btn-brand-1:hover, 
+.btn-brand-1:focus, 
+.btn-brand-1:active, 
+.btn-brand-1.active, 
+.open .dropdown-toggle.btn-brand-1 { 
+    color: #ffffff; 
+    background-color: #ED495F; 
+    border-color: #F47283; 
+} 
+   
+.btn-brand-1:active, 
+.btn-brand-1.active, 
+.open .dropdown-toggle.btn-brand-1 { 
+    background-image: none; 
+} 
+   
+.btn-brand-1.disabled, 
+.btn-brand-1[disabled], 
+fieldset[disabled] .btn-brand-1, 
+.btn-brand-1.disabled:hover, 
+.btn-brand-1[disabled]:hover, 
+fieldset[disabled] .btn-brand-1:hover, 
+.btn-brand-1.disabled:focus, 
+.btn-brand-1[disabled]:focus, 
+fieldset[disabled] .btn-brand-1:focus, 
+.btn-brand-1.disabled:active, 
+.btn-brand-1[disabled]:active, 
+fieldset[disabled] .btn-brand-1:active, 
+.btn-brand-1.disabled.active, 
+.btn-brand-1[disabled].active, 
+fieldset[disabled] .btn-brand-1.active { 
+    background-color: #F47283; 
+    border-color: #F47283; 
+} 
+
+.btn-brand-1 .badge { 
+    color: #F47283; 
+    background-color: #ffffff; 
 }
