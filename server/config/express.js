@@ -30,9 +30,6 @@ module.exports.init = () => {
     // enable request logging for development debugging
     app.use(morgan('dev'));
 
-    // connect flash
-    // app.use(flash());
-    
     // parsing middleware
     app.use(bodyParser.json());
     app.use(bodyParser.urlencoded({extended: false}))
