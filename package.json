@@ -36,6 +36,7 @@
     "passport": "^0.4.0",
     "passport-facebook": "^3.0.0",
     "passport-google-oauth": "^2.0.0",
+    "passport-google-oauth20": "^2.0.0",
     "passport-local": "^1.0.0",
     "should": "^13.2.3",
     "supertest": "^4.0.2"
