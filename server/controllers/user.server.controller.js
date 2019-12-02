@@ -33,6 +33,14 @@ exports.login = (req, res, next) => {
 
 
 
+exports.google_auth = (req, res) => {
+    
+    // use google strategy
+    passport.authenticate('google')
+}
+
+
+
 /* user logout */
 exports.logout = (req, res) => {
 
