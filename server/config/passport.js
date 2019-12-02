@@ -1,8 +1,8 @@
 const mongoose = require('mongoose'),
       LocalStrategy = require('passport-local').Strategy,
+      GoogleStrategy = require('passport-google-oauth20'),
       bcrypt = require('bcryptjs'),
       passport = require('passport'),
-      GoogleStrategy = require('passport-google-oauth20'),
       keys = require('./config'),
       User = require('../models/user.server.model');
 
@@ -46,15 +46,15 @@ passport.use(new LocalStrategy({
 
 
 // google authentication
-passport.use(new GoogleStrategy({
-
-    // options
-    callbackURL: '/user/dashboard',
-    clientID: keys.google.clientID,
-    clientSecret: keys.google.clientSecret
-}, () => {
-    // callback
-}))
+//passport.use(new GoogleStrategy({
+//
+//    // options
+//    callbackURL: '/user/dashboard',
+//    clientID: keys.google.clientID,
+//    clientSecret: keys.google.clientSecret
+//}, () => {
+//    // callback
+//}))
 
 
 
