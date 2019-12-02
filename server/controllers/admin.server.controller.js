@@ -7,11 +7,11 @@ const User = require('../models/user.server.model.js'),
 /* Retrieve all the users, sorted alphabetically by user name */
 exports.get_users = (req, res) => {
 
-    console.log(req.user)
-    console.log('User session: ', req.session)
-    console.log('User ID: ', req.session.passport.user._id)
 
     if (req.user) {
+        console.log(req.user)
+        console.log('User session: ', req.session)
+        console.log('User ID: ', req.session.passport.user._id)
         User.find({}).sort('name').exec((err, user) => {
             if (err) {
                 throw err;
