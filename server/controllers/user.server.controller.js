@@ -1,4 +1,5 @@
 const User = require('../models/user.server.model.js'),
+      Form = require('../models/'),
       passport = require('passport'),
       { check, validationResult } = require('express-validator'),
       bcrypt = require('bcryptjs'),
@@ -13,7 +14,7 @@ exports.login = (req, res, next) => {
 
         if (err) { return next(err) }
         if (!user) {
-            res.status(409).send('Bad Request');
+            return res.status(409).send('Bad Request');
         }
         else {
             req.login(user, (err) => {
@@ -21,10 +22,19 @@ exports.login = (req, res, next) => {
                 if (err) { 
                     return next(err); 
                 }
+                
+                if (user.admin || user.root) {
+                    console.log('Admin or root')
+                    return res.status(200).send('admin')
+                }
+                else if (!user.admin) {
+                    console.log('normal user')
+                    return res.status(200).send(user)
+                }
 
-                console.log('User logging in: ', req.session)
-                console.log('User ID: ', req.session.passport.user._id)
-                return res.status(200).json(user)
+                //console.log('User: ', user)
+                //console.log('User logging in: ', req.session)
+                //console.log('User ID: ', req.session.passport.user._id)
             });
         }
     })
@@ -33,9 +43,42 @@ exports.login = (req, res, next) => {
 
 
 
-// TODO connect with frontend
+
+exports.form = (req, res) => {
+
+    const session_user = req.session.passport.user._id;
+
+    if (req.user)
+    {
+        User.findOne({_id: session_user})
+            .then(user => {
+                if (user) {
+
+                    //const form_data = Form(req.body);
+
+                    // user exists
+                    console.log("Saving form data...")
+
+                    User.findOneAndUpdate({ "_id": session_user }, { "$set": req.body})
+                        .exec(function(err, data) {
+                            if(err) {
+                                console.log(err);
+                                res.status(500).send(err);
+                            } else {
+                                res.status(200).send('Data saved');
+                            }
+                        });
+                }
+            }
+    }
+
+
+
+
+
+    / TODO connect with frontend
 exports.google_auth = (req, res) => {
-    
+
     console.log('This got called!')
 
     // use google strategy
@@ -77,10 +120,10 @@ exports.register = (req, res) => {
 
     // validation passed, verify user not in database, then save
     User.findOne({email: email})
-    .then(user => {
-        if (user) {
-            // user exists
-            console.log("User already exists")
+        .then(user => {
+            if (user) {
+                // user exists
+                console.log("User already exists")
             res.status(409).send('Bad Request')
         } else {
             // add user to database and ENCRYPT password
