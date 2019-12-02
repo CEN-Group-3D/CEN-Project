@@ -33,10 +33,16 @@ exports.login = (req, res, next) => {
 
 
 
+// TODO connect with frontend
 exports.google_auth = (req, res) => {
     
+    console.log('This got called!')
+
     // use google strategy
-    passport.authenticate('google')
+    passport.authenticate('google', {
+        scope: ['profile']
+    })
+    res.send();
 }
 
 
