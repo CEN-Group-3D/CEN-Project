@@ -6,12 +6,16 @@ const user = require('../controllers/user.server.controller.js'),
 router.route('/login')
     .post(user.login);
 
-router.route('/login_google')
-    .get(user.google_auth);
+//router.route('/login_google')
+//    .get(user.google_auth);
 
 /* user creation and register route */
 router.route('/register')
     .post(user.register); /* creates a user */
+
+/* takes in user form data */
+router.route('/form')
+    .post(user.form)
 
 /* routes for passing in a userId */
 router.route('/update')

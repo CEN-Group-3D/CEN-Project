@@ -6,7 +6,10 @@ const path = require('path'),
       session = require('express-session'),
       mongoStore = require('connect-mongo')(session),
       passport = require('passport'),
-      passportConf = require('./passport'); // required 
+      passportConf = require('./passport'), // required 
+      {Storage} = require('@google-cloud/storage'),
+      //{createWriteStream} = require("fs"),
+      //{ApolloServer, gql} = require('apollo-server-express'),
       adminRouter = require('../routes/admin.server.routes'),
       mainRouter = require('../routes/mainRouter.server.routes'),
       userRouter = require('../routes/user.server.routes');
@@ -24,6 +27,45 @@ module.exports.init = () => {
     mongoose.set('useCreateIndex', true);
     mongoose.set('useFindAndModify', false);
 
+    //const files = [];
+
+    //const typeDefs = gql`
+    //type Query {
+    //    files: [String]
+    //}
+    //type Mutation {
+    //    uploadFile(file: Upload!): Boolean
+    //}
+    //`;
+
+    //const resolvers = {
+    //    Query: {
+    //        files: () => files
+    //    },
+    //    Mutation: {
+    //        uploadFile: async (_, { file }) => {
+    //        const { createReadStream, filename } = await file;
+
+    //        await new Promise(res =>
+    //            createReadStream()
+    //            .pipe(
+    //                coolFilesBucket.file(filename).createWriteStream({
+    //                resumable: false, // files less than 10Mb
+    //                gzip: true
+    //                })
+    //            )
+    //            .on("finish", res)
+    //        );
+
+    //        files.push(filename);
+
+    //        return true;
+    //        }
+    //    }
+    //};
+
+    //const server = new ApolloServer({ typeDefs, resolvers });
+
     // initialize app
     const app = express();
 
@@ -32,7 +74,17 @@ module.exports.init = () => {
 
     // parsing middleware
     app.use(bodyParser.json());
-    app.use(bodyParser.urlencoded({extended: false}))
+    app.use(bodyParser.urlencoded({extended: false}));
+
+    // google cloud
+   // const gc = new Storage({
+   //     keyFilename: path.join(__dirname, "./cenProject-483d5b367e81.json"),
+   //     projectId: 'cenproject'
+   // });
+
+    
+    //gc.getBuckets().then(x => console.log(x)).catch(err => console.log(err))
+    //const file = gc.bucket('cen_files');
 
     // express sessions
     app.use(session({
@@ -52,6 +104,8 @@ module.exports.init = () => {
     // app.use(cors({ origin: 'https://localhost:3000', credentials: true }));
 
     // routes
+
+    //app.use('/upload', mainRouter);
     app.use('/', mainRouter);
     app.use('/user', userRouter);
     app.use('/admin', adminRouter);

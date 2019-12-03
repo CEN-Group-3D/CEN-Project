@@ -1,5 +1,5 @@
 const User = require('../models/user.server.model.js'),
-      Form = require('../models/'),
+      Form = require('../models/personalAndFamily.server.model.js'),
       passport = require('passport'),
       { check, validationResult } = require('express-validator'),
       bcrypt = require('bcryptjs'),
@@ -19,20 +19,40 @@ exports.login = (req, res, next) => {
         else {
             req.login(user, (err) => {
 
+                var ret_val = {
+                    first_log: user.first_log,
+                    admin: user.admin,
+                    root: user.root
+                };
+
                 if (err) { 
                     return next(err); 
                 }
-                
+
+                if (user.first_log) {
+
+                    var email = user.email;
+
+                    // update user within database based on parameters
+                    User.updateOne(req.session.passport.user, {first_log: false}, (err) => {
+                        if (err) { 
+                            throw err; 
+                        } else {
+                            return res.status(200).send(ret_val);
+                        }
+                    })
+                }
+
                 if (user.admin || user.root) {
                     console.log('Admin or root')
-                    return res.status(200).send('admin')
+                    return res.status(200).send(ret_val)
                 }
                 else if (!user.admin) {
                     console.log('normal user')
-                    return res.status(200).send(user)
+                    return res.status(200).send(ret_val)
                 }
 
-                //console.log('User: ', user)
+                console.log('User: ', user)
                 //console.log('User logging in: ', req.session)
                 //console.log('User ID: ', req.session.passport.user._id)
             });
@@ -69,14 +89,18 @@ exports.form = (req, res) => {
                             }
                         });
                 }
+            })
+            .catch(err => console.log(err))
+            } else {
+                res.status(409).send('Bad Request')
             }
-    }
+}
 
 
 
 
 
-    / TODO connect with frontend
+    // TODO connect with frontend
 exports.google_auth = (req, res) => {
 
     console.log('This got called!')
@@ -124,31 +148,32 @@ exports.register = (req, res) => {
             if (user) {
                 // user exists
                 console.log("User already exists")
-            res.status(409).send('Bad Request')
-        } else {
-            // add user to database and ENCRYPT password
-            var new_user = User(req.body);
-            //console.log(new_user)
+                res.status(409).send('Bad Request')
+            } else {
+                // add user to database and ENCRYPT password
+                var new_user = User(req.body);
+                //console.log(new_user)
 
-            // HASH password
-            bcrypt.genSalt(saltRounds, (err, salt) => { 
-                bcrypt.hash(new_user.password, salt, (err, hash) => {
-                    if (err) throw err;
+                // HASH password
+                bcrypt.genSalt(saltRounds, (err, salt) => { 
+                    bcrypt.hash(new_user.password, salt, (err, hash) => {
+                        if (err) throw err;
 
-                    // set password to hash
-                    new_user.password = hash;
-                    console.log("attempting to save the user")
+                        // set password to hash
+                        new_user.password = hash;
+                        console.log("attempting to save the user")
 
-                    // save the user
-                    new_user.save()
-                        .then(user => {
-                            res.send('User created');
-                        })
+                        // save the user
+                        new_user.save()
+                            .then(user => {
+                                res.send('User created');
+                            })
                         .catch(err => console.log(err))
                 })
             })
         }
     })
+    .catch(err => console.log(err))
 };
 
 
@@ -255,6 +280,7 @@ exports.delete = (req, res) => {
             }
             else
                 //console.log("User deleted");
+                this.logout();
                 res.send('Deleted');
         })
     }
