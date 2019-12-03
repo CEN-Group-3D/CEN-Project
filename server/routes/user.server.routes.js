@@ -21,6 +21,9 @@ router.route('/form')
     .get(user.get_plan)
     .put(user.form)
 
+router.route('/dashboard')
+    .get(user.get_form_data)
+
 /* routes for passing in a userId */
 router.route('/update')
     .put(user.update)
