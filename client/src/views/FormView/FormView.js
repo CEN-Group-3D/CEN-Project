@@ -161,7 +161,9 @@ class FormView extends React.Component {
                             </select>
                         </div>
                     </div>  */}
-                    <button>Submit</button>
+                    <div id="form-submit-container" className="container panel col-12">
+                        <button className="btn btn-primary btn-lg btn-block">Submit</button>
+                    </div>
                 </form>
             </div>
         );
