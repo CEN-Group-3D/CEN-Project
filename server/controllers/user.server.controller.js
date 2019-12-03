@@ -63,6 +63,20 @@ exports.login = (req, res, next) => {
 
 
 
+
+exports.get_form_data = (req, res) => {
+        
+    if (req.user) {
+        return res.send(req.user)
+
+    } else {
+        return res.status(409).send('Bad Request')
+    }
+}
+
+
+
+
 /* receives the selected payment plan from user */
 exports.payment = (req, res) => {
     
@@ -183,6 +197,7 @@ exports.google_auth = (req, res) => {
 
 
 
+
 /* user logout */
 exports.logout = (req, res) => {
 
@@ -199,17 +214,6 @@ exports.register = (req, res) => {
 
     // grab data from request
     const {name, email, password, password_confirm} = req.body; // add passwords back into here
-
-    // TODO finish validation
-    //const checks = [ check(email).isEmail(), 
-    //    check(name).isLength({ min: 3 }), 
-    //    check(password).isLength({ min: 6 }) ]; 
-
-    //const errors = validationResult(checks);
-
-    //if (!errors.isEmpty()) {
-    //    return res.status(422).json({ errors: errors.array() });
-    //}
 
     // validation passed, verify user not in database, then save
     User.findOne({email: email})
@@ -262,33 +266,33 @@ exports.user = (req, res) => {
 exports.update = (req, res) => {
 
     /* Instantiate a User that is within the database */
-    console.log('User info in database', req.session.passport.user)
+    console.log('User info in database', req.session.passport.user._id)
+    //console.log('User ', req.user)
 
     if (req.user) {
-
-        // TODO this.user_auth(req) // try to complete to save code duplication
 
         // grab data from request
         const {email, username} = req.body; // add passwords back into here
 
+        console.log(email)
         User.findOne({email: email})
             .then(user => {
-                if (user && (username === '')) {
+                if (user) {
 
                     // user exists and they are only updating their email
                     console.log("User already exists, try a new email")
                     res.status(409).send('Bad Request')
                 } else {
-                    var new_email = email;
+                    //var new_email = email;
                     // update user within database based on parameters
-                    User.updateOne(req.session.passport.user, {email: new_email}, (err) => {
+                    User.updateOne(req.session.passport.user, {email: email}, (err) => {
                         if (err) { 
                             throw err; 
-
-                            //console.log('User updated')
-                            res.send('Updated user') // only used for testing...not actually looking in database for the change
+                        } else {
+                            console.log('User updated')
                         }
                     })
+                    res.send('Updated user') // only used for testing...not actually looking in database for the change
                 }
             })
             .catch(err => console.log(err))
@@ -311,9 +315,10 @@ exports.delete = (req, res) => {
                 throw err;
             }
             else
-                //console.log("User deleted");
-                this.logout();
+                req.logout();
+                req.session.destroy();
                 res.send('Deleted');
+                console.log("User deleted");
         })
     }
 };
