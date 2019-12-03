@@ -63,20 +63,65 @@ exports.login = (req, res, next) => {
 
 
 
+/* receives the selected payment plan from user */
+exports.payment = (req, res) => {
+    
+    if (req.user) {
+        console.log(req.session.passport.user._id)
+        const {paymentPlan} = req.body;
+
+        // update user within database based on parameters
+        User.updateOne(req.session.passport.user, {plan: paymentPlan}, (err) => {
+            if (err) { 
+                throw err; 
+            } else {
+                console.log('Updated payment plan')
+                res.send('Updated user')
+            }
+        })
+    }
+}
+
+
+
+
+/* return payment plan to frontend */
+exports.get_plan = (req, res) => {
+
+    if (req.user) {
+
+        console.log(req.session.passport.user._id)
+
+        User.findOne({_id: req.session.passport.user._id})
+            .then(user => {
+                if (user) {
+
+                    var ret_val = {
+                        plan: user.plan
+                    }
+                    // may throw an error having a return in here
+                    return res.send(ret_val)
+                } else {
+                    return res.send('Bad Request')
+                }
+            })
+            .catch(err => console.log(err))
+    }
+}
+
+
+
 /* store data from the forms */
 exports.form = (req, res) => {
 
-
     if (req.user)
     {
-
         const session_user = req.session.passport.user._id;
 
         User.findOne({_id: session_user})
             .then(user => {
+
                 if (user) {
-
-
                     //console.log('body', req.body)
                     var body_keys = Object.keys(req.body)
                     //console.log(body_keys)
@@ -90,34 +135,34 @@ exports.form = (req, res) => {
                     var personal_result = {};
                     var personal_intersection = _.intersection(body_keys, personal_keys);
                     personal_intersection.forEach((key) => personal_result[key] = req.body[key]);
-                    console.log(personal_result)
+                    //console.log(personal_result)
 
                     // survivor intersection
                     var survivor_result = {};
                     var survivor_intersection = _.intersection(body_keys, survivor_keys);
                     survivor_intersection.forEach((key) => survivor_result[key] = req.body[key]);
-                    console.log(survivor_result)
+                    //console.log(survivor_result)
 
                     //const form_data = Form(req.body);
 
-                    // user exists
-                    console.log("Saving form data...")
-
-                    User.findOneAndUpdate({ "_id": session_user }, { "$set": survivor_result})
-                        .exec(function(err, data) {
-                            if(err) {
-                                console.log(err);
-                                res.status(500).send(err);
-                            } else {
-                                res.status(200).send('Data saved');
-                            }
-                        });
+                   // User.updateOne(req.session.passport.user, {first_log: true}, (err) => {
+                   //     if (err) { 
+                   //         throw err; 
+                   //     } else {
+                   //         console.log('Updated first_log to false')
+                   //     }
+                   // })
+                    User.findOneAndUpdate({_id: session_user}, { "$set": survivor_result})
+                        .then(() => {
+                          res.status(200).send('Data saved');
+                        })
+                        .catch(err => console.log(err))
                 }
             })
             .catch(err => console.log(err))
-            } else {
-                res.status(409).send('Bad Request')
-            }
+    } else {
+        res.status(409).send('Bad Request')
+    }
 }
 
 
@@ -224,24 +269,7 @@ exports.update = (req, res) => {
         // TODO this.user_auth(req) // try to complete to save code duplication
 
         // grab data from request
-        const {email, username, password, password_confirm} = req.body; // add passwords back into here
-        // if password was given to be updated, hash it
-        //var current_user = Object.assign(req.user);
-        //var updated_user = Object.assign(req.);
-
-        // TODO fix validation
-        // check passwords are the same if a password was included
-        // if (password!==undefined && (password != password_confirm)) {
-        //     console.log('password do not match')
-        //     res.status(400).send();
-        // }
-        // // check pass length if a password was included in the update 
-        // else if (password!==undefined && (password.length < 6)) {
-        //     console.log('passwords needs to be at least 6 characters')
-        //     res.status(400).send();
-        // }
-        // else {
-        // validation passed, verify email is not database
+        const {email, username} = req.body; // add passwords back into here
 
         User.findOne({email: email})
             .then(user => {
@@ -250,32 +278,12 @@ exports.update = (req, res) => {
                     // user exists and they are only updating their email
                     console.log("User already exists, try a new email")
                     res.status(409).send('Bad Request')
-                //} 
-                //else if (updated_user.password !== '') {
-                //    bcrypt.genSalt(saltRounds, (err, salt) => { 
-                //        bcrypt.hash(updated_user.password, salt, (err, hash) => {
-                //            if (err) throw err;
-
-                //            // set password to hash
-                //            updated_user.password = hash;
-                //            // update user within database based on parameters
-                //            User.updateOne(user, updated_user, (err) => {
-                //                if (err) {
-                //                    throw err;
-                //                } else {
-                //                    //console.log('User updated')
-                //                    res.send('Updated user with new hash')
-                //                }
-                //            })
-                //        })
-                //    })
                 } else {
                     var new_email = email;
                     // update user within database based on parameters
                     User.updateOne(req.session.passport.user, {email: new_email}, (err) => {
                         if (err) { 
                             throw err; 
-                        } else {
 
                             //console.log('User updated')
                             res.send('Updated user') // only used for testing...not actually looking in database for the change

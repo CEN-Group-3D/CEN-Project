@@ -13,9 +13,13 @@ router.route('/login')
 router.route('/register')
     .post(user.register); /* creates a user */
 
+router.route('/payment')
+    .put(user.payment)
+
 /* takes in user form data */
 router.route('/form')
-    .post(user.form)
+    .get(user.get_plan)
+    .put(user.form)
 
 /* routes for passing in a userId */
 router.route('/update')
