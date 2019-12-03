@@ -1,7 +1,7 @@
 const User = require('../models/user.server.model.js'),
-      Form = require('../models/personalAndFamily.server.model.js'),
       passport = require('passport'),
       { check, validationResult } = require('express-validator'),
+      _ = require('underscore'),
       bcrypt = require('bcryptjs'),
       saltRounds = 10;
 
@@ -63,23 +63,47 @@ exports.login = (req, res, next) => {
 
 
 
-
+/* store data from the forms */
 exports.form = (req, res) => {
 
-    const session_user = req.session.passport.user._id;
 
     if (req.user)
     {
+
+        const session_user = req.session.passport.user._id;
+
         User.findOne({_id: session_user})
             .then(user => {
                 if (user) {
+
+
+                    //console.log('body', req.body)
+                    var body_keys = Object.keys(req.body)
+                    //console.log(body_keys)
+                    var user_keys = user.toObject()
+                    var personal_keys = Object.keys(user_keys.personalAndFamily)
+                    var survivor_keys = Object.keys(user_keys.survivorAndBeneficiary)
+                    //console.log(personal_keys)
+                    //console.log(survivor_keys)
+
+                    // personal intersection
+                    var personal_result = {};
+                    var personal_intersection = _.intersection(body_keys, personal_keys);
+                    personal_intersection.forEach((key) => personal_result[key] = req.body[key]);
+                    console.log(personal_result)
+
+                    // survivor intersection
+                    var survivor_result = {};
+                    var survivor_intersection = _.intersection(body_keys, survivor_keys);
+                    survivor_intersection.forEach((key) => survivor_result[key] = req.body[key]);
+                    console.log(survivor_result)
 
                     //const form_data = Form(req.body);
 
                     // user exists
                     console.log("Saving form data...")
 
-                    User.findOneAndUpdate({ "_id": session_user }, { "$set": req.body})
+                    User.findOneAndUpdate({ "_id": session_user }, { "$set": survivor_result})
                         .exec(function(err, data) {
                             if(err) {
                                 console.log(err);
