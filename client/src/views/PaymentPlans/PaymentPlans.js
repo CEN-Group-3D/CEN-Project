@@ -10,16 +10,17 @@ class PaymentPlans extends React.Component {
 
     postPaymentDetails = (payment, planPurchased) => {
         let paymentObject = {
-            plan: planPurchased,
-            payment: payment
+            paymentPlan: planPurchased,
         };
         
         fetch('/user/form', {
-            method: 'POST',
+            method: 'PUT',
             credentials: 'include',
             body: JSON.stringify(paymentObject)
         }).then((response) => {
-            console.log(response)
+            if (response.ok) {
+                window.location = '/form';
+            } 
         })
     }
     
