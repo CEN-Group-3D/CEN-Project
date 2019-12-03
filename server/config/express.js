@@ -7,7 +7,7 @@ const path = require('path'),
       mongoStore = require('connect-mongo')(session),
       passport = require('passport'),
       passportConf = require('./passport'), // required 
-      {Storage} = require('@google-cloud/storage'),
+      //{Storage} = require('@google-cloud/storage'),
       //{createWriteStream} = require("fs"),
       //{ApolloServer, gql} = require('apollo-server-express'),
       adminRouter = require('../routes/admin.server.routes'),
@@ -26,45 +26,6 @@ module.exports.init = () => {
 
     mongoose.set('useCreateIndex', true);
     mongoose.set('useFindAndModify', false);
-
-    //const files = [];
-
-    //const typeDefs = gql`
-    //type Query {
-    //    files: [String]
-    //}
-    //type Mutation {
-    //    uploadFile(file: Upload!): Boolean
-    //}
-    //`;
-
-    //const resolvers = {
-    //    Query: {
-    //        files: () => files
-    //    },
-    //    Mutation: {
-    //        uploadFile: async (_, { file }) => {
-    //        const { createReadStream, filename } = await file;
-
-    //        await new Promise(res =>
-    //            createReadStream()
-    //            .pipe(
-    //                coolFilesBucket.file(filename).createWriteStream({
-    //                resumable: false, // files less than 10Mb
-    //                gzip: true
-    //                })
-    //            )
-    //            .on("finish", res)
-    //        );
-
-    //        files.push(filename);
-
-    //        return true;
-    //        }
-    //    }
-    //};
-
-    //const server = new ApolloServer({ typeDefs, resolvers });
 
     // initialize app
     const app = express();

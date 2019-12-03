@@ -1,6 +1,6 @@
 const mongoose = require('mongoose'),
       LocalStrategy = require('passport-local').Strategy,
-      GoogleStrategy = require('passport-google-oauth20'),
+      //GoogleStrategy = require('passport-google-oauth20'),
       bcrypt = require('bcryptjs'),
       passport = require('passport'),
       keys = require('./config'),
