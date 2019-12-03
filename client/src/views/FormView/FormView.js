@@ -29,17 +29,17 @@ class FormView extends React.Component {
             field.options.forEach(option => {
                 options.push(<option value={option.value}>{option.name}</option>);
             });
-            return <select className="form-control" id={field.dataTag}>{options}</select>;
+            return <select className="form-control" name={field.dataTag} id={field.dataTag}>{options}</select>;
         
         } else if (field.type === 'textarea') {
-            return <textarea className="form-control" id={field.dataTag} rows={3}></textarea>
+            return <textarea className="form-control" name={field.dataTag} id={field.dataTag} rows={3}></textarea>
         
         } else if (field.type === "checkbox") {
-            return <input className="form-check-input" id={field.dataTag} type={field.type}></input>
+            return <input className="form-check-input" name={field.dataTag} id={field.dataTag} type={field.type}></input>
         }
 
         else {
-            return <input className="form-control" id={field.dataTag} type={field.type}></input>;
+            return <input className="form-control" name={field.dataTag} id={field.dataTag} type={field.type}></input>;
         }
     }
 
@@ -98,10 +98,30 @@ class FormView extends React.Component {
                 );
     }
 
+
+    handleSubmit = (evt) => {
+        evt.preventDefault();
+
+        let form = evt.target;
+        let formData = new FormData(form);
+
+        fetch('/user/form', {
+            method: 'POST',
+            body: JSON.stringify(Object.fromEntries(formData)),
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            credentials: 'include',
+            
+        }).then((response) => {
+            
+        })
+    }
+
     render() {
         return (
             <div className="col-xs-12 col-md-6">
-                <form>
+                <form onSubmit={this.handleSubmit}>
                     {this.generateForm(personalAndFamily)}
                     {this.generateForm(survivorAndBeneficiary)}
                     {/* <h1>Personal and Family</h1>
@@ -141,6 +161,9 @@ class FormView extends React.Component {
                             </select>
                         </div>
                     </div>  */}
+                    <div id="form-submit-container" className="container panel col-12">
+                        <button className="btn btn-primary btn-lg btn-block">Submit</button>
+                    </div>
                 </form>
             </div>
         );
