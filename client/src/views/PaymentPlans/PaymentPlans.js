@@ -13,9 +13,12 @@ class PaymentPlans extends React.Component {
             paymentPlan: planPurchased,
         };
         
-        fetch('/user/form', {
+        fetch('/user/payment', {
             method: 'PUT',
             credentials: 'include',
+            headers: {
+                'Content-Type': 'application/json'
+            },
             body: JSON.stringify(paymentObject)
         }).then((response) => {
             if (response.ok) {

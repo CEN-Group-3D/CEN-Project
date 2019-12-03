@@ -36,12 +36,12 @@ class UserDashboardView extends React.Component {
 
     tabTitles = ['Documents', 'Forms', 'Profile']
     tabComponents =[<div id="user-docs">
-                        <Document
+                        {/* <Document
                             file={test}
                             onLoadSuccess={this.onDocumentLoadSuccess}
                         >
                             <Page pageNumber={1} />
-                        </Document>
+                        </Document> */}
                     </div>,
 
                     <div>Forms

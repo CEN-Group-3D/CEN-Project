@@ -14,3 +14,10 @@
 #form-submit-container {
     padding: 20px;
 }
+.loading-panel {
+    display: flex;
+    justify-content: center;
+}
+.loading-panel h1 {
+    margin: 20px;
+}
