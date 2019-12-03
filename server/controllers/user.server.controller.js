@@ -38,18 +38,18 @@ exports.login = (req, res, next) => {
                         if (err) { 
                             throw err; 
                         } else {
-                            return res.status(200).send(ret_val);
+                            console.log('Updated first_log to false')
                         }
                     })
                 }
 
                 if (user.admin || user.root) {
                     console.log('Admin or root')
-                    return res.status(200).send(ret_val)
+                    return res.send(ret_val)
                 }
                 else if (!user.admin) {
                     console.log('normal user')
-                    return res.status(200).send(ret_val)
+                    return res.send(ret_val)
                 }
 
                 console.log('User: ', user)
