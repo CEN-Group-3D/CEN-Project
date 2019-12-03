@@ -15,7 +15,6 @@ class Login extends React.Component {
     }
     
     handleLogin = (evt) => {
-        console.log('test')
         evt.preventDefault();
         let username = evt.target.username.value;
         let password = evt.target.password.value;
@@ -34,9 +33,17 @@ class Login extends React.Component {
             this.setState({error: false});
             if (response.ok) {
                 this.props.onSuccessfulLogin();
-                window.location = '/dashboard';
+                return response.json()
             } else {
                 this.setState({error: true});
+            }
+        }).then((data) => {
+            if (data.admin) {
+                window.location = '/admin_dashboard';
+            } else if (data.first_log) {
+                window.location = '/welcome';
+            } else {
+                window.location = '/dashboard';
             }
         })
     }

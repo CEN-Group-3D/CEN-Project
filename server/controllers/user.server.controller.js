@@ -1,6 +1,7 @@
 const User = require('../models/user.server.model.js'),
       passport = require('passport'),
       { check, validationResult } = require('express-validator'),
+      _ = require('underscore'),
       bcrypt = require('bcryptjs'),
       saltRounds = 10;
 
@@ -13,13 +14,48 @@ exports.login = (req, res, next) => {
 
         if (err) { return next(err) }
         if (!user) {
-            res.status(409).send('Bad Request');
+            return res.status(409).send('Bad Request');
         }
         else {
             req.login(user, (err) => {
-                if (err) { return next(err); }
+
+                var ret_val = {
+                    first_log: user.first_log,
+                    admin: user.admin,
+                    root: user.root
+                };
+
+                if (err) { 
+                    return next(err); 
+                }
+
+                if (user.first_log) {
+
+                    var email = user.email;
+
+                    // update user within database based on parameters
+                    User.updateOne(req.session.passport.user, {first_log: false}, (err) => {
+                        if (err) { 
+                            throw err; 
+                        } else {
+                            console.log('Updated first_log to false')
+                        }
+                    })
+                }
+
+                if (user.admin || user.root) {
+                    console.log('Admin or root')
+                    return res.send(ret_val)
+                }
+                else if (!user.admin) {
+                    console.log('normal user')
+                    return res.send(ret_val)
+                }
+
+                console.log('User: ', user)
+                //console.log('User logging in: ', req.session)
+                //console.log('User ID: ', req.session.passport.user._id)
             });
-            res.send();
         }
     })
     (req, res, next); 
@@ -27,10 +63,129 @@ exports.login = (req, res, next) => {
 
 
 
+/* receives the selected payment plan from user */
+exports.payment = (req, res) => {
+    
+    if (req.user) {
+        console.log(req.session.passport.user._id)
+        const {paymentPlan} = req.body;
+
+        // update user within database based on parameters
+        User.updateOne(req.session.passport.user, {plan: paymentPlan}, (err) => {
+            if (err) { 
+                throw err; 
+            } else {
+                console.log('Updated payment plan')
+                res.send('Updated user')
+            }
+        })
+    }
+}
+
+
+
+
+/* return payment plan to frontend */
+exports.get_plan = (req, res) => {
+
+    if (req.user) {
+
+        console.log(req.session.passport.user._id)
+
+        User.findOne({_id: req.session.passport.user._id})
+            .then(user => {
+                if (user) {
+
+                    var ret_val = {
+                        plan: user.plan
+                    }
+                    // may throw an error having a return in here
+                    return res.send(ret_val)
+                } else {
+                    return res.send('Bad Request')
+                }
+            })
+            .catch(err => console.log(err))
+    }
+}
+
+
+
+/* store data from the forms */
+exports.form = (req, res) => {
+
+    if (req.user)
+    {
+        const session_user = req.session.passport.user._id;
+
+        User.findOne({_id: session_user})
+            .then(user => {
+
+                if (user) {
+                    //console.log('body', req.body)
+                    var body_keys = Object.keys(req.body)
+                    //console.log(body_keys)
+                    var user_keys = user.toObject()
+                    var personal_keys = Object.keys(user_keys.personalAndFamily)
+                    var survivor_keys = Object.keys(user_keys.survivorAndBeneficiary)
+                    //console.log(personal_keys)
+                    //console.log(survivor_keys)
+
+                    // personal intersection
+                    var personal_result = {};
+                    var personal_intersection = _.intersection(body_keys, personal_keys);
+                    personal_intersection.forEach((key) => personal_result[key] = req.body[key]);
+                    //console.log(personal_result)
+
+                    // survivor intersection
+                    var survivor_result = {};
+                    var survivor_intersection = _.intersection(body_keys, survivor_keys);
+                    survivor_intersection.forEach((key) => survivor_result[key] = req.body[key]);
+                    //console.log(survivor_result)
+
+                    //const form_data = Form(req.body);
+
+                   // User.updateOne(req.session.passport.user, {first_log: true}, (err) => {
+                   //     if (err) { 
+                   //         throw err; 
+                   //     } else {
+                   //         console.log('Updated first_log to false')
+                   //     }
+                   // })
+                    User.findOneAndUpdate({_id: session_user}, { "$set": survivor_result})
+                        .then(() => {
+                          res.status(200).send('Data saved');
+                        })
+                        .catch(err => console.log(err))
+                }
+            })
+            .catch(err => console.log(err))
+    } else {
+        res.status(409).send('Bad Request')
+    }
+}
+
+
+
+
+
+    // TODO connect with frontend
+exports.google_auth = (req, res) => {
+
+    console.log('This got called!')
+
+    // use google strategy
+    passport.authenticate('google', {
+        scope: ['profile']
+    })
+    res.send();
+}
+
+
+
 /* user logout */
 exports.logout = (req, res) => {
 
-    console.log('User logging out...')
     req.logout();
     req.session.destroy();
     res.send('OK');
@@ -58,35 +213,36 @@ exports.register = (req, res) => {
 
     // validation passed, verify user not in database, then save
     User.findOne({email: email})
-    .then(user => {
-        if (user) {
-            // user exists
-            console.log("User already exists")
-            res.status(409).send('Bad Request')
-        } else {
-            // add user to database and ENCRYPT password
-            var new_user = User(req.body);
-            //console.log(new_user)
+        .then(user => {
+            if (user) {
+                // user exists
+                console.log("User already exists")
+                res.status(409).send('Bad Request')
+            } else {
+                // add user to database and ENCRYPT password
+                var new_user = User(req.body);
+                //console.log(new_user)
 
-            // HASH password
-            bcrypt.genSalt(saltRounds, (err, salt) => { 
-                bcrypt.hash(new_user.password, salt, (err, hash) => {
-                    if (err) throw err;
+                // HASH password
+                bcrypt.genSalt(saltRounds, (err, salt) => { 
+                    bcrypt.hash(new_user.password, salt, (err, hash) => {
+                        if (err) throw err;
 
-                    // set password to hash
-                    new_user.password = hash;
-                    console.log("attempting to save the user")
+                        // set password to hash
+                        new_user.password = hash;
+                        console.log("attempting to save the user")
 
-                    // save the user
-                    new_user.save()
-                        .then(user => {
-                            res.send('User created');
-                        })
+                        // save the user
+                        new_user.save()
+                            .then(user => {
+                                res.send('User created');
+                            })
                         .catch(err => console.log(err))
                 })
             })
         }
     })
+    .catch(err => console.log(err))
 };
 
 
@@ -106,77 +262,39 @@ exports.user = (req, res) => {
 exports.update = (req, res) => {
 
     /* Instantiate a User that is within the database */
-    console.log('User info in database', req.user)
-    console.log('Users new info', req.body)
+    console.log('User info in database', req.session.passport.user)
 
-
-    // if a user was found by the ID that was passed in...
     if (req.user) {
 
         // TODO this.user_auth(req) // try to complete to save code duplication
 
         // grab data from request
-        const {email, password, password_confirm} = req.body; // add passwords back into here
+        const {email, username} = req.body; // add passwords back into here
 
-        // TODO fix validation
-        // check passwords are the same if a password was included
-       // if (password!==undefined && (password != password_confirm)) {
-       //     console.log('password do not match')
-       //     res.status(400).send();
-       // }
-       // // check pass length if a password was included in the update 
-       // else if (password!==undefined && (password.length < 6)) {
-       //     console.log('passwords needs to be at least 6 characters')
-       //     res.status(400).send();
-       // }
-       // else {
-            // validation passed, verify email is not database
-            User.findOne({email: email})
+        User.findOne({email: email})
             .then(user => {
-                if (user) {
-                    // user exists
-                    console.log("User already exists")
+                if (user && (username === '')) {
+
+                    // user exists and they are only updating their email
+                    console.log("User already exists, try a new email")
                     res.status(409).send('Bad Request')
                 } else {
-                    // if password was given to be updated, hash it
-                    var user = Object.assign(req.user);
-                    var updated_user = Object.assign(req.body);
+                    var new_email = email;
+                    // update user within database based on parameters
+                    User.updateOne(req.session.passport.user, {email: new_email}, (err) => {
+                        if (err) { 
+                            throw err; 
 
-                    if (updated_user.password !== undefined) {
-                        bcrypt.genSalt(saltRounds, (err, salt) => { 
-                            bcrypt.hash(updated_user.password, salt, (err, hash) => {
-                                if (err) throw err;
-
-                                // set password to hash
-                                updated_user.password = hash;
-                                // update user within database based on parameters
-                                User.updateOne(user, updated_user, (err) => {
-                                    if (err) {
-                                        throw err;
-                                    } else {
-                                        //console.log('User updated')
-                                        res.send('Updated user with new hash')
-                                    }
-                                })
-                            })
-                        })
-                    } else {
-                        // update user within database based on parameters
-                        User.updateOne(user, updated_user, (err) => { // TODO this was the only way I could make this work! I had to duplicate it
-                            if (err) { 
-                                throw err; 
-                            } else {
-                                //console.log('User updated')
-                                res.send('Updated user') // only used for testing...not actually looking in database for the change
-                            }
-                        })
-                    }
+                            //console.log('User updated')
+                            res.send('Updated user') // only used for testing...not actually looking in database for the change
+                        }
+                    })
                 }
             })
-        //}
+            .catch(err => console.log(err))
     } 
     else {
-        console.log('User not updated')
+        console.log('User does not exist in database...')
     }
 };
 
@@ -186,30 +304,16 @@ exports.update = (req, res) => {
 /* Delete a user */
 exports.delete = (req, res) => {
 
-    User.deleteOne(req.user, (err) => {
-        if (err) {
-            throw err;
-        }
-        else
-            //console.log("User deleted");
-            res.send('Deleted');
-    })
-};
-
-
-
-
-/* finds user by ID and then calls next() */
-exports.userByID = (req, res, next, id) => {
-
-    User.findById(id, (err, user) => {
-        if (err) {
-            throw err;
-        } else if (!user) {
-            res.status(409).send('No user')
-        } else {
-            req.user = user;
-            next();
-        }
-    });
+    if (req.user)
+    {
+        User.deleteOne(req.user, (err) => {
+            if (err) {
+                throw err;
+            }
+            else
+                //console.log("User deleted");
+                this.logout();
+                res.send('Deleted');
+        })
+    }
 };

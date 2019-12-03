@@ -3,11 +3,13 @@ const path = require('path'),
       mongoose = require('mongoose'),
       morgan = require('morgan'),
       bodyParser = require('body-parser'),
-      cookieParser = require('cookie-parser'),
       session = require('express-session'),
       mongoStore = require('connect-mongo')(session),
       passport = require('passport'),
-      passportConf = require('./passport'); // required 
+      passportConf = require('./passport'), // required 
+      //{Storage} = require('@google-cloud/storage'),
+      //{createWriteStream} = require("fs"),
+      //{ApolloServer, gql} = require('apollo-server-express'),
       adminRouter = require('../routes/admin.server.routes'),
       mainRouter = require('../routes/mainRouter.server.routes'),
       userRouter = require('../routes/user.server.routes');
@@ -31,13 +33,19 @@ module.exports.init = () => {
     // enable request logging for development debugging
     app.use(morgan('dev'));
 
-    // connect flash
-    // app.use(flash());
-    
     // parsing middleware
-    app.use(cookieParser()); // has to be above session
     app.use(bodyParser.json());
-    app.use(bodyParser.urlencoded({extended: false}))
+    app.use(bodyParser.urlencoded({extended: false}));
+
+    // google cloud
+   // const gc = new Storage({
+   //     keyFilename: path.join(__dirname, "./cenProject-483d5b367e81.json"),
+   //     projectId: 'cenproject'
+   // });
+
+    
+    //gc.getBuckets().then(x => console.log(x)).catch(err => console.log(err))
+    //const file = gc.bucket('cen_files');
 
     // express sessions
     app.use(session({
@@ -57,6 +65,8 @@ module.exports.init = () => {
     // app.use(cors({ origin: 'https://localhost:3000', credentials: true }));
 
     // routes
+
+    //app.use('/upload', mainRouter);
     app.use('/', mainRouter);
     app.use('/user', userRouter);
     app.use('/admin', adminRouter);
