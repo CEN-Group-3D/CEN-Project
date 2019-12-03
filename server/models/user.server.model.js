@@ -2,10 +2,11 @@ var mongoose = require('mongoose'),
     Schema = mongoose.Schema;
 
 var userSchema = new Schema({
-    first_log: {type: Boolean, required: false, default: true},
     name: {type: String, required: true, default: null},
     email: {type: String, required: true, default: null},
     password: {type: String, required: false, default: null},
+    first_log: {type: Boolean, required: false, default: true},
+    plan: {type: Number, required: false, default: null},
     admin: {type: Boolean, required: false, default: false},
     root: {type: Boolean, requied: false, default: false},
     created: Date,
@@ -73,16 +74,16 @@ var userSchema = new Schema({
         zipStCh: {type: Number, required: false, default: null},
         underaged_children: {type: Boolean, required: false, default: null},
         special_needs_children: {type: Boolean, required: false, default: null},
-        fname_gaurdian_SpNeeds_UnderA: {type: String, required: false, default: null},
-        mname_gaurdian_SpNeeds_UnderA: {type: String, required: false, default: null},
-        lname_gaurdian_SpNeeds_UnderA: {type: String, required: false, default: null},
-        relat_gaurdian_SpNeeds_UnderA: {type: String, required: false, default: null},
-        tele_gaurdian_SpNeeds_UnderA: {type: String, required: false, default: null},
-        address1_gaurdian_SpNeeds_UnderA: {type: String, required: false, default: null},
-        address2_gaurdian_SpNeeds_UnderA: {type: String, required: false, default: null},
-        city_gaurdian_SpNeeds_UnderA: {type: String, required: false, default: null},
-        state_gaurdian_SpNeeds_UnderA: {type: String, required: false, default: null},
-        zip_gaurdian_SpNeeds_UnderA: {type: Number, required: false, default: null}
+        fname_guardian_SpNeeds_UnderA: {type: String, required: false, default: null},
+        mname_guardian_SpNeeds_UnderA: {type: String, required: false, default: null},
+        lname_guardian_SpNeeds_UnderA: {type: String, required: false, default: null},
+        relat_guardian_SpNeeds_UnderA: {type: String, required: false, default: null},
+        tele_guardian_SpNeeds_UnderA: {type: String, required: false, default: null},
+        address1_guardian_SpNeeds_UnderA: {type: String, required: false, default: null},
+        address2_guardian_SpNeeds_UnderA: {type: String, required: false, default: null},
+        city_guardian_SpNeeds_UnderA: {type: String, required: false, default: null},
+        state_guardian_SpNeeds_UnderA: {type: String, required: false, default: null},
+        zip_guardian_SpNeeds_UnderA: {type: Number, required: false, default: null}
     }
 });
 
