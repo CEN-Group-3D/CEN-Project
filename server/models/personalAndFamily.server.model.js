@@ -23,7 +23,7 @@ var personalAndFamilySchema = new Schema({
         interests: {type: String, required: false, default: null},
     });
 
-userSchema.pre('save', function(next) {
+personalAndFamilySchema.pre('save', function(next) {
 
     // get the current date
     var currentDate = new Date();
