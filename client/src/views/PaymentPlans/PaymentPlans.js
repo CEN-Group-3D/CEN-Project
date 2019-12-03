@@ -1,6 +1,5 @@
 import React from 'react';
 import './PaymentPlans.css';
-import PaypalExpressBtn from 'react-paypal-express-checkout';
 
 class PaymentPlans extends React.Component {
     constructor(props) {
@@ -8,36 +7,130 @@ class PaymentPlans extends React.Component {
 
         this.state = {};
     }
-    render() {
-        const style = {
-            size: 'small',
-            color: 'gold',
-            shape: 'rect',
-            label: 'paypal',
-            tagline: 'false',
+
+    postPaymentDetails = (payment, planPurchased) => {
+        let paymentObject = {
+            plan: planPurchased,
+            payment: payment
+        };
+        
+        fetch('/user/form', {
+            method: 'POST',
+            credentials: 'include',
+            body: JSON.stringify(paymentObject)
+        }).then((response) => {
+            console.log(response)
+        })
+    }
+    
+    componentDidMount() {
+        
+        let onSimplePurchase = (payment) => {
+            console.log("Simple", payment);
+            this.postPaymentDetails(payment, 1);
         }
-
-        const onSuccess = (payment) => {
-            		console.log("Payment successful!", payment);
-            		// You can bind the "payment" object's value to your state or props
-		}
-
-		const onCancel = (data) => {
-			console.log('Payment cancelled!', data);
-		}
-
-		const onError = (err) => {
-			console.log("Error!", err);
-			// Because the Paypal's main script is loaded asynchronously from "https://www.paypalobjects.com/api/checkout.js"
+        
+        let onAdvancedPurchase = (payment) => {
+            console.log("Advanced", payment);
+            this.postPaymentDetails(payment, 2);
         }
-		let env = 'production'; // you can set this string to 'production'
-		let currency = 'USD'; // you can set this string from your props or state  
-		let total = '1';  // this is the total amount (based on currency) to charge
+    
+        let onComprehensivePurchase = (payment) => {
+            console.log("Comprehensive", payment);
+            this.postPaymentDetails(payment, 3);
+        }
+        const paypal = window.paypal;
 
-		const client = {
-			sandbox:    process.env.REACT_APP_PAYPAL_CLIENT_ID_SANDBOX,
-			production: process.env.REACT_APP_PAYPAL_CLIENT_ID_PRODUCTION,
-		}
+        paypal.Buttons({
+            // Set up the transaction
+            createOrder: function(data, actions) {
+                return actions.order.create({
+                    purchase_units: [{
+                        amount: {
+                            value: '10'
+                        }
+                    }]
+                });
+            },
+
+            // Finalize the transaction
+            onApprove: function(data, actions) {
+                return actions.order.capture().then(function(details) {
+                    // Show a success message to the buyer
+                    onSimplePurchase();
+                });
+            },
+
+            style: {
+                layout: 'horizontal',
+                tagline: false
+            }
+
+
+        }).render('#simple-btn');
+
+        paypal.Buttons({
+            // Set up the transaction
+            createOrder: function(data, actions) {
+                return actions.order.create({
+                    purchase_units: [{
+                        amount: {
+                            value: '20'
+                        }
+                    }]
+                });
+            },
+
+            // Finalize the transaction
+            onApprove: function(data, actions) {
+                return actions.order.capture().then(function(details) {
+                    // Show a success message to the buyer
+                    onAdvancedPurchase();
+                });
+            },
+
+            style: {
+                layout: 'horizontal',
+                tagline: false
+            }
+
+
+        }).render('#advanced-btn');
+
+        paypal.Buttons({
+            // Set up the transaction
+            createOrder: function(data, actions) {
+                return actions.order.create({
+                    purchase_units: [{
+                        amount: {
+                            value: '30'
+                        }
+                    }]
+                });
+            },
+
+            // Finalize the transaction
+            onApprove: function(data, actions) {
+                return actions.order.capture().then(function(details) {
+                    // Show a success message to the buyer
+                    onComprehensivePurchase();
+                });
+            },
+
+            funding: {
+                disallowed: [paypal.FUNDING.CREDIT]
+            },
+            style: {
+                label: 'paypal',
+                layout: 'horizontal',
+                tagline: false,
+            }
+
+
+        }).render('#comprehensive-btn');
+    }
+
+    render() {     
         return (
             <div className="plans-container container col-xs-12 col-sm-7 col-md-5 col-lg-12 col-xl-10">
                 <div className="row">
@@ -46,7 +139,7 @@ class PaymentPlans extends React.Component {
                             <div className="panel-title panel-title-baseline">
                                 <h4>Simple</h4>
                                 <div className="price-container">
-                                    <span className="currency">$</span><span className="price">20</span><span className="period">/mo</span>
+                                    <span className="currency">$</span><span className="price">10</span><span className="period">/mo</span>
                                 </div>                            
                             </div>
                             <div className="panel-content">
@@ -56,18 +149,8 @@ class PaymentPlans extends React.Component {
                                     <li>Short desc of feature</li>
                                     <li>Short desc of feature</li>
                                 </ul>
-          
-                                <PaypalExpressBtn 
-                                style={style}
-                                env={env} 
-                                client={client} 
-                                currency={currency} 
-                                total={total}  
-                                onError={onError} 
-                                onSuccess={onSuccess} 
-                                onCancel={onCancel} />
 
-                                <button className="btn btn-outline-primary">Select this plan</button>
+                            <div id="simple-btn"></div>
                             </div>
                         </div>
                     </div>
@@ -88,18 +171,8 @@ class PaymentPlans extends React.Component {
                                     <li>Short desc of feature</li>
                                 </ul>
 
-                                <PaypalExpressBtn 
-                                style={style}
-                                env={env} 
-                                client={client} 
-                                currency={currency} 
-                                total={total}  
-                                onError={onError} 
-                                onSuccess={onSuccess} 
-                                onCancel={onCancel} />
-
-                                <button className="btn btn-primary">Select this plan</button>
-
+                                <div id="advanced-btn">
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -108,7 +181,7 @@ class PaymentPlans extends React.Component {
                             <div className="panel-title panel-title-baseline">
                                 <h4>Comprehensive</h4>
                                 <div className="price-container">
-                                    <span className="currency">$</span><span className="price">20</span><span className="period">/mo</span>
+                                    <span className="currency">$</span><span className="price">30</span><span className="period">/mo</span>
                                 </div>                            
                             </div>
                             <div className="panel-content">
@@ -119,18 +192,8 @@ class PaymentPlans extends React.Component {
                                     <li>Short desc of feature</li>
                                 </ul>
 
-                                <PaypalExpressBtn 
-                                style={style}
-                                env={env} 
-                                client={client} 
-                                currency={currency} 
-                                total={total}  
-                                onError={onError} 
-                                onSuccess={onSuccess} 
-                                onCancel={onCancel} />
-
-                                <button className="btn btn-primary">Select this plan</button>
-
+                                <div id="comprehensive-btn">
+                                </div>
                             </div>
                         </div>
                     </div>
