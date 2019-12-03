@@ -58,13 +58,13 @@ export let personalAndFamily = {
                         {name: "Male", value: "male"},
                         {name: "Female", value: "female"},
                         {name: "Transgender", value: "transgender"},
-                        {name: "Gender Neutral", value: "gender-neutral"}
+                        {name: "Gender Neutral", value: "gender_neutral"}
                     ],
                     length: 4
                 },
                 {
                     label: "What is your marital status?",
-                    dataTag: "marital-status",
+                    dataTag: "marital_status",
                     type: "option",
                     options: [
                         {name: "Single", value: "single"},
@@ -349,12 +349,12 @@ export let personalAndFamily = {
         },
         {
             label: "Religious Affiliation",
-            dataTag: "religious-affiliation",
+            dataTag: "religious_affiliation",
             type: "text"
         },
         {
             label: "Have you served in the military?",
-            dataTag: "military-service",
+            dataTag: "military_service",
             type: "checkbox"
         },
         {
@@ -367,11 +367,11 @@ export let personalAndFamily = {
                     options: [
                         {
                             name: "Primary School",
-                            value: "primary-school"
+                            value: "primary_school"
                         },
                         {
                             name: "Secondary School",
-                            value: "secondary-school",
+                            value: "secondary_school",
                         },
                         {
                             name: "College",
@@ -382,7 +382,7 @@ export let personalAndFamily = {
                 },
                 {
                     label: "Organization Membership Date", // ?????
-                    dataTag: "org-date",
+                    dataTag: "org_date",
                     type: "date",
                     length: -1
                 },
@@ -1558,58 +1558,58 @@ export let survivorAndBeneficiary = {
         },
         {
             label: "Are any children under the age of 18?",
-            dataTag: "underaged-children",
+            dataTag: "underaged_children",
             type: "checkbox"
         },
         {
             label: "Are any children special needs?",
-            dataTag: "special-needs-children",
+            dataTag: "special_needs_children",
             type: "checkbox"
         },
         //if yes, 
         {
             label: "First Name of Guardian",
-            dataTag: "fname-gaurdian-SpNeeds-UnderA",
+            dataTag: "fname_guardian_SpNeeds_UnderA",
             type: "text",
         },
         {
             label: "Middle Initial",
-            dataTag: "mname-gaurdian-SpNeeds-UnderA",
+            dataTag: "mname_guardian_SpNeeds_UnderA",
             type: "text",
         },
         {
             label: "Last Name",
-            dataTag: "lname-gaurdian-SpNeeds-UnderA",
+            dataTag: "lname_guardian_SpNeeds_UnderA",
             type: "text",
         },
 	    {
             label: "Relationship to Child",
-            dataTag: "relat-gaurdian-SpNeeds-UnderA",
+            dataTag: "relat_guardian_SpNeeds_UnderA",
             type: "text",
         },
         {
             label: "Telephone",
-            dataTag: "tele-gaurdian-SpNeeds-UnderA",
+            dataTag: "tele_guardian_SpNeeds_UnderA",
             type: "tel",
         },
         {
             label: "Address Line 1",
-            dataTag: "address1-gaurdian-SpNeeds-UnderA",
+            dataTag: "address1_guardian_SpNeeds_UnderA",
             type: "text",
         },
         {
             label: "Address Line 2",
-            dataTag: "address2-gaurdian-SpNeeds-UnderA",
+            dataTag: "address2_guardian_SpNeeds_UnderA",
             type: "text",
         },
         {
             label: "City",
-            dataTag: "city-gaurdian-SpNeeds-UnderA",
+            dataTag: "city_guardian_SpNeeds_UnderA",
             type: "text",
         },
         {
             label: "State",
-            dataTag: "state-gaurdian-SpNeeds-UnderA",
+            dataTag: "state_guardian_SpNeeds_UnderA",
             type: "option",
             options: [
                 {
@@ -1852,9 +1852,9 @@ export let survivorAndBeneficiary = {
         },
         {
             label: "Postal Code",
-            dataTag: "zip-gaurdian-SpNeeds-UnderA",
+            dataTag: "zip_guardian_SpNeeds_UnderA",
             type: "number"
-        },
+        }
         //others
 
     
@@ -3025,53 +3025,53 @@ export let survivorAndBeneficiary = {
 //         },
 //         {
 //             label: "Are any children special needs?",
-//             dataTag: "special-needs-children",
+//             dataTag: "special_needs_children",
 //             type: "checkbox"
 //         },
 //         //if yes, 
 //         {
 //             label: "First Name of Guardian",
-//             dataTag: "fname-gaurdian-SpNeeds-UnderA",
+//             dataTag: "fname_guardian_SpNeeds_UnderA",
 //             type: "text",
 //         },
 //         {
 //             label: "Middle Initial",
-//             dataTag: "mname-gaurdian-SpNeeds-UnderA",
+//             dataTag: "mname_guardian_SpNeeds_UnderA",
 //             type: "text",
 //         },
 //         {
 //             label: "Last Name",
-//             dataTag: "lname-gaurdian-SpNeeds-UnderA",
+//             dataTag: "lname_guardian_SpNeeds_UnderA",
 //             type: "text",
 //         },
 // 	    {
 //             label: "Relationship to Child",
-//             dataTag: "relat-gaurdian-SpNeeds-UnderA",
+//             dataTag: "relat_guardian_SpNeeds_UnderA",
 //             type: "text",
 //         },
 //         {
 //             label: "Telephone",
-//             dataTag: "tele-gaurdian-SpNeeds-UnderA",
+//             dataTag: "tele_guardian_SpNeeds_UnderA",
 //             type: "tel",
 //         },
 //         {
 //             label: "Address Line 1",
-//             dataTag: "address1-gaurdian-SpNeeds-UnderA",
+//             dataTag: "address1_guardian_SpNeeds_UnderA",
 //             type: "text",
 //         },
 //         {
 //             label: "Address Line 2",
-//             dataTag: "address2-gaurdian-SpNeeds-UnderA",
+//             dataTag: "address2_guardian_SpNeeds_UnderA",
 //             type: "text",
 //         },
 //         {
 //             label: "City",
-//             dataTag: "city-gaurdian-SpNeeds-UnderA",
+//             dataTag: "city_guardian_SpNeeds_UnderA",
 //             type: "text",
 //         },
 //         {
 //             label: "State",
-//             dataTag: "state-gaurdian-SpNeeds-UnderA",
+//             dataTag: "state_guardian_SpNeeds_UnderA",
 //             type: "option",
 //             options: [
 //                 {
@@ -3314,7 +3314,7 @@ export let survivorAndBeneficiary = {
 //         },
 //         {
 //             label: "Postal Code",
-//             dataTag: "zip-gaurdian-SpNeeds-UnderA",
+//             dataTag: "zip_guardian_SpNeeds_UnderA",
 //             type: "number"
 //         },
 //         //others

@@ -106,7 +106,7 @@ class FormView extends React.Component {
         let formData = new FormData(form);
 
         fetch('/user/form', {
-            method: 'POST',
+            method: 'PUT',
             body: JSON.stringify(Object.fromEntries(formData)),
             headers: {
                 'Content-Type': 'application/json'

@@ -6,21 +6,33 @@ const user = require('../controllers/user.server.controller.js'),
 router.route('/login')
     .post(user.login);
 
+//router.route('/login_google')
+//    .get(user.google_auth);
+
 /* user creation and register route */
 router.route('/register')
     .post(user.register); /* creates a user */
 
+router.route('/payment')
+    .put(user.payment)
+
+/* takes in user form data */
+router.route('/form')
+    .get(user.get_plan)
+    .put(user.form)
+
 /* routes for passing in a userId */
-router.route('/:userCookie')
-    //.get(user.user)
+router.route('/update')
     .put(user.update)
+
+router.route('/delete')
     .delete(user.delete);
+
+router.route('get_user')
+    //.get(user.user)
 
 // logout from user dashboard
 router.route('/logout')
     .post(user.logout)
-
-// binds user to req object using ID parameter
-//router.param('userCookie', user.userByCookie);
 
 module.exports = router;
