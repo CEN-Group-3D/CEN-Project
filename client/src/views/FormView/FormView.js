@@ -6,7 +6,22 @@ class FormView extends React.Component {
     constructor(props) {
         super(props);
 
-        this.state = {};
+        this.state = {paymentPlan: 0};
+    }
+
+    componentDidMount() {
+        fetch('/user/form',{
+            method: 'GET',
+            credentials: 'include'
+        }).then((response) => {
+            if (response.ok) {
+                return response.json();
+            } else {
+                console.log('error loading form');
+            }
+        }).then((data) => {
+            this.setState({paymentPlan: data.plan})
+        })
     }
 
     createLengthAttributes = (field) => {
@@ -121,14 +136,31 @@ class FormView extends React.Component {
     }
 
     render() {
+
+
         return (
             <div className="col-xs-12 col-md-6">
                 <form onSubmit={this.handleSubmit}>
-                    {this.generateForm(personalAndFamily)}
-                    {this.generateForm(survivorAndBeneficiary)}
-                    <div id="form-submit-container" className="container panel col-12">
-                        <button className="btn btn-primary btn-lg btn-block">Submit</button>
-                    </div>
+                    
+                    {
+                        this.state.paymentPlan >= 1 ? 
+                        this.generateForm(personalAndFamily) :
+                        <div className="loading-panel panel container col-6">
+                            <h1>Loading...</h1>
+                        </div>
+                    }
+                    {
+                        this.state.paymentPlan >= 2 ?
+                        this.generateForm(survivorAndBeneficiary) :
+                        null
+                    }
+                    {
+                        this.state.paymentPlan >= 1 ?
+                        <div id="form-submit-container" className="container panel col-12">
+                            <button className="btn btn-primary btn-lg btn-block">Submit</button>
+                        </div> :
+                        null
+                    }
                 </form>
             </div>
         );
