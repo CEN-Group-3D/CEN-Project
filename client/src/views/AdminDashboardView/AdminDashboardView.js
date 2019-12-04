@@ -2,6 +2,9 @@ import React from 'react';
 import { render } from 'react-dom';
 import UsersList from './UsersList/UsersList';
 import Tabs from '../../components/Tabs/Tabs';
+import { connect } from 'react-redux';
+import { onSuccessfulLogout } from '../../actions/authActions';
+import PropTypes from 'prop-types';
 import {POA} from "../UserDashboardView/FormTemplates/POA";
 import './AdminDashboardView.css';
 
@@ -108,15 +111,31 @@ class AdminDashboardView extends React.Component {
         this.setState({tabTitle: title})
     }
 
+    handleLogout = () => {
+      fetch('/user/logout', {
+          method: 'POST',
+          body: JSON.stringify({}),
+          credentials: 'include',
+      }).then((response) => {
+          if (response.status === 200) {
+              this.props.onSuccessfulLogout();
+              window.location = '/login';
+          }
+      })
+    }
+
     render() {
         let EditableDIV = contentEditable('div');
         let EditableH1 = contentEditable('h1');
 
         return (
-            
-
             <div className="panel container">   
-                <h1 className="panel-title">{this.state.tabTitle}</h1>
+                <h1 className="panel-title">
+                  {this.state.tabTitle}
+                  <div id="logout-container" className="d-flex align-items-center">
+                    <button onClick={this.handleLogout} className="btn btn-outline-primary">Logout</button>
+                  </div>
+                </h1>
                 <div className="panel-content">
                                             
                     <Tabs
@@ -141,6 +160,10 @@ class AdminDashboardView extends React.Component {
     }
 }
 
-export default AdminDashboardView;
+AdminDashboardView.propTypes = {
+  onSuccessfulLogout: PropTypes.func.isRequired,
+}
+
+export default connect(null, { onSuccessfulLogout })(AdminDashboardView);
 
 
