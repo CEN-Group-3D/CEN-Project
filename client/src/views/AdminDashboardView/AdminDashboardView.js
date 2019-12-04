@@ -2,6 +2,9 @@ import React from 'react';
 import { render } from 'react-dom';
 import UsersList from './UsersList/UsersList';
 import Tabs from '../../components/Tabs/Tabs';
+import { connect } from 'react-redux';
+import { onSuccessfulLogout } from '../../actions/authActions';
+import PropTypes from 'prop-types';
 import {POA} from "../UserDashboardView/FormTemplates/POA";
 import './AdminDashboardView.css';
 
@@ -157,6 +160,10 @@ class AdminDashboardView extends React.Component {
     }
 }
 
-export default AdminDashboardView;
+AdminDashboardView.propTypes = {
+  onSuccessfulLogout: PropTypes.func.isRequired,
+}
+
+export default connect(null, { onSuccessfulLogout })(AdminDashboardView);
 
 
