@@ -127,7 +127,12 @@ class AdminDashboardView extends React.Component {
 
         return (
             <div className="panel container">   
-                <h1 className="panel-title">{this.state.tabTitle}</h1>
+                <h1 className="panel-title">
+                  {this.state.tabTitle}
+                  <div id="logout-container" className="d-flex align-items-center">
+                    <button onClick={this.handleLogout} className="btn btn-outline-primary">Logout</button>
+                  </div>
+                </h1>
                 <div className="panel-content">
                                             
                     <Tabs
