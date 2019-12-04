@@ -108,13 +108,24 @@ class AdminDashboardView extends React.Component {
         this.setState({tabTitle: title})
     }
 
+    handleLogout = () => {
+      fetch('/admin/logout', {
+          method: 'POST',
+          body: JSON.stringify({}),
+          credentials: 'include',
+      }).then((response) => {
+          if (response.status === 200) {
+              this.props.onSuccessfulLogout();
+              window.location = '/login';
+          }
+      })
+    }
+
     render() {
         let EditableDIV = contentEditable('div');
         let EditableH1 = contentEditable('h1');
 
         return (
-            
-
             <div className="panel container">   
                 <h1 className="panel-title">{this.state.tabTitle}</h1>
                 <div className="panel-content">
