@@ -109,7 +109,7 @@ class AdminDashboardView extends React.Component {
     }
 
     handleLogout = () => {
-      fetch('/admin/logout', {
+      fetch('/user/logout', {
           method: 'POST',
           body: JSON.stringify({}),
           credentials: 'include',
