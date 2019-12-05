@@ -46,7 +46,7 @@ class FormsTable extends React.Component {
     render() { 
         return (
             <React.Fragment>
-                <table className="table table-striped">
+                <table className="table table-hover table-striped">
                     <thead>
                         <tr>
                             <th scope="col">Title</th>
