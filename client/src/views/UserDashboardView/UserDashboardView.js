@@ -13,8 +13,10 @@ import {POA} from "./FormTemplates/POA";
 import {Medical_POA} from "./FormTemplates/medical-POA - Copy";
 import 'react-pdf/dist/Page/AnnotationLayer.css';
 import './UserDashboardView.css';
+
 import Tabs from '../../components/Tabs/Tabs';
 import UpdateUser from './UpdateUser/UpdateUser';
+import FormsTable from './FormsTable/FormsTable';
 
 
 class UserDashboardView extends React.Component {
@@ -42,14 +44,15 @@ class UserDashboardView extends React.Component {
                         >
                             <Page pageNumber={1} />
                         </Document> */}
-                    </div>,
-
-                    <div>Forms
                         <PDFExport ref={(component) => this.pdfExportComponent = component} fileName= "POA.pdf" paperSize="Letter">                        
                             {POA}
                             
                         </PDFExport>
                         <button className="btn btn-outline-primary" onClick={this.exportPDFWithComponent}>Export PDF</button>                   
+                    </div>,
+
+                    <div>
+                        <FormsTable />
                     </div>, 
 
                     <UpdateUser />];
@@ -72,7 +75,7 @@ class UserDashboardView extends React.Component {
 
     }
 
-render() {
+    render() {
 
         return (
             <div className="panel container">
