@@ -46,12 +46,11 @@ class FormsTable extends React.Component {
     render() { 
         return (
             <React.Fragment>
-                <table className="table table-hover table-striped">
+                <table className="table table-striped">
                     <thead>
                         <tr>
                             <th scope="col">Title</th>
                             <th scope="col">Last Modified</th>
-                            <th scope="col">Actions</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -60,7 +59,7 @@ class FormsTable extends React.Component {
                                 <FormEntry 
                                     key={index}
                                     title={form.title}
-                                    fields={form.fields}
+                                    fields={form.id}
                                 />
                             )
                         })}
