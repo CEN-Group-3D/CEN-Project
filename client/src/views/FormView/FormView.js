@@ -6,7 +6,7 @@ class FormView extends React.Component {
     constructor(props) {
         super(props);
 
-        this.state = {paymentPlan: 0};
+        this.state = {paymentPlan: -1};
     }
 
     componentDidMount() {
@@ -41,8 +41,8 @@ class FormView extends React.Component {
         if (field.type === "option") {
             let options = [];
             // Add each of the options to the array
-            field.options.forEach(option => {
-                options.push(<option value={option.value}>{option.name}</option>);
+            field.options.forEach((option, index) => {
+                options.push(<option key={index} value={option.value}>{option.name}</option>);
             });
             return <select className="form-control" name={field.dataTag} id={field.dataTag}>{options}</select>;
         
@@ -63,7 +63,7 @@ class FormView extends React.Component {
         return (<label className={className} htmlFor={field.dataTag}>{field.label}</label>)
     }
 
-    createFormGroup = (field) => {
+    createFormGroup = (field, key) => {
         let className = `form-group ${this.createLengthAttributes(field)}`
         let innerFormGroup = null;
 
@@ -80,9 +80,9 @@ class FormView extends React.Component {
         }
 
         return (
-        <div className={className}>
-            {innerFormGroup}
-        </div>
+            <div key={key} className={className}>
+                {innerFormGroup}
+            </div>
         )
     }
 
@@ -91,16 +91,16 @@ class FormView extends React.Component {
         let formTitle = <h1 className="panel-title">{formData.title}</h1>;
         let formEntries = [];
         // Iterate through each of the fields
-        formData.fields.forEach(fieldEntry => {
+        formData.fields.forEach((fieldEntry, index) => {
             // Handles if form entries should be on same line.
             if (fieldEntry.formRow) {
                 let formRow = []
-                fieldEntry.fields.forEach(field => {
-                    formRow.push(this.createFormGroup(field));
+                fieldEntry.fields.forEach((field, index) => {
+                    formRow.push(this.createFormGroup(field, index));
                 });
-                formEntries.push(<div className="form-row">{formRow}</div>);
+                formEntries.push(<div key={index} className="form-row">{formRow}</div>);
             } else {
-                formEntries.push(this.createFormGroup(fieldEntry));
+                formEntries.push(this.createFormGroup(fieldEntry, index));
             }
         });
 
@@ -141,25 +141,36 @@ class FormView extends React.Component {
         return (
             <div className="col-xs-12 col-md-6">
                 <form onSubmit={this.handleSubmit}>
-                    
                     {
-                        this.state.paymentPlan >= 1 ? 
-                        this.generateForm(personalAndFamily) :
-                        <div className="loading-panel panel container col-6">
-                            <h1>Loading...</h1>
-                        </div>
-                    }
-                    {
-                        this.state.paymentPlan >= 2 ?
-                        this.generateForm(survivorAndBeneficiary) :
-                        null
-                    }
-                    {
-                        this.state.paymentPlan >= 1 ?
-                        <div id="form-submit-container" className="container panel col-12">
-                            <button className="btn btn-primary btn-lg btn-block">Submit</button>
-                        </div> :
-                        null
+                        this.state.paymentPlan === -1 ?
+                            <div className="loading-panel panel container col-6">
+                                <h1>Loading...</h1>
+                            </div> 
+                        :
+                            <React.Fragment>
+                                {
+                                    this.state.paymentPlan >= personalAndFamily.plan ?
+                                        this.generateForm(personalAndFamily)
+                                    :
+                                        null
+                                }
+                                {
+                                    this.state.paymentPlan >= survivorAndBeneficiary.plan ?
+                                        this.generateForm(survivorAndBeneficiary)
+                                    :
+                                        null
+                                }
+                                {
+                                    this.state.paymentPlan > 0 ?
+                                        <div id="form-submit-container" className="container panel col-12">
+                                            <button className="btn btn-primary btn-lg btn-block">Submit</button>
+                                        </div>
+                                    :
+                                        <div className="loading-panel panel container col-6">
+                                            <h1>Oops, make sure to pay for a <a href="/payments">plan</a>!</h1>
+                                        </div>
+                                }
+                            </React.Fragment>
                     }
                 </form>
             </div>
