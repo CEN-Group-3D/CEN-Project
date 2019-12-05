@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes, { string, object, arrayOf } from 'prop-types';
+import './FormEntry.css'
 
 class FormEntry extends React.Component {
     constructor(props) {
@@ -11,7 +12,7 @@ class FormEntry extends React.Component {
     render() {
         return (
             <tr>
-                <th scope="row">{this.props.title}</th>
+                <th><button className="btn-link form-title-button button-reset">{this.props.title}</button></th>
                 <td>test</td>
                 <td>test</td>
             </tr>
