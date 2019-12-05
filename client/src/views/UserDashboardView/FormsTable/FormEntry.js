@@ -12,9 +12,9 @@ class FormEntry extends React.Component {
     render() {
         return (
             <tr>
-                <th><button className="btn-link form-title-button button-reset">{this.props.title}</button></th>
-                <td>test</td>
-                <td>test</td>
+                <th><button className="form-title-button button-reset">{this.props.title}</button></th>
+                <td className="text-center">test</td>
+                <td className="text-center">test</td>
             </tr>
         )
     }
