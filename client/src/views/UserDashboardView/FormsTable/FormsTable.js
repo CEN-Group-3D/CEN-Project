@@ -1,15 +1,14 @@
 import React from 'react';
-import { personalAndFamily, survivorAndBeneficiary} from '../../FormView/FormView';
+import FormEntry from './FormEntry';
+import { personalAndFamily, survivorAndBeneficiary} from '../../FormView/FormData';
 
 class FormsTable extends React.Component {
     constructor(props) {
         super(props);
 
-        this.state = {};
-    }
-
-    componentDidMount() {
-        let formsData = [personalAndFamily, survivorAndBeneficiary];
+        this.state = {
+            formsData: [personalAndFamily, survivorAndBeneficiary],
+        };
     }
 
     render() { 
@@ -24,7 +23,15 @@ class FormsTable extends React.Component {
                         </tr>
                     </thead>
                     <tbody>
-                        
+                        {this.state.formsData.map((form, index) => {
+                            return (
+                                <FormEntry 
+                                    key={index}
+                                    title={form.title}
+                                    data={form.fields}
+                                />
+                            )
+                        })}
                     </tbody>
                 </table>
             </React.Fragment>
