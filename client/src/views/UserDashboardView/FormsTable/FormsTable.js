@@ -24,7 +24,9 @@ class FormsTable extends React.Component {
                 console.log('error loading form');
             }
         }).then((data) => {
-            this.setState({paymentPlan: data.plan})
+            if (data) {
+                this.setState({paymentPlan: data.plan});
+            }
         })
 
         fetch('/user/dashboard', {
