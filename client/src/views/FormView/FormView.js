@@ -10,7 +10,7 @@ class FormView extends React.Component {
     }
 
     componentDidMount() {
-        fetch('/user/form',{
+        fetch('/user/form', {
             method: 'GET',
             credentials: 'include'
         }).then((response) => {

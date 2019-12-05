@@ -1,5 +1,5 @@
 import React from 'react';
-import PropTypes, { string, object } from 'prop-types';
+import PropTypes, { string, object, arrayOf } from 'prop-types';
 
 class FormEntry extends React.Component {
     constructor(props) {
@@ -21,7 +21,7 @@ class FormEntry extends React.Component {
 
 FormEntry.propTypes = {
     title: string.isRequired,
-    fields: object.isRequired,
+    fields: arrayOf(object).isRequired,
 }
 
 export default FormEntry;
