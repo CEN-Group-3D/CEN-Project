@@ -2,6 +2,7 @@
 
 export let personalAndFamily = {
     title: "Personal and Family",
+    plan: 1,
     fields: [
         {
             formRow: true,
@@ -403,6 +404,7 @@ export let personalAndFamily = {
 
 export let survivorAndBeneficiary = {
     title: "Survivor and Beneficiary",
+    plan: 2,
     fields: [
         {
             formRow: true,
