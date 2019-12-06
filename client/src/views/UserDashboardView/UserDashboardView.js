@@ -64,7 +64,9 @@ class UserDashboardView extends React.Component {
     render() {
         let tabTitles = ['Documents', 'Forms', 'Profile']
         let tabComponents =[
-                    <DocumentViewer />,
+                    <DocumentViewer 
+                        personal={{}}
+                    />,
 
                     <div>
                         <FormsTable 
