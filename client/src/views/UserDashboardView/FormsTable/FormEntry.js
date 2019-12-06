@@ -17,18 +17,24 @@ class FormEntry extends React.Component {
     }
 
     render() {
-        return (
-            <tr>
-                <th><button onClick={this.handleFormTitleClick} className="form-title-button button-reset">{this.props.title}</button></th>
-                <td className="text-center">test</td>
-            </tr>
-        )
+        if (this.props.userPlan >= this.props.formPlan) {
+            return (
+                <tr>
+                    <th><button onClick={this.handleFormTitleClick} className="form-title-button button-reset">{this.props.title}</button></th>
+                    <td className="text-center">test</td>
+                </tr>
+            )
+        } else {
+            return null;
+        }
     }
 }
 
 FormEntry.propTypes = {
     title: string.isRequired,
     formID: number.isRequired,
+    formPlan: number.isRequired,
+    userPlan: number,
 }
 
 export default FormEntry;
