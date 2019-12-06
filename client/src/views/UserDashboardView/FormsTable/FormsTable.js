@@ -8,7 +8,6 @@ class FormsTable extends React.Component {
 
         this.state = {
             formsData: [personalAndFamily, survivorAndBeneficiary],
-            userPlan: this.props.userPlan,
         };
     }
 
@@ -16,7 +15,7 @@ class FormsTable extends React.Component {
         return (
             <React.Fragment>
                 {
-                    this.state.userPlan === 0 ?
+                    this.props.userPlan === 0 ?
                         <p>You don't seem to have a plan. Purchase one <a href="/payments">here</a> to continue</p>
                     :
                     <table className="table table-striped">

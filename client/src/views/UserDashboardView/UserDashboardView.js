@@ -44,8 +44,10 @@ class UserDashboardView extends React.Component {
                 console.log('error loading data');
             }
         }).then((data) => {
-            this.setState({paymentPlan: data.plan});
-            console.log(data);
+            if (data) {
+                this.setState({paymentPlan: data.plan});
+                console.log(data);
+            }
         })
     }
 
