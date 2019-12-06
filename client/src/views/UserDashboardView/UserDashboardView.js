@@ -26,36 +26,34 @@ class UserDashboardView extends React.Component {
         this.state = {
             numPages: null,
             pageNumber: 1,
-            tabTitle: this.tabTitles[0]
+            tabTitle: 'Documents', //hardcoded first tab title
+            paymentPlan: -1,
         };
 
     pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
+    }
+
+    componentDidMount() {
+        fetch('/user/dashboard', {
+            method: 'GET',
+            credentials: 'include'
+        }).then((response) => {
+            if (response.ok) {
+                return response.json();
+            } else {
+                console.log('error loading data');
+            }
+        }).then((data) => {
+            this.setState({paymentPlan: data.plan});
+            console.log(data);
+        })
     }
 
     exportPDFWithComponent = () => {
         this.pdfExportComponent.save();
     }
 
-    tabTitles = ['Documents', 'Forms', 'Profile']
-    tabComponents =[<div id="user-docs">
-                        {/* <Document
-                            file={test}
-                            onLoadSuccess={this.onDocumentLoadSuccess}
-                        >
-                            <Page pageNumber={1} />
-                        </Document> */}
-                        <PDFExport ref={(component) => this.pdfExportComponent = component} fileName= "POA.pdf" paperSize="Letter">                        
-                            {POA}
-                            
-                        </PDFExport>
-                        <button className="btn btn-outline-primary" onClick={this.exportPDFWithComponent}>Export PDF</button>                   
-                    </div>,
-
-                    <div>
-                        <FormsTable />
-                    </div>, 
-
-                    <UpdateUser />];
+    
 
     handleLogout = () => {
         fetch('/user/logout', {
@@ -76,6 +74,28 @@ class UserDashboardView extends React.Component {
     }
 
     render() {
+        let tabTitles = ['Documents', 'Forms', 'Profile']
+        let tabComponents =[<div id="user-docs">
+                        {/* <Document
+                            file={test}
+                            onLoadSuccess={this.onDocumentLoadSuccess}
+                        >
+                            <Page pageNumber={1} />
+                        </Document> */}
+                        <PDFExport ref={(component) => this.pdfExportComponent = component} fileName= "POA.pdf" paperSize="Letter">                        
+                            {POA}
+                            
+                        </PDFExport>
+                        <button className="btn btn-outline-primary" onClick={this.exportPDFWithComponent}>Export PDF</button>                   
+                    </div>,
+
+                    <div>
+                        <FormsTable 
+                            userPlan={this.state.paymentPlan}
+                        />
+                    </div>, 
+
+                    <UpdateUser />];
 
         return (
             <div className="panel container">
@@ -88,8 +108,8 @@ class UserDashboardView extends React.Component {
                 </div>
                 <div className="panel-content">
                     <Tabs
-                        titles={this.tabTitles}
-                        components={this.tabComponents}
+                        titles={tabTitles}
+                        components={tabComponents}
                         onTabChangeCallback={this.handleTabChange}
                     />
                 </div>

@@ -8,39 +8,8 @@ class FormsTable extends React.Component {
 
         this.state = {
             formsData: [personalAndFamily, survivorAndBeneficiary],
-            userPlan: -1,
-            userForms: []
+            userPlan: this.props.userPlan,
         };
-    }
-
-    componentDidMount() {
-        fetch('/user/form', {
-            method: 'GET',
-            credentials: 'include'
-        }).then((response) => {
-            if (response.ok) {
-                return response.json();
-            } else {
-                console.log('error loading form');
-            }
-        }).then((data) => {
-            if (data) {
-                this.setState({paymentPlan: data.plan});
-            }
-        })
-
-        fetch('/user/dashboard', {
-            method: 'GET',
-            credentials: 'include'
-        }).then((response) => {
-            if (response.ok) {
-                return response.json();
-            } else {
-                console.log('error loading data');
-            }
-        }).then((data) => {
-            console.log(data);
-        })
     }
 
     render() { 
