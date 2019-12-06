@@ -5,7 +5,8 @@ import { pdfjs } from 'react-pdf';
 import { PDFExport, savePDF } from '@progress/kendo-react-pdf';
 import {POA} from './FormTemplates/POA';
 import {Medical_POA} from "./FormTemplates/medical-POA - Copy";
-import 'react-pdf/dist/Page/AnnotationLayer.css';
+// import 'react-pdf/dist/Page/AnnotationLayer.css';
+import './DocumentViewer.css';
 
 
 class DocumentViewer extends React.Component {
@@ -30,9 +31,11 @@ class DocumentViewer extends React.Component {
                             >
                                 <Page pageNumber={1} />
                 </Document> */}
-                <PDFExport ref={(component) => this.pdfExportComponent = component} fileName= "POA.pdf" paperSize="Letter">                        
-                                {POA}
-                </PDFExport>                
+                <div className="letter">
+                    <PDFExport ref={(component) => this.pdfExportComponent = component} fileName= "POA.pdf" paperSize="Letter">                        
+                                    {POA}
+                    </PDFExport>                
+                </div>
                  <button className="btn btn-outline-primary" onClick={this.exportPDFWithComponent}>Export PDF</button>                   
             </div>
         )
