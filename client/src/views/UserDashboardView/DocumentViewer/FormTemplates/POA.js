@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {PrivateProfile} from "../UserProfile/PrivateProfile";
+import {PrivateProfile} from "../../UserProfile/PrivateProfile";
 export let POA = 
 	<div>		
 		<h1>Power Of Attorney - Limited</h1>
