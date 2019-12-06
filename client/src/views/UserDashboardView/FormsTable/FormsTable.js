@@ -59,7 +59,7 @@ class FormsTable extends React.Component {
                                 <FormEntry 
                                     key={index}
                                     title={form.title}
-                                    fields={form.id}
+                                    formID={form.id}
                                 />
                             )
                         })}
