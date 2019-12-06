@@ -1,5 +1,5 @@
 import React from 'react';
-import PropTypes, { string, object, arrayOf } from 'prop-types';
+import PropTypes, { string, number } from 'prop-types';
 import './FormEntry.css'
 
 class FormEntry extends React.Component {
@@ -10,7 +10,10 @@ class FormEntry extends React.Component {
     }
 
     handleFormTitleClick = (evt) => {
-
+        // navigate to the forms page to edit the form
+        var formQueryString = new URLSearchParams();
+        formQueryString.set('id', this.props.formID);
+        window.location = '/form?' + formQueryString
     }
 
     render() {
