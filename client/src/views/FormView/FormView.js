@@ -14,12 +14,13 @@ class FormView extends React.Component {
 
     componentDidMount() {
         // Check if user is editting a form
-        var queryString = new URLSearchParams(window.location);
-        var focusedForm = queryString.get('id');
-        if (focusedform) {
-            this.setState({editingFormID: focusedForm});
-        }
+        let queryString = new URLSearchParams(window.location.search);
+        let focusedForm = queryString.get('id');
 
+        if (focusedForm) {
+            this.setState({editingFormID: parseInt(focusedForm)});
+        }
+        
 
         fetch('/user/form', {
             method: 'GET',
@@ -31,7 +32,9 @@ class FormView extends React.Component {
                 console.log('error loading form');
             }
         }).then((data) => {
-            this.setState({paymentPlan: data.plan})
+            if (data) {
+                this.setState({paymentPlan: data.plan})
+            }
         })
     }
 
