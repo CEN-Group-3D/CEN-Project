@@ -183,7 +183,10 @@ class FormView extends React.Component {
                                         </div>
                                     :
                                         <div className="loading-panel panel container col-6">
-                                            <h1>Oops, make sure to pay for a <a href="/payments">plan</a>!</h1>
+                                            <div>
+                                                <h3 style={{marginTop: 10}}>Oops, there was an error.</h3>
+                                                <p>Make sure to pay for a <a href="/payments">plan</a>!</p>
+                                            </div>
                                         </div>
                                 }
                             </React.Fragment>
