@@ -38,12 +38,14 @@ class Login extends React.Component {
                 this.setState({error: true});
             }
         }).then((data) => {
-            if (data.admin) {
-                window.location = '/admin_dashboard';
-            } else if (data.first_log) {
-                window.location = '/welcome';
-            } else {
-                window.location = '/dashboard';
+            if (data) {
+                if (data.admin) {
+                    window.location = '/admin_dashboard';
+                } else if (data.first_log) {
+                    window.location = '/welcome';
+                } else {
+                    window.location = '/dashboard';
+                }
             }
         })
     }
