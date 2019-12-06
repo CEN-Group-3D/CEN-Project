@@ -5,7 +5,6 @@ import Tabs from '../../components/Tabs/Tabs';
 import { connect } from 'react-redux';
 import { onSuccessfulLogout } from '../../actions/authActions';
 import PropTypes from 'prop-types';
-import {POA} from "../UserDashboardView/FormTemplates/POA";
 import './AdminDashboardView.css';
 
 

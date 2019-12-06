@@ -3,7 +3,7 @@ import { Document, Page } from 'react-pdf';
 import test from '../../../assets/Coping with Grief and Loss.pdf';
 import { pdfjs } from 'react-pdf';
 import { PDFExport, savePDF } from '@progress/kendo-react-pdf';
-import {POA} from "./FormTemplates/POA";
+import {POA} from './FormTemplates/POA';
 import {Medical_POA} from "./FormTemplates/medical-POA - Copy";
 import 'react-pdf/dist/Page/AnnotationLayer.css';
 
