@@ -6,10 +6,21 @@ class FormView extends React.Component {
     constructor(props) {
         super(props);
 
-        this.state = {paymentPlan: -1};
+        this.state = {
+            paymentPlan: -1,
+            editingFormID: 0,
+        };
     }
 
     componentDidMount() {
+        // Check if user is editting a form
+        var queryString = new URLSearchParams(window.location);
+        var focusedForm = queryString.get('id');
+        if (focusedform) {
+            this.setState({editingFormID: focusedForm});
+        }
+
+
         fetch('/user/form', {
             method: 'GET',
             credentials: 'include'
