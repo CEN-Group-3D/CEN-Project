@@ -6,11 +6,22 @@ class FormView extends React.Component {
     constructor(props) {
         super(props);
 
-        this.state = {paymentPlan: 0};
+        this.state = {
+            paymentPlan: -1,
+            editingFormID: 0,
+        };
     }
 
     componentDidMount() {
-        fetch('/user/form',{
+        // Check if user is editting a form
+        let queryString = new URLSearchParams(window.location.search);
+        let focusedForm = queryString.get('id');
+
+        if (focusedForm) {
+            this.setState({editingFormID: parseInt(focusedForm)});
+        }
+        
+        fetch('/user/form', {
             method: 'GET',
             credentials: 'include'
         }).then((response) => {
@@ -20,7 +31,9 @@ class FormView extends React.Component {
                 console.log('error loading form');
             }
         }).then((data) => {
-            this.setState({paymentPlan: data.plan})
+            if (data) {
+                this.setState({paymentPlan: data.plan})
+            }
         })
     }
 
@@ -41,8 +54,8 @@ class FormView extends React.Component {
         if (field.type === "option") {
             let options = [];
             // Add each of the options to the array
-            field.options.forEach(option => {
-                options.push(<option value={option.value}>{option.name}</option>);
+            field.options.forEach((option, index) => {
+                options.push(<option key={index} value={option.value}>{option.name}</option>);
             });
             return <select className="form-control" name={field.dataTag} id={field.dataTag}>{options}</select>;
         
@@ -63,7 +76,7 @@ class FormView extends React.Component {
         return (<label className={className} htmlFor={field.dataTag}>{field.label}</label>)
     }
 
-    createFormGroup = (field) => {
+    createFormGroup = (field, key) => {
         let className = `form-group ${this.createLengthAttributes(field)}`
         let innerFormGroup = null;
 
@@ -80,27 +93,34 @@ class FormView extends React.Component {
         }
 
         return (
-        <div className={className}>
-            {innerFormGroup}
-        </div>
+            <div key={key} className={className}>
+                {innerFormGroup}
+            </div>
         )
     }
 
     generateForm = (formData) => {
+        // If the user is focused on a specific form, don't show other forms
+        if (this.state.editingFormID > 0) {
+            if (this.state.editingFormID !== formData.id) {
+                return null;
+            }
+        }
+
         // Begin the form with the title
         let formTitle = <h1 className="panel-title">{formData.title}</h1>;
         let formEntries = [];
         // Iterate through each of the fields
-        formData.fields.forEach(fieldEntry => {
+        formData.fields.forEach((fieldEntry, index) => {
             // Handles if form entries should be on same line.
             if (fieldEntry.formRow) {
                 let formRow = []
-                fieldEntry.fields.forEach(field => {
-                    formRow.push(this.createFormGroup(field));
+                fieldEntry.fields.forEach((field, index) => {
+                    formRow.push(this.createFormGroup(field, index));
                 });
-                formEntries.push(<div className="form-row">{formRow}</div>);
+                formEntries.push(<div key={index} className="form-row">{formRow}</div>);
             } else {
-                formEntries.push(this.createFormGroup(fieldEntry));
+                formEntries.push(this.createFormGroup(fieldEntry, index));
             }
         });
 
@@ -136,30 +156,40 @@ class FormView extends React.Component {
     }
 
     render() {
-
-
         return (
             <div className="col-xs-12 col-md-6">
                 <form onSubmit={this.handleSubmit}>
-                    
                     {
-                        this.state.paymentPlan >= 1 ? 
-                        this.generateForm(personalAndFamily) :
-                        <div className="loading-panel panel container col-6">
-                            <h1>Loading...</h1>
-                        </div>
-                    }
-                    {
-                        this.state.paymentPlan >= 2 ?
-                        this.generateForm(survivorAndBeneficiary) :
-                        null
-                    }
-                    {
-                        this.state.paymentPlan >= 1 ?
-                        <div id="form-submit-container" className="container panel col-12">
-                            <button className="btn btn-primary btn-lg btn-block">Submit</button>
-                        </div> :
-                        null
+                        this.state.paymentPlan === -1 ?
+                            <div className="loading-panel panel container col-6">
+                                <h1>Loading...</h1>
+                            </div> 
+                        :
+                            <React.Fragment>
+                                {
+                                    [personalAndFamily, survivorAndBeneficiary].map((form, index) => {
+                                        return (
+                                            this.state.paymentPlan >= form.plan ?
+                                                this.generateForm(form)
+                                            :
+                                                null
+                                        )
+                                    })
+                                }
+                                {
+                                    this.state.paymentPlan > 0 ?
+                                        <div id="form-submit-container" className="container panel col-12">
+                                            <button className="btn btn-primary btn-lg btn-block">Submit</button>
+                                        </div>
+                                    :
+                                        <div className="loading-panel panel container col-6">
+                                            <div>
+                                                <h3 style={{marginTop: 10}}>Oops, there was an error.</h3>
+                                                <p>Make sure to pay for a <a href="/payments">plan</a>!</p>
+                                            </div>
+                                        </div>
+                                }
+                            </React.Fragment>
                     }
                 </form>
             </div>

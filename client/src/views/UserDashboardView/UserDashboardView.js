@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { onSuccessfulLogout } from '../../actions/authActions';
 import './UserDashboardView.css';
+
 import Tabs from '../../components/Tabs/Tabs';
 import UpdateUser from './UpdateUser/UpdateUser';
 import FormsTable from './FormsTable/FormsTable';
@@ -19,7 +20,8 @@ class UserDashboardView extends React.Component {
         this.state = {
             numPages: null,
             pageNumber: 1,
-            tabTitle: this.tabTitles[0]
+            tabTitle: 'Documents', //hardcoded first tab title
+            paymentPlan: -1,
         };
     }
 
@@ -83,8 +85,8 @@ class UserDashboardView extends React.Component {
                 </div>
                 <div className="panel-content">
                     <Tabs
-                        titles={this.tabTitles}
-                        components={this.tabComponents}
+                        titles={tabTitles}
+                        components={tabComponents}
                         onTabChangeCallback={this.handleTabChange}
                     />
                 </div>
