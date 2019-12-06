@@ -33,7 +33,7 @@ class FormsTable extends React.Component {
                                         title={form.title}
                                         formID={form.id}
                                         formPlan={form.plan}
-                                        userPlan={this.state.userPlan}
+                                        userPlan={this.props.userPlan}
                                     />
                                 )
                             })}
