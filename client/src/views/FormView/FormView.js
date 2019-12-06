@@ -21,7 +21,6 @@ class FormView extends React.Component {
             this.setState({editingFormID: parseInt(focusedForm)});
         }
         
-
         fetch('/user/form', {
             method: 'GET',
             credentials: 'include'
@@ -101,6 +100,13 @@ class FormView extends React.Component {
     }
 
     generateForm = (formData) => {
+        // If the user is focused on a specific form, don't show other forms
+        if (this.state.editingFormID > 0) {
+            if (this.state.editingFormID !== formData.id) {
+                return null;
+            }
+        }
+
         // Begin the form with the title
         let formTitle = <h1 className="panel-title">{formData.title}</h1>;
         let formEntries = [];
@@ -150,8 +156,6 @@ class FormView extends React.Component {
     }
 
     render() {
-
-
         return (
             <div className="col-xs-12 col-md-6">
                 <form onSubmit={this.handleSubmit}>
@@ -163,16 +167,14 @@ class FormView extends React.Component {
                         :
                             <React.Fragment>
                                 {
-                                    this.state.paymentPlan >= personalAndFamily.plan ?
-                                        this.generateForm(personalAndFamily)
-                                    :
-                                        null
-                                }
-                                {
-                                    this.state.paymentPlan >= survivorAndBeneficiary.plan ?
-                                        this.generateForm(survivorAndBeneficiary)
-                                    :
-                                        null
+                                    [personalAndFamily, survivorAndBeneficiary].map((form, index) => {
+                                        return (
+                                            this.state.paymentPlan >= form.plan ?
+                                                this.generateForm(form)
+                                            :
+                                                null
+                                        )
+                                    })
                                 }
                                 {
                                     this.state.paymentPlan > 0 ?
