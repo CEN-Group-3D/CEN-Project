@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import {PrivateProfile} from "../../UserProfile/PrivateProfile";
 export let POA = 
 	<div>		
-		<h1>Power Of Attorney - Limited</h1>
-		<p>I, <u>{PrivateProfile.name} And {PrivateProfile.address}</u>, the undersigned, hereby appoint and make [Agent's Name And Address] as my attorney-in-fact who shall have full power and authority to represent me and act on my behalf for ONLY the following matters:</p>
-		<p>I, <u>{PrivateProfile.name} And {PrivateProfile.address}</u>, the undersigned, hereby appoint and make <u>{PrivateProfile.agent} And {PrivateProfile.agent_Address}</u> as my attorney­in­fact who shall have full power and authority to represent me and act on my behalf for ONLY the following matters:</p>
+		<h2 className="text-center">Power Of Attorney - Limited</h2>
+		<hr></hr>
+		<p>I, <u>{PrivateProfile.name}, {PrivateProfile.address}</u>, the undersigned, hereby appoint and make <u>{PrivateProfile.agent}, {PrivateProfile.agent_Address}</u> as my attorney­-in-­fact who shall have full power and authority to represent me and act on my behalf for ONLY the following matters:</p>
 		<p><u>{PrivateProfile.POA_Matters.one} </u></p>
 		<p><u>{PrivateProfile.POA_Matters.two }</u></p>
 		<p><u>{PrivateProfile.POA_Matters.three} </u></p>
