@@ -1,6 +1,5 @@
 .letter {
+    max-width: 816px;
     border: 1px solid #6d6d6d;
-    width: 8.5in;
-    height: 11in;
-    padding: 1in;
+    width: 100%;
 }
