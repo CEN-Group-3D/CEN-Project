@@ -10,7 +10,7 @@ class Welcome extends React.Component {
     
     render() {
         return (
-            <div className='panel container col-xs-12 col-md-3'>
+            <div className='panel panel-center container col-xs-12 col-md-3'>
                 <h3 className='panel-title'>Welcome to EstatePlanR</h3>
                 <div className='panel-content'>
                     <form action="/payments" method="GET">

@@ -16,6 +16,9 @@ body {
     padding: 0;
     min-width: 400px;
 }
+.panel-center {
+    align-self: center;
+}
 .panel-title {
     width: 100%;
     border-bottom: 1px solid #cccecf;
@@ -46,7 +49,6 @@ body {
 #main-content-panel {
     min-height: 100vh;
     display: flex;
-    align-items: center;
     justify-content: center;
 }
 input[type=number]::-webkit-outer-spin-button,

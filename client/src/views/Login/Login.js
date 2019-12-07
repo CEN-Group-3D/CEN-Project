@@ -52,7 +52,7 @@ class Login extends React.Component {
 
     render() {
         return (
-            <div className='panel container' id="login-panel">
+            <div className='panel panel-center container' id="login-panel">
                 <h2 className="panel-title">Welcome back</h2>
                 <div className="panel-content">
                     <form onSubmit={this.handleLogin} method="POST" className="login-form">

@@ -136,7 +136,7 @@ class PaymentPlans extends React.Component {
 
     render() {     
         return (
-            <div className="plans-container container col-xs-12 col-sm-7 col-md-5 col-lg-12 col-xl-10">
+            <div className="plans-container panel-center container col-xs-12 col-sm-7 col-md-5 col-lg-12 col-xl-10">
                 <div className="row">
                     <div className='col-xs-12 col-md-12 col-lg-4'>
                         <div className="panel plan-container">
