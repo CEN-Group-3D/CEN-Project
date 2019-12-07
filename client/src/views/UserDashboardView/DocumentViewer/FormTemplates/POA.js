@@ -29,7 +29,7 @@ class FormPOA extends React.Component {
 				<p>This Power of Attorney <u>{this.props.personal.effective_After}</u> continue to be effective in the event of me getting incapacitated.</p>
 				<p>This Power of Attorney shall be governed by the State of <u>{this.props.personal.state}</u>. Signed this <u>{this.props.personal.signed_Day}</u> day of <u>{this.props.personal.signed_Month}</u>, <u>{this.props.personal.signed_Year}</u>.</p>
 				<p>({this.props.personal.signature})</p>
-				<p>Social Security number: {this.props.personal.ssn}</p>
+				<p>Social Security number: {this.props.personal.s}</p>
 				<p>State of <u>{this.props.personal.state}</u>, <u>United States</u></p>
 			</div>
 		)
