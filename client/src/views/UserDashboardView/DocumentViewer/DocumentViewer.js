@@ -43,7 +43,7 @@ class DocumentViewer extends React.Component {
                         />
                     </PDFExport>                
                 </div>
-                 <button className="btn btn-outline-primary" onClick={this.exportPDFWithComponent}>Export PDF</button>                   
+                 <button style={{marginTop: 20}}className="btn btn-outline-primary" onClick={this.exportPDFWithComponent}>Export PDF</button>                   
             </div>
         )
     }
