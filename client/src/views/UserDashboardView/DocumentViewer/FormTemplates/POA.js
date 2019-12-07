@@ -15,12 +15,12 @@ class FormPOA extends React.Component {
 			<div>		
 				<h2 className="text-center">Power Of Attorney - Limited</h2>
 				<hr></hr>
-				<p>I, <u>{this.props.personal.name}, {this.props.personal.address}</u>, the undersigned, hereby appoint and make <u>{this.props.agent.name}, {this.props.agent.address}</u> as my attorney­-in-­fact who shall have full power and authority to represent me and act on my behalf for ONLY the following matters:</p>
+				<p>I, <u>{this.props.personal.fname} {this.props.lname}, {this.props.personal.address1} {this.props.personal.address2}, {this.props.personal.zip}, {this.props.personal.state}</u>, the undersigned, hereby appoint and make <u>{this.props.agent.name}, {this.props.agent.address}</u> as my attorney­-in-­fact who shall have full power and authority to represent me and act on my behalf for ONLY the following matters:</p>
 				<ol>
 					{
 						this.props.poaMatters.map((matter, index) => {
 							return (
-								<li>{matter}</li>
+								<li key={index}>{matter}</li>
 							)
 						})
 					}
@@ -29,7 +29,7 @@ class FormPOA extends React.Component {
 				<p>This Power of Attorney <u>{this.props.personal.effective_After}</u> continue to be effective in the event of me getting incapacitated.</p>
 				<p>This Power of Attorney shall be governed by the State of <u>{this.props.personal.state}</u>. Signed this <u>{this.props.personal.signed_Day}</u> day of <u>{this.props.personal.signed_Month}</u>, <u>{this.props.personal.signed_Year}</u>.</p>
 				<p>({this.props.personal.signature})</p>
-				<p>Social Security number: {this.props.personal.SSN}</p>
+				<p>Social Security number: {this.props.personal.ssn}</p>
 				<p>State of <u>{this.props.personal.state}</u>, <u>United States</u></p>
 			</div>
 		)

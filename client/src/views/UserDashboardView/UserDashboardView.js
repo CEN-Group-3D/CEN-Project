@@ -18,10 +18,11 @@ class UserDashboardView extends React.Component {
         super(props);
 
         this.state = {
-            numPages: null,
-            pageNumber: 1,
             tabTitle: 'Documents', //hardcoded first tab title
             paymentPlan: -1,
+            dataLoaded: false,
+            personal: {},
+            agent: {name: 'Placeholder', address: 'Placeholder'}
         };
     }
 
@@ -44,7 +45,9 @@ class UserDashboardView extends React.Component {
             }
         }).then((data) => {
             if (data) {
+                this.setState({dataLoaded: true});
                 this.setState({paymentPlan: data.plan});
+                this.setState({personal: data.personalAndFamily});
                 console.log(data);
             }
         })
@@ -71,11 +74,16 @@ class UserDashboardView extends React.Component {
     render() {
         let tabTitles = ['Documents', 'Forms', 'Profile']
         let tabComponents =[
-                    <DocumentViewer 
-                        personal={{}}
-                        poaMatters={this.poaMatters}
-                        agent={{}}
-                    />,
+                    this.state.dataLoaded ?
+                        <DocumentViewer 
+                            personal={this.state.personal}
+                            poaMatters={this.poaMatters}
+                            agent={this.state.agent}
+                        />
+                    :
+                        <h3>Loading...</h3>
+                    ,
+                        
 
                     <div>
                         <FormsTable 
