@@ -74,6 +74,7 @@ class UserDashboardView extends React.Component {
                     <DocumentViewer 
                         personal={{}}
                         poaMatters={this.poaMatters}
+                        agent={{}}
                     />,
 
                     <div>
