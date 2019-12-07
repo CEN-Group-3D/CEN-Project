@@ -38,6 +38,7 @@ class DocumentViewer extends React.Component {
                     <PDFExport ref={(component) => this.pdfExportComponent = component} fileName= "POA.pdf" paperSize="Letter">                        
                         <FormPOA 
                             personal={this.props.personal}
+                            poaMatters={this.props.poaMatters}
                         />
                     </PDFExport>                
                 </div>
@@ -48,7 +49,8 @@ class DocumentViewer extends React.Component {
 }
 
 DocumentViewer.propTypes = {
-    personal: object
+    personal: object,
+    poaMatters: PropTypes.arrayOf(PropTypes.string,),
 }
 
 export default DocumentViewer;

@@ -25,6 +25,13 @@ class UserDashboardView extends React.Component {
         };
     }
 
+    poaMatters = [
+        'Decide medical care of the principal.',
+        'Which doctors and care providers the principal uses.',
+        'File taxes on behalf of the principal.',
+        'Manage the principal’s property.',
+    ]
+
     componentDidMount() {
         fetch('/user/dashboard', {
             method: 'GET',
@@ -66,6 +73,7 @@ class UserDashboardView extends React.Component {
         let tabComponents =[
                     <DocumentViewer 
                         personal={{}}
+                        poaMatters={this.poaMatters}
                     />,
 
                     <div>
