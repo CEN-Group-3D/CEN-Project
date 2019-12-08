@@ -67,7 +67,7 @@ module.exports.init = () => {
     // routes
 
     //app.use('/upload', mainRouter);
-    app.use('/', mainRouter);
+    //app.use('/', mainRouter);
     app.use('/user', userRouter);
     app.use('/admin', adminRouter);
     

@@ -3,7 +3,7 @@ const mainRouter = require('../controllers/mainRouter.server.controller'),
       router = express.Router();
 
 /* login with passport authentication */
-router.route('/')
-    .get(mainRouter.root);
+//router.route('/')
+//    .get(mainRouter.root);
 
 module.exports = router;
