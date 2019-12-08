@@ -38,19 +38,21 @@ class Login extends React.Component {
                 this.setState({error: true});
             }
         }).then((data) => {
-            if (data.admin) {
-                window.location = '/admin_dashboard';
-            } else if (data.first_log) {
-                window.location = '/welcome';
-            } else {
-                window.location = '/dashboard';
+            if (data) {
+                if (data.admin) {
+                    window.location = '/admin_dashboard';
+                } else if (data.first_log) {
+                    window.location = '/welcome';
+                } else {
+                    window.location = '/dashboard';
+                }
             }
         })
     }
 
     render() {
         return (
-            <div className='panel container' id="login-panel">
+            <div className='panel panel-center container' id="login-panel">
                 <h2 className="panel-title">Welcome back</h2>
                 <div className="panel-content">
                     <form onSubmit={this.handleLogin} method="POST" className="login-form">

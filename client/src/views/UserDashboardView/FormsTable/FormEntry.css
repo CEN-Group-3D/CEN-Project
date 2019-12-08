@@ -1,0 +1,7 @@
+.form-title-button {
+    color: var(--primary);
+}
+.form-title-button:hover {
+    color: #0056b3;
+    text-decoration: underline;
+}

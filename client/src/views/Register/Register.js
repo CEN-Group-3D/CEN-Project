@@ -99,7 +99,7 @@ class Register extends React.Component {
 
     render() {
         return (
-            <div className='panel container' id="login-panel">
+            <div className='panel panel-center container' id="login-panel">
                 <h2 className="panel-title">Create an account</h2>
                 <div className="panel-content">
                     <form onInput={this.checkInput} onSubmit={this.handleSubmit} method="POST" className="login-form" noValidate>

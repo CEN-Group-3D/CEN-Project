@@ -16,6 +16,9 @@ body {
     padding: 0;
     min-width: 400px;
 }
+.panel-center {
+    align-self: center;
+}
 .panel-title {
     width: 100%;
     border-bottom: 1px solid #cccecf;
@@ -46,7 +49,6 @@ body {
 #main-content-panel {
     min-height: 100vh;
     display: flex;
-    align-items: center;
     justify-content: center;
 }
 input[type=number]::-webkit-outer-spin-button,
@@ -57,4 +59,27 @@ input[type=number]::-webkit-inner-spin-button {
 
 input[type=number] {
     -moz-appearance:textfield;
+}
+.button-reset {
+    border: none;
+    margin: 0;
+    padding: 0;
+    width: auto;
+    overflow: visible;
+
+    background: transparent;
+
+    /* Normalize `line-height`. Cannot be changed from `normal` in Firefox 4+. */
+    line-height: normal;
+
+    /* Corrects font smoothing for webkit */
+    -webkit-font-smoothing: inherit;
+    -moz-osx-font-smoothing: inherit;
+
+    /* Corrects inability to style clickable `input` types in iOS */
+    -webkit-appearance: none;
+}
+.button-reset::-moz-focus-inner {
+    border: 0;
+    padding: 0;
 }

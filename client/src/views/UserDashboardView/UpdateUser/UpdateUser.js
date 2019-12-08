@@ -1,4 +1,8 @@
 import React from 'react';
+import { connect } from 'react-redux'
+import PropTypes from 'prop-types'
+import { onSuccessfulLogout } from '../../../actions/authActions';
+
 import './UpdateUser.css';
 
 class UpdateUser extends React.Component {
@@ -32,6 +36,23 @@ class UpdateUser extends React.Component {
         })
     }
 
+    handleDelete = (evt) => {
+        evt.preventDefault();
+
+        fetch('/user/delete', {
+            method: 'DELETE',
+            credentials: 'include',
+        }).then((response) => {
+            if (response.status === 200) {
+                console.log('successful deletion');
+                this.props.onSuccessfulLogout();
+                window.location = '/';
+            } else {
+                console.log('unsuccessful deletion');
+            }
+        })
+    }
+
     render() {
         return (
             <React.Fragment>
@@ -47,9 +68,13 @@ class UpdateUser extends React.Component {
                     </div>
                     <button className="btn btn-primary">Update profile</button>
                 </form>
+                <hr></hr>
+                <button onClick={this.handleDelete} className="btn btn-danger">Delete account</button>
             </React.Fragment>
         )
     }
 }
-
-export default UpdateUser;
+UpdateUser.propTypes = {
+    onSuccessfulLogout: PropTypes.func.isRequired,
+}
+export default connect(null, { onSuccessfulLogout })(UpdateUser);

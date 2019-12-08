@@ -3,18 +3,14 @@
 // @progress/kendo-react-pdf @progress/kendo-drawing
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Document, Page } from 'react-pdf';
 import { connect } from 'react-redux';
 import { onSuccessfulLogout } from '../../actions/authActions';
-import test from '../../assets/Coping with Grief and Loss.pdf';
-import { pdfjs } from 'react-pdf';
-import { PDFExport, savePDF } from '@progress/kendo-react-pdf';
-import {POA} from "./FormTemplates/POA";
-import {Medical_POA} from "./FormTemplates/medical-POA - Copy";
-import 'react-pdf/dist/Page/AnnotationLayer.css';
 import './UserDashboardView.css';
+
 import Tabs from '../../components/Tabs/Tabs';
 import UpdateUser from './UpdateUser/UpdateUser';
+import FormsTable from './FormsTable/FormsTable';
+import DocumentViewer from './DocumentViewer/DocumentViewer';
 
 
 class UserDashboardView extends React.Component {
@@ -22,37 +18,40 @@ class UserDashboardView extends React.Component {
         super(props);
 
         this.state = {
-            numPages: null,
-            pageNumber: 1,
-            tabTitle: this.tabTitles[0]
+            tabTitle: 'Documents', //hardcoded first tab title
+            paymentPlan: -1,
+            dataLoaded: false,
+            personal: {},
+            agent: {name: 'Placeholder', address: 'Placeholder'}
         };
-
-    pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
     }
 
-    exportPDFWithComponent = () => {
-        this.pdfExportComponent.save();
-    }
+    poaMatters = [
+        'Decide medical care of the principal.',
+        'Which doctors and care providers the principal uses.',
+        'File taxes on behalf of the principal.',
+        'Manage the principal’s property.',
+    ]
 
-    tabTitles = ['Documents', 'Forms', 'Profile']
-    tabComponents =[<div id="user-docs">
-                        <Document
-                            file={test}
-                            onLoadSuccess={this.onDocumentLoadSuccess}
-                        >
-                            <Page pageNumber={1} />
-                        </Document>
-                    </div>,
-
-                    <div>Forms
-                        <PDFExport ref={(component) => this.pdfExportComponent = component} fileName= "POA.pdf" paperSize="Letter">                        
-                            {POA}
-                            
-                        </PDFExport>
-                        <button className="btn btn-outline-primary" onClick={this.exportPDFWithComponent}>Export PDF</button>                   
-                    </div>, 
-
-                    <UpdateUser />];
+    componentDidMount() {
+        fetch('/user/dashboard', {
+            method: 'GET',
+            credentials: 'include'
+        }).then((response) => {
+            if (response.ok) {
+                return response.json();
+            } else {
+                console.log('error loading data');
+            }
+        }).then((data) => {
+            if (data) {
+                this.setState({dataLoaded: true});
+                this.setState({paymentPlan: data.plan});
+                this.setState({personal: data.personalAndFamily});
+                console.log(data);
+            }
+        })
+    }   
 
     handleLogout = () => {
         fetch('/user/logout', {
@@ -72,7 +71,27 @@ class UserDashboardView extends React.Component {
 
     }
 
-render() {
+    render() {
+        let tabTitles = ['Documents', 'Forms', 'Profile']
+        let tabComponents =[
+                    this.state.dataLoaded ?
+                        <DocumentViewer 
+                            personal={this.state.personal}
+                            poaMatters={this.poaMatters}
+                            agent={this.state.agent}
+                        />
+                    :
+                        <h3>Loading...</h3>
+                    ,
+                        
+
+                    <div>
+                        <FormsTable 
+                            userPlan={this.state.paymentPlan}
+                        />
+                    </div>, 
+
+                    <UpdateUser />];
 
         return (
             <div className="panel container">
@@ -85,8 +104,8 @@ render() {
                 </div>
                 <div className="panel-content">
                     <Tabs
-                        titles={this.tabTitles}
-                        components={this.tabComponents}
+                        titles={tabTitles}
+                        components={tabComponents}
                         onTabChangeCallback={this.handleTabChange}
                     />
                 </div>
