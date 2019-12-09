@@ -18,6 +18,7 @@ class FormView extends React.Component {
         let queryString = new URLSearchParams(window.location.search);
         let focusedForm = queryString.get('id');
 
+        // A query string was supplied
         if (focusedForm) {
             this.setState({editingFormID: parseInt(focusedForm)});
         }
@@ -35,6 +36,30 @@ class FormView extends React.Component {
             if (data) {
                 this.setState({paymentPlan: data.plan})
             }
+        }).then(() => {
+            if (focusedForm) {
+                this.getUserResponse();
+            }
+        })
+    }
+
+    getUserResponse = () => {
+        fetch('user/dashboard', {
+            method: 'GET',
+            credentials: 'include'
+        }).then((response) => {
+            if (response.ok) {
+                return response.json();
+            } else {
+                console.log('error loading /user/dashboard');
+            }
+        }).then((data) => {
+            this.state.forms.forEach(form => {
+                if (form.id === this.state.editingFormIDa) {
+                    this.fillOutFields(data[form.tag]);
+                    return;
+                }
+            });
         })
     }
 
