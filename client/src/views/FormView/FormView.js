@@ -1,5 +1,5 @@
 import React from 'react';
-import { personalAndFamily, survivorAndBeneficiary} from "./FormData"
+import { personalAndFamily, survivorAndBeneficiary } from "./FormData"
 import './FormView.css';
 
 class FormView extends React.Component {
@@ -9,6 +9,7 @@ class FormView extends React.Component {
         this.state = {
             paymentPlan: -1,
             editingFormID: 0,
+            forms: [personalAndFamily, survivorAndBeneficiary] // Add imported forms here
         };
     }
 
