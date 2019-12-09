@@ -63,6 +63,18 @@ class FormView extends React.Component {
         })
     }
 
+    fillOutFields = (formResponses) => {
+        console.log(formResponses)
+        Object.keys(formResponses).forEach(key => {
+            let inputField = document.querySelector(`#${key}`);
+            console.log(inputField)
+            if (inputField) {
+                inputField.value = formResponses[key];
+                console.log(inputField.value)
+            }
+        });
+    }
+
     createLengthAttributes = (field) => {
         if (field.length) {
             if (field.length === -1) {
