@@ -2,6 +2,7 @@
 
 export let personalAndFamily = {
     id: 1,
+    tag: 'personalAndFamily',
     title: "Personal and Family",
     plan: 1,
     fields: [
@@ -406,6 +407,7 @@ export let personalAndFamily = {
 export let survivorAndBeneficiary = {
     id: 2,
     title: "Survivor and Beneficiary",
+    tag: 'survivorAndBeneficiary',
     plan: 2,
     fields: [
         {
