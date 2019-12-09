@@ -61,7 +61,7 @@ exports.delete = (req, res) => {
 
         const email = req.body;
 
-        User.deleteOne(req.user, (err) => {
+        User.deleteOne({email: email}, (err) => {
             if (err) {
                 throw err;
             }
@@ -70,4 +70,8 @@ exports.delete = (req, res) => {
                 res.send('Deleted');
         })
     }
+    else {
+        res.status(409).send('Bad Request');
+    }
 }
+
