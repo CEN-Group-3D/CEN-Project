@@ -65,9 +65,21 @@ exports.login = (req, res, next) => {
 
 
 exports.get_form_data = (req, res) => {
+
         
     if (req.user) {
-        return res.send(req.user)
+
+        User.findOne({_id: req.session.passport.user._id})
+            .then(user => {
+                if (user) {
+
+                    // may throw an error having a return in here
+                    return res.send(user)
+                } else {
+                    return res.status(409).send('Bad Request')
+                }
+            })
+            .catch(err => console.log(err))
 
     } else {
         return res.status(409).send('Bad Request')
@@ -91,6 +103,7 @@ exports.payment = (req, res) => {
                 throw err; 
             } else {
                 console.log('Updated payment plan')
+                req.session.passport.user.plan = paymentPlan
                 res.send('Updated user')
             }
         })
@@ -170,6 +183,13 @@ exports.form = (req, res) => {
                                     throw err; 
                                 } else {
                                     console.log('Updated form data')
+                                    
+                                    //personal_intersection.forEach((index) => {
+                                    //    req.session.passport.user.personalAndFamily[index] = personal_result[index]
+                                    //});
+                                    //survivor_intersection.forEach((index) => {
+                                    //    req.session.passport.user.survivorAndBeneficical[index] = survivor_result[index]
+                                    //});
                                 }
                             })
                         }
@@ -332,9 +352,9 @@ exports.delete = (req, res) => {
             }
             else
                 req.logout();
-            req.session.destroy();
-            res.send('Deleted');
-            console.log("User deleted");
+                req.session.destroy();
+                res.send('Deleted');
+                console.log("User deleted");
         })
     }
     else {
