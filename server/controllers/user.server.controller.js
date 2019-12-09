@@ -82,10 +82,11 @@ exports.payment = (req, res) => {
     
     if (req.user) {
         console.log(req.session.passport.user._id)
-        const {paymentPlan} = req.body;
+        const paymentPlan = req.body.paymentPlan;
+        console.log(paymentPlan)
 
         // update user within database based on parameters
-        User.updateOne(req.session.passport.user, {plan: paymentPlan}, (err) => {
+        User.updateOne({_id: req.session.passport.user._id}, {plan: paymentPlan}, (err) => {
             if (err) { 
                 throw err; 
             } else {
@@ -132,6 +133,7 @@ exports.form = (req, res) => {
     {
         const session_user = req.session.passport.user._id;
 
+        console.log(req.body)
         User.findOne({_id: session_user})
             .then(user => {
 
@@ -149,7 +151,7 @@ exports.form = (req, res) => {
                     var personal_result = {};
                     var personal_intersection = _.intersection(body_keys, personal_keys);
                     personal_intersection.forEach((key) => personal_result[key] = req.body[key]);
-                    //console.log(personal_result)
+                    console.log(personal_result)
 
                     // survivor intersection
                     var survivor_result = {};
@@ -159,18 +161,20 @@ exports.form = (req, res) => {
 
                     //const form_data = Form(req.body);
 
-                   // User.updateOne(req.session.passport.user, {first_log: true}, (err) => {
-                   //     if (err) { 
-                   //         throw err; 
-                   //     } else {
-                   //         console.log('Updated first_log to false')
-                   //     }
-                   // })
-                    User.findOneAndUpdate({_id: session_user}, { "$set": survivor_result})
-                        .then(() => {
-                          res.status(200).send('Data saved');
-                        })
-                        .catch(err => console.log(err))
+                    User.updateOne({_id: req.session.passport.user._id}, {personalAndFamily: personal_result}, (err) => {
+                        if (err) { 
+                            throw err; 
+                        } else {
+                            User.updateOne({_id: req.session.passport.user._id}, {survivorAndBeneficiary: survivor_result}, (err) => {
+                                if (err) { 
+                                    throw err; 
+                                } else {
+                                    console.log('Updated form data')
+                                }
+                            })
+                        }
+                    })
+                    res.send('OK')
                 }
             })
             .catch(err => console.log(err))
@@ -214,6 +218,7 @@ exports.register = (req, res) => {
 
     // grab data from request
     const {name, email, password, password_confirm} = req.body; // add passwords back into here
+    console.log(req.body)
 
     // validation passed, verify user not in database, then save
     User.findOne({email: email})
@@ -272,10 +277,12 @@ exports.update = (req, res) => {
     if (req.user) {
 
         // grab data from request
-        const {email, username} = req.body; // add passwords back into here
+        const info = {
+            name: req.body.username,
+            email: req.body.email
+        }
 
-        console.log(email)
-        User.findOne({email: email})
+        User.findOne({email: info.email})
             .then(user => {
                 if (user) {
 
@@ -283,16 +290,25 @@ exports.update = (req, res) => {
                     console.log("User already exists, try a new email")
                     res.status(409).send('Bad Request')
                 } else {
-                    //var new_email = email;
-                    // update user within database based on parameters
-                    User.updateOne(req.session.passport.user, {email: email}, (err) => {
+
+                    User.updateOne({_id: req.session.passport.user._id}, {$set: info}, (err) => {
                         if (err) { 
                             throw err; 
                         } else {
-                            console.log('User updated')
+                            console.log('Updated user')
                         }
                     })
-                    res.send('Updated user') // only used for testing...not actually looking in database for the change
+
+
+                    console.log(info.name)
+                    if (!info.email && info.email != req.session.passport.user.email) {
+                        req.session.passport.user.email = info.email;
+                    }
+                    if (!info.name && info.name != req.session.passport.user.name) {
+                        req.session.passport.user.name = info.name;
+                    }
+                    //console.log(req.session.passport.user)
+                    res.send('OK')
                 }
             })
             .catch(err => console.log(err))
@@ -310,15 +326,18 @@ exports.delete = (req, res) => {
 
     if (req.user)
     {
-        User.deleteOne(req.user, (err) => {
+        User.deleteOne({_id: req.session.passport.user._id}, (err) => {
             if (err) {
                 throw err;
             }
             else
                 req.logout();
-                req.session.destroy();
-                res.send('Deleted');
-                console.log("User deleted");
+            req.session.destroy();
+            res.send('Deleted');
+            console.log("User deleted");
         })
+    }
+    else {
+        console.log("No user found")
     }
 };
