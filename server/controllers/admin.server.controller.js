@@ -8,9 +8,6 @@ const User = require('../models/user.server.model.js'),
 exports.get_users = (req, res) => {
 
     if (req.user && req.session.passport.user.admin) {
-        console.log(req.user)
-        console.log('User session: ', req.session)
-        console.log('User ID: ', req.session.passport.user._id)
         User.find({}).sort('name').exec((err, user) => {
             if (err) {
                 throw err;
@@ -61,7 +58,7 @@ exports.delete = (req, res) => {
 
         const email = req.body;
 
-        User.deleteOne(req.user, (err) => {
+        User.deleteOne({email: email}, (err) => {
             if (err) {
                 throw err;
             }
@@ -70,4 +67,8 @@ exports.delete = (req, res) => {
                 res.send('Deleted');
         })
     }
+    else {
+        res.status(409).send('Bad Request');
+    }
 }
+

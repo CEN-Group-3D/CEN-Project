@@ -87,7 +87,7 @@ var userSchema = new Schema({
     }
 });
 
-userSchema.pre('save', function(next) {
+userSchema.pre('save', (next) => {
 
     // get the current date
     var currentDate = new Date();

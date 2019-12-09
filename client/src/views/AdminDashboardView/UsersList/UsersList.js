@@ -26,7 +26,7 @@ class UsersList extends React.Component {
         }).then((data) => {
             data.forEach(user => {
                 this.setState({
-                    usersList: this.state.usersList.concat(new User(user.name, user.email, 0))
+                    usersList: this.state.usersList.concat(new User(user.name, user.email, user.plan))
                 })
             });
         }).catch((err) => {
@@ -42,7 +42,7 @@ class UsersList extends React.Component {
                         <tr>
                             <th scope="col">Name</th>
                             <th scope="col">Email</th>
-                            <th scope="col">Role</th>
+                            <th scope="col">Plan</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -52,7 +52,7 @@ class UsersList extends React.Component {
                                     key={index}
                                     name={value.name}
                                     email={value.email}
-                                    role={0} // until proper permissions are in place
+                                    role={value.plan} // until proper permissions are in place
                                 />
                             )
                         })}
