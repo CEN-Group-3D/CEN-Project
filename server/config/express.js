@@ -11,7 +11,6 @@ const path = require('path'),
       //{createWriteStream} = require("fs"),
       //{ApolloServer, gql} = require('apollo-server-express'),
       adminRouter = require('../routes/admin.server.routes'),
-      mainRouter = require('../routes/mainRouter.server.routes'),
       userRouter = require('../routes/user.server.routes');
 
 module.exports.init = () => {
@@ -66,8 +65,6 @@ module.exports.init = () => {
 
     // routes
 
-    //app.use('/upload', mainRouter);
-    //app.use('/', mainRouter);
     app.use('/user', userRouter);
     app.use('/admin', adminRouter);
     
