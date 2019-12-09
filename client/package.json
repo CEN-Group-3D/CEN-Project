@@ -42,11 +42,10 @@
     ]
   },
   "devDependencies": {
+    "copy-webpack-plugin": "^5.0.5",
     "dotenv": "^8.2.0",
     "react-app-env": "^1.2.3",
-    "react-native-dotenv": "^0.2.0",
     "react-router-dom": "^5.1.2",
-    "copy-webpack-plugin": "^5.0.5",
     "redux-devtools": "^3.5.0"
   },
   "proxy": "http://localhost:5000"
