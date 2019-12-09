@@ -8,9 +8,6 @@ const User = require('../models/user.server.model.js'),
 exports.get_users = (req, res) => {
 
     if (req.user && req.session.passport.user.admin) {
-        console.log(req.user)
-        console.log('User session: ', req.session)
-        console.log('User ID: ', req.session.passport.user._id)
         User.find({}).sort('name').exec((err, user) => {
             if (err) {
                 throw err;
