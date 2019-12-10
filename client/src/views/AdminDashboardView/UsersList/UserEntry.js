@@ -11,10 +11,6 @@ class UserEntry extends React.Component {
         }
     }
 
-    handleUpgrade = () => {
-
-    }
-
     handleDelete = () => {
         fetch('/admin/delete', {
             method: 'DELETE',
@@ -27,11 +23,21 @@ class UserEntry extends React.Component {
             } else {
                 console.log('unsuccessful deletion');
             }
-        })
+        });
     }
 
     handleUpgrade = () => {
-
+        fetch('/admin/upgrade', {
+            method: 'PUT',
+            credentials: 'include',
+            body: JSON.stringify({email: this.props.email, upgrade: true}),
+        }).then((response) => {
+            if (response.ok) {
+                console.log('successful upgrade');
+            } else {
+                console.log('unsuccessful upgrade');
+            }
+        })
     }
 
     render() {
