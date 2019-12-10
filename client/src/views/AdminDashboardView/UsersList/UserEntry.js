@@ -14,8 +14,12 @@ class UserEntry extends React.Component {
     handleDelete = () => {
         fetch('/admin/delete', {
             method: 'DELETE',
-            credentials: 'include',
             body: JSON.stringify({email: this.props.email}),
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            credentials: 'include'
+            
         }).then((response) => {
             if (response.ok) {
                 console.log('successful deletion');
@@ -29,8 +33,12 @@ class UserEntry extends React.Component {
     handleUpgrade = () => {
         fetch('/admin/upgrade', {
             method: 'PUT',
-            credentials: 'include',
             body: JSON.stringify({email: this.props.email}),
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            credentials: 'include'
+
         }).then((response) => {
             if (response.ok) {
                 console.log('successful upgrade');
