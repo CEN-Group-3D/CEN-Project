@@ -1,0 +1,11 @@
+.hide-entry {
+    display: none;
+}
+
+.danger-item {
+    color: var(--danger);
+    background-color: #d3b8b8;
+}
+.danger-item:hover {
+    background-color: #d3a0a0;
+}
