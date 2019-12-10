@@ -1,5 +1,5 @@
 import React from 'react';
-import { personalAndFamily, survivorAndBeneficiary} from "./FormData"
+import { personalAndFamily, survivorAndBeneficiary } from "./FormData"
 import './FormView.css';
 
 class FormView extends React.Component {
@@ -9,6 +9,7 @@ class FormView extends React.Component {
         this.state = {
             paymentPlan: -1,
             editingFormID: 0,
+            forms: [personalAndFamily, survivorAndBeneficiary] // Add imported forms here
         };
     }
 
@@ -17,6 +18,7 @@ class FormView extends React.Component {
         let queryString = new URLSearchParams(window.location.search);
         let focusedForm = queryString.get('id');
 
+        // A query string was supplied
         if (focusedForm) {
             this.setState({editingFormID: parseInt(focusedForm)});
         }
@@ -34,7 +36,43 @@ class FormView extends React.Component {
             if (data) {
                 this.setState({paymentPlan: data.plan})
             }
+        }).then(() => {
+            if (focusedForm) {
+                this.getUserResponse();
+            }
         })
+    }
+
+    getUserResponse = () => {
+        fetch('user/dashboard', {
+            method: 'GET',
+            credentials: 'include'
+        }).then((response) => {
+            if (response.ok) {
+                return response.json();
+            } else {
+                console.log('error loading /user/dashboard');
+            }
+        }).then((data) => {
+            this.state.forms.forEach(form => {
+                if (form.id === this.state.editingFormIDa) {
+                    this.fillOutFields(data[form.tag]);
+                    return;
+                }
+            });
+        })
+    }
+
+    fillOutFields = (formResponses) => {
+        console.log(formResponses)
+        Object.keys(formResponses).forEach(key => {
+            let inputField = document.querySelector(`#${key}`);
+            console.log(inputField)
+            if (inputField) {
+                inputField.value = formResponses[key];
+                console.log(inputField.value)
+            }
+        });
     }
 
     createLengthAttributes = (field) => {

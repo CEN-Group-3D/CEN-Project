@@ -12,7 +12,7 @@ router.route('/upgrade')
     .put(admin.upgrade);
 
 router.route('/delete')
-    .delete(user.delete);
+    .delete(admin.delete);
 
 //router.route('/login')
 //    post(user.login)

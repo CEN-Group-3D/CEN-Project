@@ -32,14 +32,16 @@ exports.upgrade = (req, res) => {
 
         // email to upgrade to admin
         const email = req.body.email;
-        console.log("This is the root user!")
+        console.log(email)
 
         // user to be updated
-        User.updateOne(req.session.passport.user, {admin: true}, (err) => {
+        User.updateOne({email: email}, {admin: true}, (err) => {
             if (err) { 
                 throw err; 
             } else {
-                res.status(200).send('Updated to admin')
+                req.session.passport.user.admin = true
+                console.log("Found user and updating")
+                res.send('Updated to admin')
             }
         })
     } else {
@@ -53,11 +55,14 @@ exports.upgrade = (req, res) => {
 
 exports.delete = (req, res) => {
 
-    // only upgrade if root and is logged in
-    if (req.user && req.session.passport.user.admin) {
 
-        const email = req.body;
+    // only delete if root and is logged in
+    if (req.user && req.session.passport.user.root) {
 
+        const email = req.body.email;
+        console.log(email)
+
+        // add later fix to not delete random user when receiving empty {}
         User.deleteOne({email: email}, (err) => {
             if (err) {
                 throw err;
@@ -71,4 +76,3 @@ exports.delete = (req, res) => {
         res.status(409).send('Bad Request');
     }
 }
-
