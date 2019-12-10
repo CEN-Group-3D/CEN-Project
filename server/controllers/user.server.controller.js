@@ -76,7 +76,7 @@ exports.get_form_data = (req, res) => {
                     // may throw an error having a return in here
                     return res.send(user)
                 } else {
-                    return res.status(409).send('Bad Request')
+                    return res.send('Bad Request')
                 }
             })
             .catch(err => console.log(err))

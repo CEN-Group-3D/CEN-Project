@@ -35,11 +35,12 @@ exports.upgrade = (req, res) => {
         console.log("This is the root user!")
 
         // user to be updated
-        User.updateOne(req.session.passport.user, {admin: true}, (err) => {
+        User.updateOne({_id: req.session.passport.user._id}, {admin: true}, (err) => {
             if (err) { 
                 throw err; 
             } else {
-                res.status(200).send('Updated to admin')
+                req.session.passport.user.admin = true
+                res.send('Updated to admin')
             }
         })
     } else {
@@ -53,22 +54,28 @@ exports.upgrade = (req, res) => {
 
 exports.delete = (req, res) => {
 
-    // only upgrade if root and is logged in
-    if (req.user && req.session.passport.user.admin) {
+    // only delete if root and is logged in
+    if (req.user && req.session.passport.user.root) {
 
         const email = req.body;
+        
+        User.findOne({email: email}, (user, err) => {
 
-        User.deleteOne({email: email}, (err) => {
             if (err) {
                 throw err;
             }
-            else
-                //console.log("User deleted");
-                res.send('Deleted');
+
+            User.deleteOne({_id: user._id}, (err) => {
+                if (err) {
+                    throw err;
+                }
+                else
+                    //console.log("User deleted");
+                    res.send('Deleted');
+            })
         })
     }
     else {
         res.status(409).send('Bad Request');
     }
 }
-
