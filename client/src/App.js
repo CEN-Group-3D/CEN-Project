@@ -10,6 +10,7 @@ import UserDashboardView from "./views/UserDashboardView/UserDashboardView"
 import NotFound from "./views/NotFound"
 import AdminDashboardView from "./views/AdminDashboardView/AdminDashboardView"
 import Header from "./components/Header/Header"
+import 'bootstrap/dist/js/bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 require('./App.css')
