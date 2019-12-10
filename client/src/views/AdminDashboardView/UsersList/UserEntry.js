@@ -30,7 +30,7 @@ class UserEntry extends React.Component {
         fetch('/admin/upgrade', {
             method: 'PUT',
             credentials: 'include',
-            body: JSON.stringify({email: this.props.email, upgrade: true}),
+            body: JSON.stringify({email: this.props.email}),
         }).then((response) => {
             if (response.ok) {
                 console.log('successful upgrade');
