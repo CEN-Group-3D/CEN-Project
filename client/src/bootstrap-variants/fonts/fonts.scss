@@ -1,0 +1,19 @@
+@import "../../../node_modules/bootstrap/scss/mixins";
+@import "../../../node_modules/bootstrap/scss/functions";
+@import "../../../node_modules/bootstrap/scss/variables";
+@import "../font-face-mixin.scss";
+
+@include font-face(Roboto, "../../assets/Roboto/Roboto-Thin", 200, normal, ttf);
+@include font-face(Roboto, "../../assets/Roboto/Roboto-Light", 300, normal, ttf);
+@include font-face(Roboto, "../../assets/Roboto/Roboto-Regular", 400, normal, ttf);
+@include font-face(Roboto, "../../assets/Roboto/Roboto-Medium", 500, normal, ttf);
+@include font-face(Roboto, "../../assets/Roboto/Roboto-Bold", 700, normal, ttf);
+@include font-face(Roboto, "../../assets/Roboto/Roboto-Black", 800, normal, ttf);
+
+
+
+
+$font-family-sans-serif: Roboto, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", Arial, sans-serif !default;
+$font-family-serif:      Georgia, "Times New Roman", Times, serif !default;
+$font-family-monospace:  Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace !default;
+$font-family-base:       $font-family-sans-serif !default;

@@ -11,7 +11,11 @@ import NotFound from "./views/NotFound"
 import AdminDashboardView from "./views/AdminDashboardView/AdminDashboardView"
 import Header from "./components/Header/Header"
 import 'bootstrap/dist/js/bootstrap';
+
 import 'bootstrap/dist/css/bootstrap.min.css';
+import './bootstrap-variants/buttons/buttons.css';
+import './bootstrap-variants/fonts/fonts.css';
+
 
 require('./App.css')
 

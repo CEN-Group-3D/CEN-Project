@@ -1,4 +1,9 @@
 /* global styles */
+:root {
+    --color-1: #F67181;
+    --color-2: #B9DC4D;
+    --color-3: rgb(243, 192, 72);
+}
 body {
     background-color: #edf0f5;
 }
