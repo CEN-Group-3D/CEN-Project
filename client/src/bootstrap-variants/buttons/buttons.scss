@@ -5,7 +5,7 @@
 $brand-color-1: #F67181;
 
 .btn-brand-1 {
-    @include button-variant($brand-color-1, darken($brand-color-1, 7.5%), darken($brand-color-1, 10%), lighten($brand-color-1,5%), lighten($brand-color-1, 10%), darken($brand-color-1,30%))
+    @include button-variant($brand-color-1, $brand-color-1)
 }
 
 .btn-outline-brand-1 {

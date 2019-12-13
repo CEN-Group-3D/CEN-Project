@@ -1,22 +1,144 @@
-.App {
-    text-align: center;
+/*!
+ * Start Bootstrap - Landing Page v5.0.7 (https://startbootstrap.com/template-overviews/landing-page)
+ * Copyright 2013-2019 Start Bootstrap
+ * Licensed under MIT (https://github.com/BlackrockDigital/startbootstrap-landing-page/blob/master/LICENSE)
+ */
+
+body {
+    font-family: 'Lato', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+  
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: 'Lato', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-weight: 700;
+  }
+  
+  header.masthead {
+    position: relative;
+    background-color: #343a40;
+    background: url("../../assets/asset1.jpeg") no-repeat center center;
+    background-size: cover;
+    padding-top: 8rem;
+    padding-bottom: 8rem;
+    border-bottom: 15px solid var(--color-2);
+  }
+  .dark-bg {
+      background-color: #2125299f;
+      padding: 20px;
+      border-radius: 5px;
+  }
+  
+  header.masthead .overlay {
+    position: absolute;
+    background-color: #212529;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    left: 0;
+    opacity: 0.3;
+  }
+  
+  header.masthead h1 {
+    font-size: 2rem;
+  }
+  
+  @media (min-width: 768px) {
+    header.masthead {
+      padding-top: 12rem;
+      padding-bottom: 12rem;
+    }
+    header.masthead h1 {
+      font-size: 3rem;
+    }
+  }
+  
+  .showcase .showcase-text {
+    padding: 3rem;
+  }
+  
+  .showcase .showcase-img {
+    min-height: 30rem;
+    background-size: cover;
+
+  }
+  
+  section.showcase {
+      border-top: 15px solid var(--color-3);
+      border-bottom: 15px solid var(--color-1);
+  }
+.showcase-1 {
+    background-image: url('../../assets/asset4.jpg');
 }
 
-.App-logo {
-    height: 40vmin;
+.showcase-2 {
+    background-image: url('../../assets/asset3.jpeg');
 }
 
-.App-header {
-    background-color: #282c34;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    font-size: calc(10px + 2vmin);
-    color: white;
+.showcase-3 {
+    background-image: url('../../assets/asset5.jpg');
 }
 
-.App-link {
-    color: #09d3ac;
-}
+  @media (min-width: 768px) {
+    .showcase .showcase-text {
+      padding: 7rem;
+    }
+  }
+  
+  .features-icons {
+    padding-top: 7rem;
+    padding-bottom: 7rem;
+  }
+  
+  .icon-circle {
+    border-radius: 50%;
+    background-color: #212529;
+  }
+
+  .features-icons .features-icons-item {
+    max-width: 20rem;
+  }
+  
+  .features-icons .features-icons-item .features-icons-icon {
+    height: 7rem;
+  }
+  
+  /* .features-icons .features-icons-item .features-icons-icon i {
+    font-size: 4.5rem;
+  }
+  
+  .features-icons .features-icons-item:hover .features-icons-icon i {
+    font-size: 5rem;
+  } */
+
+  section.call-to-action {
+      border-bottom: 15px solid var(--color-1);
+  }
+  .call-to-action {
+    position: relative;
+    background-color: #343a40;
+    background: url("../../assets/asset1.jpeg") no-repeat center center;
+    background-size: cover;
+    padding-top: 7rem;
+    padding-bottom: 7rem;
+  }
+  
+  .call-to-action .overlay {
+    position: absolute;
+    background-color: #212529;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    left: 0;
+    opacity: 0.3;
+  }
+  
+  footer.footer {
+    padding-top: 4rem;
+    padding-bottom: 4rem;
+  }
+  

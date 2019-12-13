@@ -2,7 +2,10 @@
 :root {
     --color-1: #F67181;
     --color-2: #B9DC4D;
-    --color-3: rgb(243, 192, 72);
+    --color-3: #f3c048;
+    --color-1-dark: #431E21;
+    --color-2-dark: #415110;
+    --color-3-dark: #5B4306;
 }
 body {
     background-color: #edf0f5;
@@ -87,4 +90,22 @@ input[type=number] {
 .button-reset::-moz-focus-inner {
     border: 0;
     padding: 0;
+}
+.color-1 {
+    color: var(--color-1);
+}
+.color-2 {
+    color: var(--color-2);
+}
+.color-3 {
+    color: var(--color-3);
+}
+.color-1-dark {
+    color: var(--color-1-dark);
+}
+.color-2-dark {
+    color: var(--color-2-dark);
+}
+.color-3-dark {
+    color: var(--color-3-dark);
 }
