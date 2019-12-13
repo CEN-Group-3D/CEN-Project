@@ -11,6 +11,16 @@ class Register extends React.Component {
         };
     }
 
+    componentDidMount() {
+        let queryString = new URLSearchParams(window.location.search);
+        let userEmail = queryString.get('email');
+
+        // A query string was supplied
+        if (userEmail) {
+            document.querySelector('#email').value = userEmail
+        }
+    }
+
     checkEmail = (email) => {
         return /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/.test(email);
     }

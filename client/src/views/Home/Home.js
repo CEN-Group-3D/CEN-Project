@@ -9,7 +9,7 @@ class Home extends React.Component {
 
         this.state = {};
     }
-    
+
     render() {
         return (
             <div>
@@ -22,10 +22,10 @@ class Home extends React.Component {
                                     <h1 className="mb-5">A good strategy will carry you right through retirement</h1>
                                 </div>
                                 <div className="col-md-12 col-lg-12 col-xl-12 mx-auto">
-                                    <form>
+                                    <form action="/register" method="GET">
                                         <div className="form-row">
                                             <div className="col-12 col-md-9 mb-2 mb-md-0">
-                                                <input type="email" className="form-control form-control-lg" placeholder="Enter your email..." />
+                                                <input name="email" type="email" className="form-control form-control-lg" placeholder="Enter your email..." />
                                             </div>
                                             <div className="col-12 col-md-3">
                                                 <button type="submit" className="btn btn-block btn-lg btn-brand-1">Sign up!</button>
@@ -117,10 +117,10 @@ class Home extends React.Component {
                                     <h2 className="mb-4">Ready to get started? Sign up now!</h2>
                                 </div>
                                 <div className="col-md-12 col-lg-12 col-xl-10 mx-auto">
-                                    <form>
+                                    <form action="/register" method="GET">
                                         <div className="form-row">
                                             <div className="col-12 col-md-9 mb-2 mb-md-0">
-                                                <input type="email" className="form-control form-control-lg" placeholder="Enter your email..." />
+                                                <input name="email" type="email" className="form-control form-control-lg" placeholder="Enter your email..." />
                                             </div>
                                             <div className="col-12 col-md-3">
                                                 <button type="submit" className="btn btn-block btn-lg btn-brand-1">Sign up!</button>
