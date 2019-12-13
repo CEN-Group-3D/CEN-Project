@@ -92,7 +92,7 @@ class UserDashboardView extends React.Component {
                     </div>, 
 
                     <UpdateUser />];
-
+                    
         return (
             <div className="panel container">
                 <div className="panel-title">

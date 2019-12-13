@@ -11,10 +11,10 @@ class Header extends React.Component {
             <nav className="navbar navbar-light navbar-expand-xl">
                 <ul className="navbar-nav">
                     <li>
-                        <a className="navbar-brand" href="#">Logo</a>
+                        <a className="navbar-brand" href="/">Logo</a>
                     </li>
                     <li className="nav-item active">
-                        <a className="nav-link" href="/home">Home</a>
+                        <a className="nav-link" href="/">Home</a>
                     </li>
                     <li className="nav-item">
                         <a className="nav-link" href="/about">About</a>
@@ -23,10 +23,10 @@ class Header extends React.Component {
                 { !this.props.isLoggedIn ? 
                     <ul className="navbar-nav navbar-right navbar-buttons">
                         <li>
-                            <a href="/login" className="btn btn-outline-primary">Login</a>
+                            <a href="/login" className="btn btn-outline-brand-1">Login</a>
                         </li>
                         <li>
-                            <a href="/register" className="btn btn-primary">Sign up</a>
+                            <a href="/register" className="btn btn-brand-1">Sign up</a>
                         </li>
                     </ul>
                 :
