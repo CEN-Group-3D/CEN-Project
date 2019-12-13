@@ -1,0 +1,13 @@
+@import "../../../node_modules/bootstrap/scss/mixins";
+@import "../../../node_modules/bootstrap/scss/functions";
+@import "../../../node_modules/bootstrap/scss/variables";
+
+$brand-color-1: #F67181;
+
+.btn-brand-1 {
+    @include button-variant($brand-color-1, $brand-color-1)
+}
+
+.btn-outline-brand-1 {
+    @include button-outline-variant($brand-color-1, #ffffff, lighten($brand-color-1,5%), $brand-color-1)
+}
